@@ -175,6 +175,22 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\Application.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MainApplication.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MainWindow.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Window.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\WinMain.cpp"
 				>
 			</File>
@@ -185,7 +201,23 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\Application.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MainApplication.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MainWindow.h"
+				>
+			</File>
+			<File
 				RelativePath=".\resource.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Window.h"
 				>
 			</File>
 		</Filter>
@@ -199,6 +231,10 @@
 				>
 			</File>
 		</Filter>
+		<File
+			RelativePath=".\VizCommand32.vcproj.BG-PC.B.G.user"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>
