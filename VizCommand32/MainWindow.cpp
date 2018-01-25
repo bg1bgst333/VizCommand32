@@ -44,11 +44,3 @@ void CMainWindow::OnDestroy(){
 	CWindow::OnDestroy();	// CWindow::OnDestroy‚ğŒÄ‚Ô.
 
 }
-
-// ƒRƒ}ƒ“ƒh‚ª”­¶‚µ‚½.
-BOOL CMainWindow::OnCommand(WPARAM wParam, LPARAM lParam){
-
-	// ˆ—‚µ‚Ä‚¢‚È‚¢‚Ì‚ÅFALSE.
-	return FALSE;	// return‚ÅFALSE‚ğ•Ô‚·.
-
-}

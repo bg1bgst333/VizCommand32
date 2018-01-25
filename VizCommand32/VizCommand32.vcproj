@@ -205,6 +205,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\HandlerConditions.h"
+				>
+			</File>
+			<File
 				RelativePath=".\MainApplication.h"
 				>
 			</File>

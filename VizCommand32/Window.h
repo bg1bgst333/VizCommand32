@@ -1,6 +1,8 @@
 // 二重インクルード防止
 #ifndef __WINDOW_H__
 #define __WINDOW_H__
+// 独自のヘッダ
+#include "HandlerConditions.h"	// 構造体HandlerConditions
 
 // ヘッダのインクルード
 // 既定のヘッダ
@@ -18,6 +20,7 @@ class CWindow{
 		HWND m_hWnd;	// HWND型ウィンドウハンドルm_hWnd.
 		// staticメンバ変数
 		static std::map<HWND, CWindow *>m_mapWindowMap;	// ウィンドウハンドルをキー, CWindowオブジェクトポインタを値とするマップm_mapWindowMap.
+		static std::map<DWORD, HandlerConditions *>m_mapHandlerMap;	// DWORD値をキー, HandlerConditions構造体ポインタを値とするマップm_mapHandlerMap.
 
 		// publicメンバ関数
 		// コンストラクタ
@@ -35,6 +38,8 @@ class CWindow{
 		virtual BOOL Create(LPCTSTR lpctszWindowName, DWORD dwStyle, int x, int y, int iWidth, int iHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance);	// ウィンドウ作成関数Create.(ウィンドウクラス名省略バージョン.)
 		virtual BOOL Create(LPCTSTR lpctszClassName, LPCTSTR lpctszWindowName, DWORD dwStyle, int x, int y, int iWidth, int iHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance);	// ウィンドウ作成関数Create.
 		virtual BOOL ShowWindow(int nCmdShow);	// ウィンドウ表示関数ShowWindow.
+		virtual void AddCommandHandler(UINT nID, UINT nCode, int(CWindow:: * handler)(WPARAM wParam, LPARAM lParam));	// コマンドハンドラの追加.
+		virtual void DeleteCommandHandler(UINT nID, UINT nCode);	// コマンドハンドラの削除.
 		virtual LRESULT DynamicWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);	// ダイナミックウィンドウプロシージャDynamicWindowProc.
 		virtual int OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct);	// ウィンドウの作成が開始された時.
 		virtual void OnDestroy();	// ウィンドウが破棄された時.
