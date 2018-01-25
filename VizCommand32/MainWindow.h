@@ -7,6 +7,7 @@
 #include <string>	// std::string
 // 独自のヘッダ
 #include "Window.h"	// CWindow
+#include "WindowListControl.h"	// CWindowListControl
 
 // マクロの定義
 // UNICODE切り替え
@@ -21,6 +22,9 @@ class CMainWindow : public CWindow{
 
 	// publicメンバ
 	public:
+
+		// publicメンバ変数
+		CWindowListControl *m_pWindowListControl;	// CWindowListControlオブジェクトポインタm_pWindowListControl.
 
 		// publicメンバ関数
 		// コンストラクタ・デストラクタ

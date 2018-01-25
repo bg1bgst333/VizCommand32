@@ -187,7 +187,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\UserControl.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Window.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\WindowListControl.cpp"
 				>
 			</File>
 			<File
@@ -221,7 +229,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\UserControl.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Window.h"
+				>
+			</File>
+			<File
+				RelativePath=".\WindowListControl.h"
 				>
 			</File>
 		</Filter>
