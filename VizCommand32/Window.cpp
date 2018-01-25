@@ -18,10 +18,7 @@ CWindow::CWindow(){
 CWindow::~CWindow(){
 
 	// メンバの終了処理.
-	if (m_hWnd != NULL){	// m_hWndがNULLでない時.
-		DestroyWindow(m_hWnd);	// DestroyWindowでm_hWndを破棄.
-		m_hWnd = NULL;	// m_hWndにNULLをセット.
-	}
+	Destroy();	// Destroyでこのウィンドウの終了処理をする.
 
 }
 
@@ -178,6 +175,17 @@ BOOL CWindow::Create(LPCTSTR lpctszClassName, LPCTSTR lpctszWindowName, DWORD dw
 
 }
 
+// ウィンドウの破棄と終了処理関数Destroy.
+void CWindow::Destroy(){
+
+	// このウィンドウの破棄.
+	if (m_hWnd != NULL){	// m_hWndがNULLでない時.
+		DestroyWindow(m_hWnd);	// DestroyWindowでm_hWndを破棄.
+		m_hWnd = NULL;	// m_hWndにNULLをセット.
+	}
+
+}
+
 // ウィンドウ表示関数ShowWindow.
 BOOL CWindow::ShowWindow(int nCmdShow){
 
@@ -246,6 +254,22 @@ LRESULT CWindow::DynamicWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			// 既定の処理へ向かう.
 			break;	// breakで抜けて, 既定の処理(DefWindowProc)へ向かう.
 
+		// ウィンドウを閉じた時.
+		case WM_CLOSE:
+
+			// WM_CLOSEブロック
+			{
+
+				// OnCloseに任せる.
+				if (OnClose() != 0) {	// 0以外なら
+					return 0;	// 0を返す.
+				}
+
+			}
+
+			// 既定の処理へ向かう.
+			break;	// breakで抜けて, 既定の処理(DefWindowProc)へ向かう.
+
 		// コマンドが発生した時.
 		case WM_COMMAND:
 
@@ -284,8 +308,19 @@ int CWindow::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct){
 // ウィンドウが破棄された時.
 void CWindow::OnDestroy(){
 
-	// 終了メッセージの送信.
-	PostQuitMessage(0);	// PostQuitMessageで終了コードを0としてWM_QUITメッセージを送信.
+	// ウィンドウの終了処理.
+	//Destroy();	// Destroyでこのウィンドウの終了処理をする.
+
+}
+
+// ウィンドウを閉じた時.
+int CWindow::OnClose(){
+
+	// ウィンドウの終了処理.
+	Destroy();	// Destroyでこのウィンドウの終了処理をする.
+
+	// 0を返す.
+	return 0;	// 0を返してウィンドウを閉じる.
 
 }
 

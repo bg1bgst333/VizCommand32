@@ -10,6 +10,9 @@ CUserControl::CUserControl() : CWindow(){
 // デストラクタ~CUserControl
 CUserControl::~CUserControl(){
 
+	// メンバの終了処理
+	Destroy();	// Destroyでこのウィンドウの終了処理をする.
+
 }
 
 // ウィンドウクラス登録関数RegisterClass.
@@ -28,6 +31,14 @@ BOOL CUserControl::Create(LPCTSTR lpctszClassName, LPCTSTR lpctszWindowName, DWO
 
 }
 
+// ウィンドウの破棄と終了処理関数Destroy.
+void CUserControl::Destroy(){
+
+	// 親ウィンドウのDestroyを呼ぶ.
+	CWindow::Destroy();	// CWindow::Destroyを呼ぶ.
+
+}
+
 // ウィンドウの作成が開始された時.
 int CUserControl::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct){
 
@@ -38,6 +49,9 @@ int CUserControl::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct){
 
 // ウィンドウが破棄された時.
 void CUserControl::OnDestroy(){
+
+	// メンバの終了処理
+	//Destroy();	// Destroyでこのウィンドウの終了処理をする.
 
 	// 親クラスのOnDestroyを呼ぶ.
 	CWindow::OnDestroy();	// CWindow::OnDestroyを呼ぶ.

@@ -10,6 +10,9 @@ CWindowListControl::CWindowListControl() : CUserControl(){
 // デストラクタ~CWindowListControl
 CWindowListControl::~CWindowListControl(){
 
+	// メンバの終了処理
+	Destroy();	// Destroyでこのウィンドウの終了処理をする.
+
 }
 
 // ウィンドウクラス登録関数RegisterClass.
@@ -28,6 +31,14 @@ BOOL CWindowListControl::Create(LPCTSTR lpctszWindowName, DWORD dwStyle, int x, 
 
 }
 
+// ウィンドウの破棄と終了処理関数Destroy.
+void CWindowListControl::Destroy(){
+
+	// 親ウィンドウのDestroyを呼ぶ.
+	CUserControl::Destroy();	// CUserControl::Destroyを呼ぶ.
+
+}
+
 // ウィンドウの作成が開始された時.
 int CWindowListControl::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct){
 
@@ -38,6 +49,9 @@ int CWindowListControl::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct){
 
 // ウィンドウが破棄された時.
 void CWindowListControl::OnDestroy(){
+
+	// メンバの終了処理
+	//Destroy();	// Destroyでこのウィンドウの終了処理をする.
 
 	// 親クラスのOnDestroyを呼ぶ.
 	CUserControl::OnDestroy();	// CUserControl::OnDestroyを呼ぶ.

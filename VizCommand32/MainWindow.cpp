@@ -14,12 +14,8 @@ CMainWindow::CMainWindow() : CWindow(){
 // デストラクタ~CMainWindow()
 CMainWindow::~CMainWindow(){
 
-	// メンバの終了処理.
-	if (m_pWindowListControl != NULL){	// m_pWindowListControlがNULLでなければ.
-		DestroyWindow(m_pWindowListControl->m_hWnd);	// DestroyWindowでm_pWindowListControl->m_hWndを破棄.
-		delete m_pWindowListControl;	// deleteでm_pWindowListControlを解放.
-		m_pWindowListControl = NULL;	// m_pWindowListControlにNULLをセット.
-	}
+	// メンバの終了処理
+	Destroy();	// Destroyでこのウィンドウの終了処理をする.
 
 }
 
@@ -36,6 +32,21 @@ BOOL CMainWindow::Create(LPCTSTR lpctszWindowName, DWORD dwStyle, int x, int y, 
 
 	// ウィンドウクラス名は"CMainWindow".
 	return CWindow::Create(_T("CMainWindow"), lpctszWindowName, dwStyle, x, y, iWidth, iHeight, hWndParent, hMenu, hInstance);	// CWindow::Createにウィンドウクラス名"CMainWindow"を指定.
+
+}
+
+// ウィンドウの破棄と終了処理関数Destroy.
+void CMainWindow::Destroy(){
+
+	// ウィンドウリストコントロールの削除.
+	if (m_pWindowListControl != NULL){	// m_pWindowListControlがNULLでなければ.
+		m_pWindowListControl->Destroy();	// m_pWindowListControl->Destroyでm_pWindowListControlの終了処理を実行.
+		delete m_pWindowListControl;	// deleteでm_pWindowListControlを解放.
+		m_pWindowListControl = NULL;	// m_pWindowListControlにNULLをセット.
+	}
+
+	// 親ウィンドウのDestroyを呼ぶ.
+	CWindow::Destroy();	// CWindow::Destroyを呼ぶ.
 
 }
 
@@ -56,14 +67,24 @@ int CMainWindow::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct){
 // ウィンドウが破棄された時.
 void CMainWindow::OnDestroy(){
 
-	// 子ウィンドウオブジェクトの破棄.
-	if (m_pWindowListControl != NULL){	// m_pWindowListControlがNULLでなければ.
-		DestroyWindow(m_pWindowListControl->m_hWnd);	// DestroyWindowでm_pWindowListControl->m_hWndを破棄.
-		delete m_pWindowListControl;	// deleteでm_pWindowListControlを解放.
-		m_pWindowListControl = NULL;	// m_pWindowListControlにNULLをセット.
-	}
+	// メンバの終了処理
+	//Destroy();	// Destroyでこのウィンドウの終了処理をする.
 
 	// 親ウィンドウのOnDestroyを呼ぶ.
 	CWindow::OnDestroy();	// CWindow::OnDestroyを呼ぶ.
+
+	// 終了メッセージの送信.
+	PostQuitMessage(0);	// PostQuitMessageで終了コードを0としてWM_QUITメッセージを送信.
+
+}
+
+// ウィンドウを閉じた時.
+int CMainWindow::OnClose(){
+
+	// ウィンドウの終了処理.
+	Destroy();	// Destroyでこのウィンドウの終了処理をする.
+
+	// 0を返す.
+	return 0;	// 0を返してウィンドウを閉じる.
 
 }
