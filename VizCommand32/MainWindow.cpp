@@ -22,10 +22,19 @@ CMainWindow::~CMainWindow(){
 // ウィンドウクラス登録関数RegisterClass.
 BOOL CMainWindow::RegisterClass(HINSTANCE hInstance){
 
-	// ウィンドウプロシージャにはCWindow::StaticWndowProc, メニューはなし(NULL)とする.((LPCTSTR)でキャストしないとオーバーロードが曖昧になる.)
-	return CWindow::RegisterClass(hInstance, _T("CMainWindow"), (LPCTSTR)NULL);	// CWindow::RegisterClassで登録.
+	// ウィンドウプロシージャにはCWindow::StaticWndowProc.
+	return RegisterClass(hInstance, (HBRUSH)GetStockObject(LTGRAY_BRUSH));	// CWindow::RegisterClassで登録.(背景はLTGRAY_BRUSH.)
 
 }
+
+// ウィンドウクラス登録関数RegisterClass.(メニュー名指定, 背景ブラシ指定バージョン.)
+BOOL CMainWindow::RegisterClass(HINSTANCE hInstance, HBRUSH hbrBackground){
+
+	// 背景はhbrBackground.
+	return CWindow::RegisterClass(hInstance, _T("CMainWindow"), NULL, hbrBackground);	// CWindow::RegisterClassで登録.
+
+}
+
 
 // ウィンドウ作成関数Create.(ウィンドウクラス名省略バージョン.)
 BOOL CMainWindow::Create(LPCTSTR lpctszWindowName, DWORD dwStyle, int x, int y, int iWidth, int iHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance){// ウィンドウ作成関数Create.(ウィンドウクラス名省略バージョン.)

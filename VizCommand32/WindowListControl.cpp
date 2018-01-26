@@ -19,7 +19,15 @@ CWindowListControl::~CWindowListControl(){
 BOOL CWindowListControl::RegisterClass(HINSTANCE hInstance){
 
 	// ウィンドウクラスの登録.
-	return CUserControl::RegisterClass(hInstance, _T("CWindowListControl"));	// CUserControl::RegisterClassで登録.
+	return RegisterClass(hInstance, (HBRUSH)GetStockObject(LTGRAY_BRUSH));	// CUserControl::RegisterClassで登録.
+
+}
+
+// ウィンドウクラス登録関数RegisterClass.(hbrBackground指定.)
+BOOL CWindowListControl::RegisterClass(HINSTANCE hInstance, HBRUSH hbrBackground){
+
+	// hbrBackgroundを指定.
+	return CUserControl::RegisterClass(hInstance, _T("CWindowListControl"), hbrBackground);	// CUserControl::RegisterClassで登録.
 
 }
 

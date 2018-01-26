@@ -42,7 +42,7 @@ BOOL CWindow::RegisterClass(HINSTANCE hInstance, LPCTSTR lpctszClassName){
 BOOL CWindow::RegisterClass(HINSTANCE hInstance, LPCTSTR lpctszClassName, WNDPROC lpfnWndProc){
 
 	// lpfnWndProcを指定.
-	return RegisterClass(hInstance, lpctszClassName, lpfnWndProc, NULL);	// ウィンドウプロシージャバージョンにlpfnWndProcを指定.
+	return RegisterClass(hInstance, lpctszClassName, lpfnWndProc, NULL, (HBRUSH)GetStockObject(WHITE_BRUSH));	// ウィンドウプロシージャバージョンにlpfnWndProcを指定.
 
 }
 
@@ -50,12 +50,20 @@ BOOL CWindow::RegisterClass(HINSTANCE hInstance, LPCTSTR lpctszClassName, WNDPRO
 BOOL CWindow::RegisterClass(HINSTANCE hInstance, LPCTSTR lpctszClassName, LPCTSTR lpszMenuName){
 
 	// StaticWindowProc, lpszMenuNameを指定.
-	return RegisterClass(hInstance, lpctszClassName, StaticWindowProc, lpszMenuName);	// メニュー名指定バージョンでStaticWindowProcとlpszMenuNameを指定.
+	return RegisterClass(hInstance, lpctszClassName, StaticWindowProc, lpszMenuName, (HBRUSH)GetStockObject(WHITE_BRUSH));	// メニュー名指定バージョンでStaticWindowProcとlpszMenuNameを指定.(hbrBackgroundはWHITE_BRUSH.)
+
+}
+
+// ウィンドウクラス登録関数RegisterClass.(ウィンドウプロシージャ省略, メニュー名指定バージョン, 背景ブラシ指定バージョン.)
+BOOL CWindow::RegisterClass(HINSTANCE hInstance, LPCTSTR lpctszClassName, LPCTSTR lpszMenuName, HBRUSH hbrBackground){
+
+	// StaticWindowProc, lpszMenuName, hbrBackgroundを指定.
+	return RegisterClass(hInstance, lpctszClassName, StaticWindowProc, lpszMenuName, hbrBackground);	// hbrBackgroundを指定.
 
 }
 
 // ウィンドウクラス登録関数RegisterClass.(メニュー名指定バージョン.)
-BOOL CWindow::RegisterClass(HINSTANCE hInstance, LPCTSTR lpctszClassName, WNDPROC lpfnWndProc, LPCTSTR lpszMenuName){
+BOOL CWindow::RegisterClass(HINSTANCE hInstance, LPCTSTR lpctszClassName, WNDPROC lpfnWndProc, LPCTSTR lpszMenuName, HBRUSH hbrBackground){
 
 	// 構造体の宣言.
 	WNDCLASS wc;	// WNDCLASS型ウィンドウクラス構造体wc
@@ -67,7 +75,7 @@ BOOL CWindow::RegisterClass(HINSTANCE hInstance, LPCTSTR lpctszClassName, WNDPRO
 	wc.hInstance = hInstance;	// アプリケーションインスタンスハンドルは引数のhInstanceを使う.
 	wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);	// LoadIconでアプリケーション既定のアイコンをロード.(第1引数はNULL.)
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);	// LoadCursorでアプリケーション既定のカーソルをロード.(第1引数はNULL.)
-	wc.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);	// GetStockObjectでライトグレーブラシを背景色とする.
+	wc.hbrBackground = hbrBackground;	// hbrBackgroundを背景ブラシとする.
 	wc.lpszMenuName = lpszMenuName;	// lpszMenuNameを指定する.
 	wc.cbClsExtra = 0;	// とりあえず0を指定.
 	wc.cbWndExtra = 0;	// とりあえず0を指定.

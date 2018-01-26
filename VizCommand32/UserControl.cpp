@@ -19,7 +19,15 @@ CUserControl::~CUserControl(){
 BOOL CUserControl::RegisterClass(HINSTANCE hInstance, LPCTSTR lpctszClassName){
 
 	// ウィンドウクラスの登録.
-	return CWindow::RegisterClass(hInstance, lpctszClassName);	// CWindow::RegisterClassで登録.
+	return RegisterClass(hInstance, lpctszClassName, (HBRUSH)GetStockObject(LTGRAY_BRUSH));	// RegisterClassで登録.
+
+}
+
+// ウィンドウクラス登録関数RegisterClass.(ウィンドウプロシージャ省略, hbrBackground指定.)
+BOOL CUserControl::RegisterClass(HINSTANCE hInstance, LPCTSTR lpctszClassName, HBRUSH hbrBackground){
+
+	// hbrBackgroundを指定.
+	return CWindow::RegisterClass(hInstance, lpctszClassName, NULL, hbrBackground);	// CWindow::RegisterClassで登録.
 
 }
 
