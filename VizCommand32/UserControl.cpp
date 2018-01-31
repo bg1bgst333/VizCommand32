@@ -65,8 +65,3 @@ void CUserControl::OnDestroy(){
 	CWindow::OnDestroy();	// CWindow::OnDestroyを呼ぶ.
 
 }
-
-// ウィンドウのサイズが変更された時.
-void CUserControl::OnSize(UINT nType, int cx, int cy){
-
-}

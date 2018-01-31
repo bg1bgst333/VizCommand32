@@ -66,7 +66,7 @@ int CMainWindow::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct){
 	m_pWindowListControl = new CWindowListControl();	// CWindowListControlオブジェクトの作成.
 
 	// ウィンドウリストコントロールのウィンドウ作成.
-	m_pWindowListControl->Create(_T(""), WS_BORDER, 0, 0, 640, 480, hwnd, (HMENU)(WM_APP + 1), lpCreateStruct->hInstance);	// m_pWindowListControl->Createで作成.
+	m_pWindowListControl->Create(_T(""), 0, 0, 0, 640, 480, hwnd, (HMENU)(WM_APP + 1), lpCreateStruct->hInstance);	// m_pWindowListControl->Createで作成.
 
 	// 常にウィンドウ作成に成功するものとする.
 	return 0;	// 0を返すと, ウィンドウ作成に成功したということになる.
@@ -84,6 +84,42 @@ void CMainWindow::OnDestroy(){
 
 	// 終了メッセージの送信.
 	PostQuitMessage(0);	// PostQuitMessageで終了コードを0としてWM_QUITメッセージを送信.
+
+}
+
+// ウィンドウの描画を要求された時のハンドラOnPaint.
+void CMainWindow::OnPaint(){
+
+	// 変数の初期化.
+	HDC hDC = NULL;	// hDCをNULLで初期化.
+	PAINTSTRUCT ps = {0};	// psを{0}で初期化.
+	HPEN hPen = NULL;	// hPenをNULLで初期化.
+	HBRUSH hBrush = NULL;	// hBrushをNULLで初期化.
+
+	// 描画開始.
+	hDC = BeginPaint(m_hWnd, &ps);	// BeginPaintで描画開始.
+
+	// ペンとブラシの生成.
+	hPen = (HPEN)CreatePen(PS_SOLID, 1, RGB(0, 0xff, 0));	// CreatePenで緑(淡)のペンを作成.
+	hBrush = (HBRUSH)CreateSolidBrush(RGB(0, 0x7f, 0));		// CreateSolidBrushで緑(濃)のブラシを作成.
+
+	// ペンとブラシの選択.
+	HPEN hOldPen = (HPEN)SelectObject(hDC, hPen);		// 緑のペンを選択.
+	HBRUSH hOldBrush = (HBRUSH)SelectObject(hDC, hBrush);	// 緑のブラシを選択.
+
+	// 矩形描画.
+	Rectangle(hDC, 0, 0, m_iClientAreaWidth, m_iClientAreaHeight);	// Rectangleで矩形を描画.
+	
+	// ペンとブラシの復元
+	SelectObject(hDC, hOldBrush);		// 古いブラシを選択.
+	SelectObject(hDC, hOldPen);		// 古いペンを選択.
+
+	// ペンとブラシの破棄.
+	DeleteObject(hBrush);	// ブラシの破棄.
+	DeleteObject(hPen);	// ペンの破棄.
+
+	// 描画終了.
+	EndPaint(m_hWnd, &ps);	// EndPaintで描画終了.
 
 }
 

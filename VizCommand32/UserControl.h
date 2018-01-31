@@ -24,7 +24,6 @@ class CUserControl : public CWindow{
 		virtual void Destroy();	// ウィンドウの破棄と終了処理関数Destroy.
 		virtual int OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct);	// ウィンドウの作成が開始された時.
 		virtual void OnDestroy();	// ウィンドウが破棄された時.
-		virtual void OnSize(UINT nType, int cx, int cy);	// ウィンドウのサイズが変更された時.
 
 };
 

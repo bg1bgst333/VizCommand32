@@ -11,6 +11,12 @@ CWindow::CWindow(){
 
 	// メンバの初期化.
 	m_hWnd = NULL;	// m_hWndをNULLで初期化.
+	m_x = 0;	// m_xを0で初期化.
+	m_y = 0;	// m_yを0で初期化.
+	m_iWidth = 0;	// m_iWidthを0で初期化.
+	m_iHeight = 0;	// m_iHeightを0で初期化.
+	m_iClientAreaWidth = 0;	// m_iClientAreaWidthを0で初期化.
+	m_iClientAreaHeight = 0;	// m_iClientAreaHeightを0で初期化.
 
 }
 
@@ -168,6 +174,12 @@ BOOL CWindow::Create(LPCTSTR lpctszWindowName, DWORD dwStyle, int x, int y, int 
 // ウィンドウ作成関数Create.
 BOOL CWindow::Create(LPCTSTR lpctszClassName, LPCTSTR lpctszWindowName, DWORD dwStyle, int x, int y, int iWidth, int iHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance){
 
+	// 指定されたサイズをメンバにセット.
+	m_x = x;	// m_xにxをセット.
+	m_y = y;	// m_yにyをセット.
+	m_iWidth = iWidth;	// m_iWidthにiWidthをセット.
+	m_iHeight = iHeight;	// m_iHeightにiHeightをセット.
+
 	// ウィンドウの作成.
 	m_hWnd = CreateWindow(lpctszClassName, lpctszWindowName, dwStyle, x, y, iWidth, iHeight, hWndParent, hMenu, hInstance, this);	// CreateWindowでウィンドウを作成し, ハンドルをm_hWndに格納.(最後の引数にはthis(自分自身)を渡す.)
 	if (m_hWnd == NULL){	// m_hWndがNULLなら失敗.
@@ -177,6 +189,14 @@ BOOL CWindow::Create(LPCTSTR lpctszClassName, LPCTSTR lpctszWindowName, DWORD dw
 		return FALSE;	// FALSEを返す.
 
 	}
+
+	// 生成されたウィンドウのサイズをメンバにセット.
+	RECT rc = {0};	// RECT型rcを{0}で初期化.
+	GetWindowRect(m_hWnd, &rc);	// GetWindowRectでm_hWndのサイズを取得.
+	m_x = rc.left;	// m_xにrc.leftを代入.
+	m_y = rc.top;	// m_yにrc.topを代入.
+	m_iWidth = rc.right - rc.left;	// m_iWidthはrc.rightからrc.leftを引く.
+	m_iHeight = rc.bottom - rc.top;	// m_iHeightはrc.bottomからrc.topを引く.
 
 	// 成功ならTRUE.
 	return TRUE;	// 成功なのでTRUEを返す.
@@ -191,6 +211,13 @@ void CWindow::Destroy(){
 		DestroyWindow(m_hWnd);	// DestroyWindowでm_hWndを破棄.
 		m_hWnd = NULL;	// m_hWndにNULLをセット.
 	}
+	// サイズを0にリセット.
+	m_x = 0;	// m_xを0で初期化.
+	m_y = 0;	// m_yを0で初期化.
+	m_iWidth = 0;	// m_iWidthを0で初期化.
+	m_iHeight = 0;	// m_iHeightを0で初期化.
+	m_iClientAreaWidth = 0;	// m_iClientAreaWidthを0で初期化.
+	m_iClientAreaHeight = 0;	// m_iClientAreaHeightを0で初期化.
 
 }
 
@@ -262,6 +289,39 @@ LRESULT CWindow::DynamicWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			// 既定の処理へ向かう.
 			break;	// breakで抜けて, 既定の処理(DefWindowProc)へ向かう.
 
+		// ウィンドウのサイズが変更された時.
+		case WM_SIZE:
+
+			// WM_SIZEブロック
+			{
+
+				// 変数の初期化
+				UINT nType = (UINT)wParam;	// UINT型nTypeにwParamをセット.
+				int cx = LOWORD(lParam);	// int型cxにLOWORD(lParam)をセット.
+				int cy = HIWORD(lParam);	// int型cyにHIWORD(lParam)をセット.
+
+				// OnSizeに任せる.
+				OnSize(nType, cx, cy);	// OnSizeにhwnd, nType, cx, cyを渡す.
+
+			}
+
+			// 既定の処理へ向かう.
+			break;	// breakで抜けて, 既定の処理(DefWindowProc)へ向かう.
+
+		// 画面の描画を要求された時.
+		case WM_PAINT:
+
+			// WM_PAINTブロック
+			{
+
+				// OnPaintに任せる.
+				OnPaint();	// OnPaintを呼ぶ.
+
+			}
+
+			// 既定の処理へ向かう.
+			break;	// breakで抜けて, 既定の処理(DefWindowProc)へ向かう.
+
 		// ウィンドウを閉じた時.
 		case WM_CLOSE:
 
@@ -318,6 +378,28 @@ void CWindow::OnDestroy(){
 
 	// ウィンドウの終了処理.
 	//Destroy();	// Destroyでこのウィンドウの終了処理をする.
+
+}
+
+// ウィンドウのサイズが変更された時.
+void CWindow::OnSize(UINT nType, int cx, int cy){
+
+	// 生成されたウィンドウのサイズをメンバにセット.
+	RECT rc = {0};	// RECT型rcを{0}で初期化.
+	GetWindowRect(m_hWnd, &rc);	// GetWindowRectでm_hWndのサイズを取得.
+	m_x = rc.left;	// m_xにrc.leftを代入.
+	m_y = rc.top;	// m_yにrc.topを代入.
+	m_iWidth = rc.right - rc.left;	// m_iWidthはrc.rightからrc.leftを引く.
+	m_iHeight = rc.bottom - rc.top;	// m_iHeightはrc.bottomからrc.topを引く.
+
+	// クライアント領域のサイズをメンバ変数にセット.
+	m_iClientAreaWidth = cx;	// m_iClientAreaWidthにcxを代入.
+	m_iClientAreaHeight = cy;	// m_iClientAreaHeightにcyを代入.
+
+}
+
+// ウィンドウの描画を要求された時のハンドラOnPaint.
+void CWindow::OnPaint(){
 
 }
 

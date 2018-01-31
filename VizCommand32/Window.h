@@ -18,6 +18,12 @@ class CWindow{
 
 		// publicメンバ変数
 		HWND m_hWnd;	// HWND型ウィンドウハンドルm_hWnd.
+		int m_x;	// ウィンドウの位置X座標m_x.
+		int m_y;	// ウィンドウの位置Y座標m_y.
+		int m_iWidth;	// ウィンドウの幅m_iWidth.
+		int m_iHeight;	// ウィンドウの高さm_iHeight.
+		int m_iClientAreaWidth;		// クライアント領域幅
+		int m_iClientAreaHeight;	// クライアント領域高さ
 		// staticメンバ変数
 		static std::map<HWND, CWindow *>m_mapWindowMap;	// ウィンドウハンドルをキー, CWindowオブジェクトポインタを値とするマップm_mapWindowMap.
 		static std::map<DWORD, HandlerConditions *>m_mapHandlerMap;	// DWORD値をキー, HandlerConditions構造体ポインタを値とするマップm_mapHandlerMap.
@@ -45,6 +51,8 @@ class CWindow{
 		virtual LRESULT DynamicWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);	// ダイナミックウィンドウプロシージャDynamicWindowProc.
 		virtual int OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct);	// ウィンドウの作成が開始された時.
 		virtual void OnDestroy();	// ウィンドウが破棄された時.
+		virtual void OnSize(UINT nType, int cx, int cy);	// ウィンドウのサイズが変更された時.
+		virtual void OnPaint();	// ウィンドウの描画を要求された時のハンドラOnPaint.
 		virtual int OnClose();	// ウィンドウを閉じた時.
 		virtual BOOL OnCommand(WPARAM wParam, LPARAM lParam);	// コマンドが発生した時.
 
