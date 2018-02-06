@@ -5,6 +5,9 @@
 // コンストラクタCWindowListControl
 CWindowListControl::CWindowListControl() : CUserControl(){
 
+	// メンバ変数の初期化.
+	m_pWindowListItemsPanel = NULL;	// m_pWindowListItemsPanelをNULLで初期化.
+
 }
 
 // デストラクタ~CWindowListControl
@@ -42,6 +45,13 @@ BOOL CWindowListControl::Create(LPCTSTR lpctszWindowName, DWORD dwStyle, int x, 
 // ウィンドウの破棄と終了処理関数Destroy.
 void CWindowListControl::Destroy(){
 
+	// ウィンドウリストアイテムズパネルの破棄.
+	if (m_pWindowListItemsPanel != NULL){	// m_pWindowListItemsPanelがNULLでない時.
+		m_pWindowListItemsPanel->Destroy();	// m_pWindowListItemsPanel->Destroyで破棄.
+		delete m_pWindowListItemsPanel;	// deleteでm_pWindowListItemsPanelを解放.
+		m_pWindowListItemsPanel = NULL;	// m_pWindowListItemsPanelにNULLをセット.
+	}
+
 	// 親ウィンドウのDestroyを呼ぶ.
 	CUserControl::Destroy();	// CUserControl::Destroyを呼ぶ.
 
@@ -49,6 +59,12 @@ void CWindowListControl::Destroy(){
 
 // ウィンドウの作成が開始された時.
 int CWindowListControl::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct){
+
+	// ウィンドウリストアイテムズパネルの生成.
+	m_pWindowListItemsPanel = new CWindowListItemsPanel();	// CWindowListItemsPanelの作成.
+
+	// ウィンドウリストアイテムズパネルのウィンドウ生成.
+	m_pWindowListItemsPanel->Create(_T(""), 0, 0, 0, 320, 240, hwnd, (HMENU)(WM_APP + 2), lpCreateStruct->hInstance);	// m_pWindowListItemsPanel->Createでウィンドウ生成.
 
 	// 常にウィンドウ作成に成功するものとする.
 	return 0;	// 0を返すと, ウィンドウ作成に成功したということになる.
@@ -83,8 +99,8 @@ void CWindowListControl::OnPaint(){
 	hBrush = (HBRUSH)CreateSolidBrush(RGB(0, 0, 0x7f));		// CreateSolidBrushで青(濃)のブラシを作成.
 
 	// ペンとブラシの選択.
-	HPEN hOldPen = (HPEN)SelectObject(hDC, hPen);		// 緑のペンを選択.
-	HBRUSH hOldBrush = (HBRUSH)SelectObject(hDC, hBrush);	// 緑のブラシを選択.
+	HPEN hOldPen = (HPEN)SelectObject(hDC, hPen);		// 青のペンを選択.
+	HBRUSH hOldBrush = (HBRUSH)SelectObject(hDC, hBrush);	// 青のブラシを選択.
 
 	// 矩形描画.
 	Rectangle(hDC, 0, 0, m_iClientAreaWidth, m_iClientAreaHeight);	// Rectangleで矩形を描画.

@@ -1,25 +1,21 @@
 // 二重インクルード防止
-#ifndef __WINDOW_LIST_CONTROL_H__
-#define __WINDOW_LIST_CONTROL_H__
+#ifndef __WINDOW_LIST_ITEMS_PANEL_H__
+#define __WINDOW_LIST_ITEMS_PANEL_H__
 
 // ヘッダのインクルード
 // 独自のヘッダ
 #include "UserControl.h"	// CUserControl
-#include "WindowListItemsPanel.h"	// CWindowListItemsPanel
 
-// ウィンドウリストコントロールクラスCWindowListControl
-class CWindowListControl : public CUserControl{
+// ウィンドウリストアイテムズパネルCWindowListItemsPanel
+class CWindowListItemsPanel : public CUserControl{
 
 	// publicメンバ
 	public:
 
-		// publicメンバ変数
-		CWindowListItemsPanel *m_pWindowListItemsPanel;	// CWindowListItemsPanelオブジェクトポインタm_pWindowListItemsPanel.
-
 		// publicメンバ関数
 		// コンストラクタ・デストラクタ
-		CWindowListControl();	// コンストラクタCWindowListControl
-		virtual ~CWindowListControl();	// デストラクタ~CWindowListControl
+		CWindowListItemsPanel();	// コンストラクタCWindowListItemsPanel
+		virtual ~CWindowListItemsPanel();	// デストラクタ~CWindowListItemsPanel
 		// staticメンバ関数
 		static BOOL RegisterClass(HINSTANCE hInstance);	// ウィンドウクラス登録関数RegisterClass.
 		static BOOL RegisterClass(HINSTANCE hInstance, HBRUSH hbrBackground);	// ウィンドウクラス登録関数RegisterClass.(hbrBackground指定.)
