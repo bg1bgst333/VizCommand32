@@ -352,6 +352,20 @@ LRESULT CWindow::DynamicWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			// 既定の処理へ向かう.
 			break;	// breakで抜けて, 既定の処理(DefWindowProc)へ向かう.
 
+		// タイマーイベントが発生した時.
+		case WM_TIMER:
+
+			// WM_TIMERブロック
+			{
+
+				// OnTimerに任せる.
+				OnTimer((UINT_PTR)wParam);	// OnTimerに任せる.
+
+			}
+
+			// 既定の処理へ向かう.
+			break;	// breakで抜けて, 既定の処理(DefWindowProc)へ向かう.
+
 		// 水平方向スクロールバーイベント時.
 		case WM_HSCROLL:
 
@@ -459,6 +473,11 @@ BOOL CWindow::OnCommand(WPARAM wParam, LPARAM lParam){
 
 	// 処理していないのでFALSE.
 	return FALSE;	// returnでFALSEを返す.
+
+}
+
+// タイマーイベントが発生した時.
+void CWindow::OnTimer(UINT_PTR nIDEvent){
 
 }
 
