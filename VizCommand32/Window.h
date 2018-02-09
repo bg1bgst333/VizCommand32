@@ -55,6 +55,8 @@ class CWindow{
 		virtual void OnPaint();	// ウィンドウの描画を要求された時のハンドラOnPaint.
 		virtual int OnClose();	// ウィンドウを閉じた時.
 		virtual BOOL OnCommand(WPARAM wParam, LPARAM lParam);	// コマンドが発生した時.
+		virtual void OnHScroll(UINT nSBCode, UINT nPos);	// 水平方向スクロールバーイベント時.
+		virtual void OnVScroll(UINT nSBCode, UINT nPos);	// 垂直方向スクロールバーイベント時.
 
 };
 

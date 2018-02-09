@@ -7,6 +7,9 @@
 #include "UserControl.h"	// CUserControl
 #include "WindowListItemsPanel.h"	// CWindowListItemsPanel
 
+// マクロ定義
+#define SCROLLBAR_THICKNESS 16	// とりあえずスクロールバーの厚さはマクロで16としておく.
+
 // ウィンドウリストコントロールクラスCWindowListControl
 class CWindowListControl : public CUserControl{
 
@@ -15,6 +18,9 @@ class CWindowListControl : public CUserControl{
 
 		// publicメンバ変数
 		CWindowListItemsPanel *m_pWindowListItemsPanel;	// CWindowListItemsPanelオブジェクトポインタm_pWindowListItemsPanel.
+		int m_iHScrollPos;	// スクロールバーの水平方向の位置m_iHScrollPos
+		int m_iVScrollPos;	// スクロールバーの垂直方向の位置m_iVScrollPos
+		SCROLLINFO m_ScrollInfo;	// スクロール情報m_ScrollInfo.
 
 		// publicメンバ関数
 		// コンストラクタ・デストラクタ
@@ -30,6 +36,8 @@ class CWindowListControl : public CUserControl{
 		virtual void OnDestroy();	// ウィンドウが破棄された時.
 		virtual void OnPaint();	// ウィンドウの描画を要求された時のハンドラOnPaint.
 		virtual void OnSize(UINT nType, int cx, int cy);	// ウィンドウのサイズが変更された時.
+		virtual void OnHScroll(UINT nSBCode, UINT nPos);	// 水平方向スクロールバーイベント時.
+		virtual void OnVScroll(UINT nSBCode, UINT nPos);	// 垂直方向スクロールバーイベント時.
 
 };
 

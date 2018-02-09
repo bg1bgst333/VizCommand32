@@ -352,6 +352,34 @@ LRESULT CWindow::DynamicWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			// 既定の処理へ向かう.
 			break;	// breakで抜けて, 既定の処理(DefWindowProc)へ向かう.
 
+		// 水平方向スクロールバーイベント時.
+		case WM_HSCROLL:
+
+			// WM_HSCROLLブロック
+			{
+				
+				// OnHScrollに任せる.
+				OnHScroll(LOWORD(wParam), HIWORD(wParam));	// OnHScrollに任せる.
+
+			}
+
+			// 既定の処理へ向かう.
+			break;	// breakで抜けて, 既定の処理(DefWindowProc)へ向かう.
+
+		// 垂直方向スクロールバーイベント時.
+		case WM_VSCROLL:
+
+			// WM_VSCROLLブロック
+			{
+
+				// OnVScrollに任せる.
+				OnVScroll(LOWORD(wParam), HIWORD(wParam));	// OnVScrollに任せる.
+
+			}
+
+			// 既定の処理へ向かう.
+			break;	// breakで抜けて, 既定の処理(DefWindowProc)へ向かう.
+
 		// 上記以外の時.
 		default:
 
@@ -431,5 +459,15 @@ BOOL CWindow::OnCommand(WPARAM wParam, LPARAM lParam){
 
 	// 処理していないのでFALSE.
 	return FALSE;	// returnでFALSEを返す.
+
+}
+
+// 水平方向スクロールバーイベント時.
+void CWindow::OnHScroll(UINT nSBCode, UINT nPos){
+
+}
+
+// 垂直方向スクロールバーイベント時.
+void CWindow::OnVScroll(UINT nSBCode, UINT nPos){
 
 }

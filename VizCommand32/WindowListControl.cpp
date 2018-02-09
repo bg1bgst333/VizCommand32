@@ -7,6 +7,8 @@ CWindowListControl::CWindowListControl() : CUserControl(){
 
 	// メンバ変数の初期化.
 	m_pWindowListItemsPanel = NULL;	// m_pWindowListItemsPanelをNULLで初期化.
+	m_iHScrollPos = 0;	// m_iHScrollPosを0で初期化.
+	m_iVScrollPos = 0;	// m_iVScrollPosを0で初期化.
 
 }
 
@@ -38,7 +40,7 @@ BOOL CWindowListControl::RegisterClass(HINSTANCE hInstance, HBRUSH hbrBackground
 BOOL CWindowListControl::Create(LPCTSTR lpctszWindowName, DWORD dwStyle, int x, int y, int iWidth, int iHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance){
 
 	// ウィンドウの作成.
-	return CUserControl::Create(_T("CWindowListControl"), lpctszWindowName, dwStyle | WS_CHILD | WS_VISIBLE, x, y, iWidth, iHeight, hWndParent, hMenu, hInstance);	// CWindow::Createで作成.
+	return CUserControl::Create(_T("CWindowListControl"), lpctszWindowName, dwStyle | WS_CHILD | WS_VISIBLE | WS_HSCROLL | WS_VSCROLL, x, y, iWidth, iHeight, hWndParent, hMenu, hInstance);	// CWindow::Createで作成.
 
 }
 
@@ -62,9 +64,8 @@ int CWindowListControl::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct){
 
 	// ウィンドウリストアイテムズパネルの生成.
 	m_pWindowListItemsPanel = new CWindowListItemsPanel();	// CWindowListItemsPanelの作成.
-
 	// ウィンドウリストアイテムズパネルのウィンドウ生成.
-	m_pWindowListItemsPanel->Create(_T(""), 0, 0, 0, 320, 240, hwnd, (HMENU)(WM_APP + 2), lpCreateStruct->hInstance);	// m_pWindowListItemsPanel->Createでウィンドウ生成.
+	m_pWindowListItemsPanel->Create(_T(""), 0, 0, 0, 320 + 300, 240 + 200, hwnd, (HMENU)(WM_APP + 2), lpCreateStruct->hInstance);	// m_pWindowListItemsPanel->Createでウィンドウ生成.
 
 	// 常にウィンドウ作成に成功するものとする.
 	return 0;	// 0を返すと, ウィンドウ作成に成功したということになる.
@@ -113,7 +114,25 @@ void CWindowListControl::OnPaint(){
 	DeleteObject(hBrush);	// ブラシの破棄.
 	DeleteObject(hPen);	// ペンの破棄.
 
-	// 描画終了.
+	// スクロールバー設定.
+	// 水平方向.
+	ZeroMemory(&m_ScrollInfo, sizeof(SCROLLINFO));	// ZeroMemoryでm_ScrollInfoをクリア.
+	m_ScrollInfo.cbSize = sizeof(SCROLLINFO);	// サイズ
+	m_ScrollInfo.fMask = SIF_PAGE | SIF_RANGE;	// フラグ
+	m_ScrollInfo.nPage = m_iClientAreaWidth;	// ページ幅
+	m_ScrollInfo.nMin = 0;	// 最小値
+	m_ScrollInfo.nMax = m_pWindowListItemsPanel->m_iWidth;	//最大値
+	SetScrollInfo(m_hWnd, SB_HORZ, &m_ScrollInfo, TRUE);	// SetScrollInfoでセット.(SetImageのInvalidateRectと第4引数のTRUEがないとスクロールバーつまみが即座に更新されない.)
+	// 垂直方向.
+	ZeroMemory(&m_ScrollInfo, sizeof(SCROLLINFO));	// ZeroMemoryでm_ScrollInfoをクリア.
+	m_ScrollInfo.cbSize = sizeof(SCROLLINFO);	// サイズ
+	m_ScrollInfo.fMask = SIF_PAGE | SIF_RANGE;	// フラグ
+	m_ScrollInfo.nPage = m_iClientAreaHeight;	// ページ高さ
+	m_ScrollInfo.nMin = 0;	// 最小値
+	m_ScrollInfo.nMax = m_pWindowListItemsPanel->m_iHeight;	//最大値
+	SetScrollInfo(m_hWnd, SB_VERT, &m_ScrollInfo, TRUE);	// SetScrollInfoでセット.(SetImageのInvalidateRectと第4引数のTRUEがないとスクロールバーつまみが即座に更新されない.)
+
+  	// 描画終了.
 	EndPaint(m_hWnd, &ps);	// EndPaintで描画終了.
 
 }
@@ -123,5 +142,199 @@ void CWindowListControl::OnSize(UINT nType, int cx, int cy){
 
 	// 親ウィンドウの既定処理.
 	CUserControl::OnSize(nType, cx, cy);	// CUserControl::OnSizeを呼ぶ.
+
+	// スクロールバー設定.
+	// 水平方向.
+	ZeroMemory(&m_ScrollInfo, sizeof(SCROLLINFO));	// ZeroMemoryでm_ScrollInfoをクリア.
+	m_ScrollInfo.cbSize = sizeof(SCROLLINFO);	// サイズ
+	m_ScrollInfo.fMask = SIF_PAGE | SIF_RANGE;	// フラグ
+	m_ScrollInfo.nPage = m_iClientAreaWidth;	// ページ幅
+	m_ScrollInfo.nMin = 0;	// 最小値
+	m_ScrollInfo.nMax = m_pWindowListItemsPanel->m_iWidth;	//最大値
+	SetScrollInfo(m_hWnd, SB_HORZ, &m_ScrollInfo, TRUE);	// SetScrollInfoでセット.(SetImageのInvalidateRectと第4引数のTRUEがないとスクロールバーつまみが即座に更新されない.)
+	// 垂直方向.
+	ZeroMemory(&m_ScrollInfo, sizeof(SCROLLINFO));	// ZeroMemoryでm_ScrollInfoをクリア.
+	m_ScrollInfo.cbSize = sizeof(SCROLLINFO);	// サイズ
+	m_ScrollInfo.fMask = SIF_PAGE | SIF_RANGE;	// フラグ
+	m_ScrollInfo.nPage = m_iClientAreaHeight;	// ページ高さ
+	m_ScrollInfo.nMin = 0;	// 最小値
+	m_ScrollInfo.nMax = m_pWindowListItemsPanel->m_iHeight;	//最大値
+	SetScrollInfo(m_hWnd, SB_VERT, &m_ScrollInfo, TRUE);	// SetScrollInfoでセット.(SetImageのInvalidateRectと第4引数のTRUEがないとスクロールバーつまみが即座に更新されない.)
+
+}
+
+// 水平方向スクロールバーイベント時.
+void CWindowListControl::OnHScroll(UINT nSBCode, UINT nPos){
+
+	// スクロール情報取得.
+	m_ScrollInfo.fMask = SIF_POS;	// 位置だけ変更モード(これがないと, スクロールバーが元の位置に戻ってしまうので注意!こっちが前!)
+	GetScrollInfo(m_hWnd, SB_HORZ, &m_ScrollInfo);	// マスクを設定してからGetScrollInfo.(こっちが後!)
+
+	// スクロールバー処理.
+	switch (nSBCode) {	// nSBCodeごとに振り分け.
+
+		// 一番左
+		case SB_LEFT:
+
+			// 位置を最小値に.
+			m_ScrollInfo.nPos = m_ScrollInfo.nMin;
+			break;
+
+		// 一番右
+		case SB_RIGHT:
+
+			// 位置を最大値に.
+			m_ScrollInfo.nPos = m_ScrollInfo.nMax;
+			break;
+
+		// 1列左
+		case SB_LINELEFT:
+
+			// nPosが0でなければデクリメント.
+			if (m_ScrollInfo.nPos > 0) {
+				m_ScrollInfo.nPos--;
+			}
+			break;
+
+		// 1列右
+		case SB_LINERIGHT:
+
+			// nPosが最大値-1でなければインクリメント.
+			if (m_ScrollInfo.nPos < m_ScrollInfo.nMax - 1) {
+				m_ScrollInfo.nPos++;
+			}
+			break;
+
+		// 1ページ左
+		case SB_PAGELEFT:
+
+			// nPage分減らす.
+			m_ScrollInfo.nPos -= m_ScrollInfo.nPage;
+			break;
+
+		// 1ページ右
+		case SB_PAGERIGHT:
+
+			// nPage分増やす.
+			m_ScrollInfo.nPos += m_ScrollInfo.nPage;
+			break;
+
+		// つまみをドラッグ中.
+		case SB_THUMBTRACK:
+
+			// 引数のnPosをセット
+			m_ScrollInfo.nPos = nPos;
+			break;
+
+		// つまみをドラッグ後.
+		case SB_THUMBPOSITION:
+
+			// 引数のnPosをセット
+			m_ScrollInfo.nPos = nPos;
+			break;
+
+		// それ以外.
+		default:
+
+			break;
+
+	}
+
+	// スクロール情報設定.
+	SetScrollInfo(m_hWnd, SB_HORZ, &m_ScrollInfo, TRUE);
+	// メンバにもセット.
+	m_iHScrollPos = m_ScrollInfo.nPos;
+	// アイテムズパネルの移動.
+	MoveWindow(m_pWindowListItemsPanel->m_hWnd, 0 - m_iHScrollPos, 0 - m_iVScrollPos, m_pWindowListItemsPanel->m_iWidth, m_pWindowListItemsPanel->m_iHeight, TRUE);	// MoveWindowで移動.
+	// 無効領域を作成して画面の更新.
+	InvalidateRect(m_hWnd, NULL, TRUE);	// InvalidateRectで無効領域作成.
+
+}
+
+// 垂直方向スクロールバーイベント時.
+void CWindowListControl::OnVScroll(UINT nSBCode, UINT nPos){
+
+	// スクロール情報取得.
+	m_ScrollInfo.fMask = SIF_POS;	// 位置だけ変更モード(これがないと, スクロールバーが元の位置に戻ってしまうので注意!こっちが前!)
+	GetScrollInfo(m_hWnd, SB_VERT, &m_ScrollInfo);	// マスクを設定してからGetScrollInfo.(こっちが後!)
+
+	// スクロールバー処理.
+	switch (nSBCode) {	// nSBCodeごとに振り分け.
+
+		// 一番上
+		case SB_TOP:
+
+			// 位置を最小値に.
+			m_ScrollInfo.nPos = m_ScrollInfo.nMin;
+			break;
+
+		// 一番下
+		case SB_BOTTOM:
+
+			// 位置を最大値に.
+			m_ScrollInfo.nPos = m_ScrollInfo.nMax;
+			break;
+
+		// 1行上
+		case SB_LINEUP:
+
+			// nPosが0でなければデクリメント.
+			if (m_ScrollInfo.nPos > 0) {
+				m_ScrollInfo.nPos--;
+			}
+			break;
+
+		// 1行下
+		case SB_LINEDOWN:
+
+			// nPosが最大値-1でなければインクリメント.
+			if (m_ScrollInfo.nPos < m_ScrollInfo.nMax - 1) {
+				m_ScrollInfo.nPos++;
+			}
+			break;
+
+		// 1ページ上
+		case SB_PAGEUP:
+
+			// nPage分減らす.
+			m_ScrollInfo.nPos -= m_ScrollInfo.nPage;
+			break;
+
+		// 1ページ下
+		case SB_PAGEDOWN:
+
+			// nPage分増やす.
+			m_ScrollInfo.nPos += m_ScrollInfo.nPage;
+			break;
+
+		// つまみをドラッグ中.
+		case SB_THUMBTRACK:
+	
+			// 引数のnPosをセット
+			m_ScrollInfo.nPos = nPos;
+			break;
+
+		// つまみをドラッグ後.
+		case SB_THUMBPOSITION:
+
+			// 引数のnPosをセット
+			m_ScrollInfo.nPos = nPos;
+			break;
+
+		// それ以外.
+		default:
+
+			break;
+
+	}
+
+	// スクロール情報設定.
+	SetScrollInfo(m_hWnd, SB_VERT, &m_ScrollInfo, TRUE);
+	// メンバにもセット.
+	m_iVScrollPos = m_ScrollInfo.nPos;
+	// アイテムズパネルの移動.
+	MoveWindow(m_pWindowListItemsPanel->m_hWnd, 0 - m_iHScrollPos, 0 - m_iVScrollPos, m_pWindowListItemsPanel->m_iWidth, m_pWindowListItemsPanel->m_iHeight, TRUE);	// MoveWindowで移動.
+	// 無効領域を作成して画面の更新.
+	InvalidateRect(m_hWnd, NULL, TRUE);	// InvalidateRectで無効領域作成.
 
 }

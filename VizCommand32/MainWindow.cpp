@@ -87,6 +87,17 @@ void CMainWindow::OnDestroy(){
 
 }
 
+// ウィンドウのサイズが変更された時.
+void CMainWindow::OnSize(UINT nType, int cx, int cy){
+
+	// 親ウィンドウのOnSize.
+	CWindow::OnSize(nType, cx, cy);	// CWindowのOnSize.
+
+	// 画面更新.
+	InvalidateRect(m_hWnd, NULL, TRUE);	// InvalidateRectで更新.
+
+}
+
 // ウィンドウの描画を要求された時のハンドラOnPaint.
 void CMainWindow::OnPaint(){
 
