@@ -5,6 +5,10 @@
 // コンストラクタCWindowListItemsPanel
 CWindowListItemsPanel::CWindowListItemsPanel() : CUserControl(){
 
+	// メンバの初期化.
+	m_vecWindowListItem.clear();	// m_vecWindowListItem.clearでクリア.
+	m_nNextId = 0;	// m_nNextIdを0で初期化.
+
 }
 
 // デストラクタ~CWindowListItemsPanel
@@ -42,8 +46,53 @@ BOOL CWindowListItemsPanel::Create(LPCTSTR lpctszWindowName, DWORD dwStyle, int 
 // ウィンドウの破棄と終了処理関数Destroy.
 void CWindowListItemsPanel::Destroy(){
 
+	// ウィンドウリストアイテムリストの終了処理.
+	m_vecWindowListItem.clear();	// m_vecWindowListItem.clearでクリア.
+	m_nNextId = 0;	// m_nNextIdに0をセット.
+
 	// 親ウィンドウのDestroyを呼ぶ.
 	CUserControl::Destroy();	// CUserControl::Destroyを呼ぶ.
+
+}
+
+// アイテムを末尾から追加する関数Add.
+void CWindowListItemsPanel::Add(LPCTSTR lpctszWindowName, int x, int y, int iWidth, int iHeight, HINSTANCE hInstance){
+
+	// ウィンドウリストアイテムの追加.
+	CWindowListItem *pWindowListItem = new CWindowListItem();	// CWindowListItemオブジェクトを生成し, ポインタをpWindowListItemに格納.
+	pWindowListItem->Create(lpctszWindowName, WS_CHILD | WS_VISIBLE, x, y, iWidth, iHeight, m_hWnd, (HMENU)(WINDOW_LIST_ITEM_ID_START + m_nNextId), hInstance);	// pWindowListItem->Createでアイテム作成.
+	m_vecWindowListItem.push_back(pWindowListItem);	// m_vecWindowListItem.push_backで末尾に追加.
+	m_nNextId++;	// m_nNextIdをインクリメント.
+
+}
+
+// アイテムを末尾から削除する関数Remove.
+void CWindowListItemsPanel::Remove(){
+
+	// ウィンドウリストアイテムの削除.
+	CWindowListItem *pWindowListItem = m_vecWindowListItem[m_vecWindowListItem.size() - 1];	// 末尾要素を取得.
+	delete pWindowListItem;	// deleteでpWindowListItemの削除.
+	m_vecWindowListItem.pop_back();	// m_vecWindowListItem.pop_backでリストを1つ減らす.
+	m_nNextId--;
+
+}
+
+// 全てのアイテムを削除する関数RemoveAll.
+void CWindowListItemsPanel::RemoveAll(){
+
+	// アイテムの数だけ繰り返す.
+	size_t n = GetSize();	// GetSizeでサイズを取得し, nに格納.
+	for (size_t i = 0; i < n; i++){	// nの数だけ繰り返す.
+		Remove();	// Removeで末尾を削除.
+	}
+
+}
+
+// アイテムの数を返す関数GetSize.
+size_t CWindowListItemsPanel::GetSize(){
+
+	// アイテムの要素数を返す.
+	return m_vecWindowListItem.size();	// m_vecWindowListItem.sizeで要素数を返す.
 
 }
 

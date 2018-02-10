@@ -47,6 +47,9 @@ BOOL CMainWindow::Create(LPCTSTR lpctszWindowName, DWORD dwStyle, int x, int y, 
 // ウィンドウの破棄と終了処理関数Destroy.
 void CMainWindow::Destroy(){
 
+	// ウィンドウリストアイテムの削除.
+	m_pWindowListControl->RemoveAll();	// m_pWindowListControl->RemoveAllでアイテムを全て削除.
+
 	// ウィンドウリストコントロールの削除.
 	if (m_pWindowListControl != NULL){	// m_pWindowListControlがNULLでなければ.
 		m_pWindowListControl->Destroy();	// m_pWindowListControl->Destroyでm_pWindowListControlの終了処理を実行.
@@ -67,6 +70,10 @@ int CMainWindow::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct){
 
 	// ウィンドウリストコントロールのウィンドウ作成.
 	m_pWindowListControl->Create(_T(""), 0, 0, 0, 640, 480, hwnd, (HMENU)(WM_APP + 1), lpCreateStruct->hInstance);	// m_pWindowListControl->Createで作成.
+
+	// ウィンドウリストアイテムの追加.
+	m_pWindowListControl->Add(_T("Item0"), 32, 32, 64, 64, lpCreateStruct->hInstance);	// m_pWindowListControl->Addで"Item0"を追加.
+	m_pWindowListControl->Add(_T("Item1"), 128, 32, 64, 64, lpCreateStruct->hInstance);	// m_pWindowListControl->Addで"Item1"を追加.
 
 	// 常にウィンドウ作成に成功するものとする.
 	return 0;	// 0を返すと, ウィンドウ作成に成功したということになる.

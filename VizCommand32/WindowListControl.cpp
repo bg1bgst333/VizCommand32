@@ -59,6 +59,36 @@ void CWindowListControl::Destroy(){
 
 }
 
+// アイテムを末尾から追加する関数Add.
+void CWindowListControl::Add(LPCTSTR lpctszWindowName, int x, int y, int iWidth, int iHeight, HINSTANCE hInstance){
+
+	// アイテムズパネルに追加.
+	if (m_pWindowListItemsPanel != NULL){	// m_pWindowListItemsPanelがNULLでなければ.
+		m_pWindowListItemsPanel->Add(lpctszWindowName, x, y, iHeight, iWidth, hInstance);	// Addで末尾に追加.
+	}
+
+}
+
+// アイテムを末尾から削除する関数Remove.
+void CWindowListControl::Remove(){
+
+	// アイテムズパネルから削除.
+	if (m_pWindowListItemsPanel != NULL){	// m_pWindowListItemsPanelがNULLでなければ.
+		m_pWindowListItemsPanel->Remove();	// Removeで末尾から削除.
+	}
+
+}
+
+// 全てのアイテムを削除する関数RemoveAll.
+void CWindowListControl::RemoveAll(){
+
+	// アイテムズパネルから全て削除.
+	if (m_pWindowListItemsPanel != NULL){	// m_pWindowListItemsPanelがNULLでなければ.
+		m_pWindowListItemsPanel->RemoveAll();
+	}
+
+}
+
 // ウィンドウの作成が開始された時.
 int CWindowListControl::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct){
 

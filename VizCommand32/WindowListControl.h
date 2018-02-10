@@ -32,6 +32,9 @@ class CWindowListControl : public CUserControl{
 		// メンバ関数
 		virtual BOOL Create(LPCTSTR lpctszWindowName, DWORD dwStyle, int x, int y, int iWidth, int iHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance);	// ウィンドウ作成関数Create.
 		virtual void Destroy();	// ウィンドウの破棄と終了処理関数Destroy.
+		virtual void Add(LPCTSTR lpctszWindowName, int x, int y, int iWidth, int iHeight, HINSTANCE hInstance);	// アイテムを末尾から追加する関数Add.
+		virtual void Remove();	// アイテムを末尾から削除する関数Remove.
+		virtual void RemoveAll();	// 全てのアイテムを削除する関数RemoveAll.
 		virtual int OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct);	// ウィンドウの作成が開始された時.
 		virtual void OnDestroy();	// ウィンドウが破棄された時.
 		virtual void OnPaint();	// ウィンドウの描画を要求された時のハンドラOnPaint.

@@ -199,6 +199,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\WindowListItem.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\WindowListItemsPanel.cpp"
 				>
 			</File>
@@ -245,6 +249,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\WindowListItem.h"
+				>
+			</File>
+			<File
 				RelativePath=".\WindowListItemsPanel.h"
 				>
 			</File>
@@ -259,10 +267,6 @@
 				>
 			</File>
 		</Filter>
-		<File
-			RelativePath=".\VizCommand32.vcproj.BG-PC.B.G.user"
-			>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>
