@@ -397,7 +397,15 @@ LRESULT CWindow::DynamicWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 		// 上記以外の時.
 		default:
 
-			// 既定の処理へ向かう.
+			// defaultブロック
+			{
+
+				// OnUserMessageに任せる.
+				OnUserMessage(uMsg, wParam, lParam);	// OnUserMessageに任せる.
+
+			}
+
+				// 既定の処理へ向かう.
 			break;	// breakで抜けて, 既定の処理(DefWindowProc)へ向かう.
 
 	}
@@ -488,5 +496,40 @@ void CWindow::OnHScroll(UINT nSBCode, UINT nPos){
 
 // 垂直方向スクロールバーイベント時.
 void CWindow::OnVScroll(UINT nSBCode, UINT nPos){
+
+}
+
+// ユーザ定義メッセージが発生した時.
+void CWindow::OnUserMessage(UINT uMsg, WPARAM wParam, LPARAM lParam){
+
+	// switch-case文で振り分ける.
+	switch (uMsg) {
+
+		// 子から親へウィンドウサイズ変更の要求が発生した時.
+		case UM_SIZECHILD:
+
+			// UM_SIZECHILDブロック
+			{
+
+				// OnSizeChildに任せる.
+				OnSizeChild(wParam, lParam);	// OnSizeChildに任せる.
+
+			}
+
+			// 既定の処理へ向かう.
+			break;	// 抜けてDefWindowProcに向かう.
+
+		// それ以外.
+		default:
+
+			// 既定の処理へ向かう.
+			break;	// 抜けてDefWindowProcに向かう.
+
+	}
+
+}
+
+// 子から親へウィンドウサイズ変更の要求が発生した時.
+void CWindow::OnSizeChild(WPARAM wParam, LPARAM lParam){
 
 }

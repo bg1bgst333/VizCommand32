@@ -26,6 +26,7 @@ class CWindowListItem : public CUserControl{
 		virtual void OnDestroy();	// ウィンドウが破棄された時.
 		virtual void OnPaint();	// ウィンドウの描画を要求された時のハンドラOnPaint.
 		virtual void OnSize(UINT nType, int cx, int cy);	// ウィンドウのサイズが変更された時.
+		virtual void OnSizeChild(WPARAM wParam, LPARAM lParam);	// 子から親へウィンドウサイズ変更の要求が発生した時.
 
 };
 

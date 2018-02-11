@@ -109,3 +109,15 @@ void CWindowListItem::OnSize(UINT nType, int cx, int cy){
 	CUserControl::OnSize(nType, cx, cy);	// CUserControl::OnSizeを呼ぶ.
 
 }
+
+// 子から親へウィンドウサイズ変更の要求が発生した時.
+void CWindowListItem::OnSizeChild(WPARAM wParam, LPARAM lParam){
+
+	// サイズ取り出し.
+	int iWidth = LOWORD(wParam);	// LOWORDはiWidth.
+	int iHeight = HIWORD(wParam);	// HIWORDはiHeight.
+
+	// 自身のウィンドウサイズ変更.
+	MoveWindow(m_hWnd, 0, 0, iWidth, iHeight, TRUE);	// MoveWindowで子ウィンドウのサイズに合わせる.
+
+}

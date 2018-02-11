@@ -1,14 +1,18 @@
 // 二重インクルード防止
 #ifndef __WINDOW_H__
 #define __WINDOW_H__
-// 独自のヘッダ
-#include "HandlerConditions.h"	// 構造体HandlerConditions
 
 // ヘッダのインクルード
 // 既定のヘッダ
 #include <tchar.h>		// TCHAR型
 #include <windows.h>	// 標準WindowsAPI
 #include <map>	// std::map
+// 独自のヘッダ
+#include "HandlerConditions.h"	// 構造体HandlerConditions
+
+// マクロの定義
+// 独自ウィンドウメッセージ
+#define UM_SIZECHILD				(WM_APP + 1000)	// 32768 + 1000( = 33768)
 
 // ウィンドウクラスCWindow
 class CWindow{
@@ -58,6 +62,8 @@ class CWindow{
 		virtual void OnTimer(UINT_PTR nIDEvent);	// タイマーイベントが発生した時.
 		virtual void OnHScroll(UINT nSBCode, UINT nPos);	// 水平方向スクロールバーイベント時.
 		virtual void OnVScroll(UINT nSBCode, UINT nPos);	// 垂直方向スクロールバーイベント時.
+		virtual void OnUserMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);	// ユーザ定義メッセージが発生した時.
+		virtual void OnSizeChild(WPARAM wParam, LPARAM lParam);	// 子から親へウィンドウサイズ変更の要求が発生した時.
 
 };
 

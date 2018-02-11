@@ -88,6 +88,11 @@ BOOL CCustomControl::Create(LPCTSTR lpctszClassName, LPCTSTR lpctszWindowName, D
 	m_iWidth = rc.right - rc.left;	// m_iWidthはrc.rightからrc.leftを引く.
 	m_iHeight = rc.bottom - rc.top;	// m_iHeightはrc.bottomからrc.topを引く.
 
+	// 既定のウィンドウプロシージャを取得し, CCustomControl::StaticWindowProcに差し替える.
+	WNDPROC lpfnWndProc;	// 既定のプロシージャlpfnWndProc
+	lpfnWndProc = (WNDPROC)GetWindowLong(m_hWnd, GWL_WNDPROC);	// GetWindowLongでプロシージャlpfnWndProcを取得.
+	SetWindowLong(m_hWnd, GWL_WNDPROC, (LONG)StaticWindowProc);	// SetWindowLongでプロシージャCCustomControl::StaticWindowProcを設定.
+
 	// OnCreateは以降は呼ばれないので, ここで呼んでおく.
 	CREATESTRUCT cs;	// CREATESTRUCTを一応用意.
 	cs.hInstance = hInstance;	// hInstanceは要るかもしれないので, これは渡せるようにしておく.
@@ -98,11 +103,6 @@ BOOL CCustomControl::Create(LPCTSTR lpctszClassName, LPCTSTR lpctszWindowName, D
 		return FALSE;	// FALSEを返す.
 
 	}
-
-	// 既定のウィンドウプロシージャを取得し, CCustomControl::StaticWindowProcに差し替える.
-	WNDPROC lpfnWndProc;	// 既定のプロシージャlpfnWndProc
-	lpfnWndProc = (WNDPROC)GetWindowLong(m_hWnd, GWL_WNDPROC);	// GetWindowLongでプロシージャlpfnWndProcを取得.
-	SetWindowLong(m_hWnd, GWL_WNDPROC, (LONG)StaticWindowProc);	// SetWindowLongでプロシージャCCustomControl::StaticWindowProcを設定.
 
 	// マップのキーにウィンドウクラス名がなければ登録.
 	if (m_mapBaseWindowProcMap.find(lpctszClassName) == m_mapBaseWindowProcMap.end()){	// マップに無い時.
@@ -169,8 +169,16 @@ LRESULT CCustomControl::DynamicWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, L
 		// それ以外の時.
 		default:
 
-			// 既定の処理へ向かう.
-			break;	// breakで抜けて, 既定の処理へ向かう.
+			// defaultブロック
+			{
+
+				// OnUserMessageに任せる.
+				OnUserMessage(uMsg, wParam, lParam);	// OnUserMessageに任せる.
+
+			}
+
+ 			// 既定の処理へ向かう.
+ 			break;	// breakで抜けて, 既定の処理へ向かう.
 
 	}
 
@@ -203,5 +211,13 @@ void CCustomControl::OnDestroy(){
 	if (m_mapWindowMap.find(m_hWnd) != m_mapWindowMap.end()){	// findでみつかったら.
 		m_mapWindowMap.erase(m_hWnd);	// m_mapWindowMap.eraseで削除.
 	}
+
+}
+
+// ユーザ定義メッセージが発生した時.
+void CCustomControl::OnUserMessage(UINT uMsg, WPARAM wParam, LPARAM lParam){
+
+	// 親クラスのOnUserMessageを呼ぶ.
+	CWindow::OnUserMessage(uMsg, wParam, lParam);	// CWindow::OnUserMessageを呼ぶ.
 
 }
