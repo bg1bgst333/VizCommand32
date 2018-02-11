@@ -77,6 +77,14 @@ void CWindowListItemsPanel::Remove(){
 
 }
 
+// アイテムを取得する関数Get.
+CWindowListItem * CWindowListItemsPanel::Get(int iIndex){
+
+	// iIndex番目の要素を返す.
+	return m_vecWindowListItem[iIndex];	// m_vecWindowListItem[iIndex]を返す.
+
+}
+
 // 全てのアイテムを削除する関数RemoveAll.
 void CWindowListItemsPanel::RemoveAll(){
 

@@ -64,7 +64,7 @@ void CWindowListControl::Add(LPCTSTR lpctszWindowName, int x, int y, int iWidth,
 
 	// アイテムズパネルに追加.
 	if (m_pWindowListItemsPanel != NULL){	// m_pWindowListItemsPanelがNULLでなければ.
-		m_pWindowListItemsPanel->Add(lpctszWindowName, x, y, iHeight, iWidth, hInstance);	// Addで末尾に追加.
+		m_pWindowListItemsPanel->Add(lpctszWindowName, x, y, iWidth, iHeight, hInstance);	// Addで末尾に追加.
 	}
 
 }
@@ -76,6 +76,19 @@ void CWindowListControl::Remove(){
 	if (m_pWindowListItemsPanel != NULL){	// m_pWindowListItemsPanelがNULLでなければ.
 		m_pWindowListItemsPanel->Remove();	// Removeで末尾から削除.
 	}
+
+}
+
+// アイテムを取得する関数Get.
+CWindowListItem * CWindowListControl::Get(int iIndex){
+
+	// アイテムズパネルから取得.
+	if (m_pWindowListItemsPanel != NULL){	// m_pWindowListItemsPanelがNULLでなければ.
+		return m_pWindowListItemsPanel->Get(iIndex);	// 
+	}
+
+	// なければNULL.
+	return NULL;	// NULLを返す.
 
 }
 

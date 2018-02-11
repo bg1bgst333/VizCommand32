@@ -34,6 +34,7 @@ class CWindowListControl : public CUserControl{
 		virtual void Destroy();	// ウィンドウの破棄と終了処理関数Destroy.
 		virtual void Add(LPCTSTR lpctszWindowName, int x, int y, int iWidth, int iHeight, HINSTANCE hInstance);	// アイテムを末尾から追加する関数Add.
 		virtual void Remove();	// アイテムを末尾から削除する関数Remove.
+		virtual CWindowListItem * Get(int iIndex);	// アイテムを取得する関数Get.
 		virtual void RemoveAll();	// 全てのアイテムを削除する関数RemoveAll.
 		virtual int OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct);	// ウィンドウの作成が開始された時.
 		virtual void OnDestroy();	// ウィンドウが破棄された時.

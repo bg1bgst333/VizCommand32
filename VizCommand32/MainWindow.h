@@ -8,6 +8,7 @@
 // 独自のヘッダ
 #include "Window.h"	// CWindow
 #include "WindowListControl.h"	// CWindowListControl
+#include "Edit.h"	// CEdit
 
 // マクロの定義
 // UNICODE切り替え
@@ -25,6 +26,7 @@ class CMainWindow : public CWindow{
 
 		// publicメンバ変数
 		CWindowListControl *m_pWindowListControl;	// CWindowListControlオブジェクトポインタm_pWindowListControl.
+		CEdit *m_pEdit;	// CEditオブジェクトポインタm_pEdit.
 
 		// publicメンバ関数
 		// コンストラクタ・デストラクタ
