@@ -117,7 +117,11 @@ void CWindowListItem::OnSizeChild(WPARAM wParam, LPARAM lParam){
 	int iWidth = LOWORD(wParam);	// LOWORDはiWidth.
 	int iHeight = HIWORD(wParam);	// HIWORDはiHeight.
 
+	// サイズセット.
+	m_iWidth = iWidth;	// m_iWidthにiWidthをセット.
+	m_iHeight = iHeight;	// m_iHeightにiHeightをセット.
+
 	// 自身のウィンドウサイズ変更.
-	MoveWindow(m_hWnd, 0, 0, iWidth, iHeight, TRUE);	// MoveWindowで子ウィンドウのサイズに合わせる.
+	MoveWindow(m_hWnd, m_x, m_y, m_iWidth, m_iHeight, TRUE);	// MoveWindowで子ウィンドウのサイズに合わせる.
 
 }

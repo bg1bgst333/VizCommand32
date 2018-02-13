@@ -193,8 +193,12 @@ BOOL CWindow::Create(LPCTSTR lpctszClassName, LPCTSTR lpctszWindowName, DWORD dw
 	// 生成されたウィンドウのサイズをメンバにセット.
 	RECT rc = {0};	// RECT型rcを{0}で初期化.
 	GetWindowRect(m_hWnd, &rc);	// GetWindowRectでm_hWndのサイズを取得.
-	m_x = rc.left;	// m_xにrc.leftを代入.
-	m_y = rc.top;	// m_yにrc.topを代入.
+	if (x == CW_USEDEFAULT){
+		m_x = rc.left;	// m_xにrc.leftを代入.
+	}
+	if (y == CW_USEDEFAULT){
+		m_y = rc.top;	// m_yにrc.topを代入.
+	}
 	m_iWidth = rc.right - rc.left;	// m_iWidthはrc.rightからrc.leftを引く.
 	m_iHeight = rc.bottom - rc.top;	// m_iHeightはrc.bottomからrc.topを引く.
 
@@ -437,8 +441,8 @@ void CWindow::OnSize(UINT nType, int cx, int cy){
 	// 生成されたウィンドウのサイズをメンバにセット.
 	RECT rc = {0};	// RECT型rcを{0}で初期化.
 	GetWindowRect(m_hWnd, &rc);	// GetWindowRectでm_hWndのサイズを取得.
-	m_x = rc.left;	// m_xにrc.leftを代入.
-	m_y = rc.top;	// m_yにrc.topを代入.
+	//m_x = rc.left;	// m_xにrc.leftを代入.
+	//m_y = rc.top;	// m_yにrc.topを代入.
 	m_iWidth = rc.right - rc.left;	// m_iWidthはrc.rightからrc.leftを引く.
 	m_iHeight = rc.bottom - rc.top;	// m_iHeightはrc.bottomからrc.topを引く.
 

@@ -80,15 +80,15 @@ int CMainWindow::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct){
 	m_pWindowListControl->Create(_T(""), 0, 0, 0, 640, 480, hwnd, (HMENU)(WM_APP + 1), lpCreateStruct->hInstance);	// m_pWindowListControl->Createで作成.
 
 	// ウィンドウリストアイテムの追加.
-	m_pWindowListControl->Add(_T("Item0"), 32, 32, 64, 64, lpCreateStruct->hInstance);	// m_pWindowListControl->Addで"Item0"を追加.
-	m_pWindowListControl->Add(_T("Item1"), 32, 256, 64, 64, lpCreateStruct->hInstance);	// m_pWindowListControl->Addで"Item1"を追加.
+	m_pWindowListControl->Add(_T("Item0"), 320, 32, 64, 64, lpCreateStruct->hInstance);	// m_pWindowListControl->Addで"Item0"を追加.
+	m_pWindowListControl->Add(_T("Item1"), 32, 320, 64, 64, lpCreateStruct->hInstance);	// m_pWindowListControl->Addで"Item1"を追加.
 
 	// マルチビューアイテムの取得.
 	CWindowListItem *pItem0 = m_pWindowListControl->Get(0);	// 0番目を取得.
 	
 	// エディットコントロールの生成.
 	m_pEdit = new CEdit();	// CEditオブジェクトを生成.
-	m_pEdit->Create(_T("Edit"), WS_HSCROLL | WS_VSCROLL | ES_MULTILINE | ES_WANTRETURN | ES_AUTOHSCROLL | ES_AUTOVSCROLL, 0, 0, 480 + 10, 100, pItem0->m_hWnd, (HMENU)WM_APP + 200, lpCreateStruct->hInstance);	// m_pEdit->CreateでpItem0->m_hWndを親としてウィンドウ作成.
+	m_pEdit->Create(_T("Edit"), WS_HSCROLL | WS_VSCROLL | ES_MULTILINE | ES_WANTRETURN | ES_AUTOHSCROLL | ES_AUTOVSCROLL, 0, 0, 480, 100, pItem0->m_hWnd, (HMENU)WM_APP + 200, lpCreateStruct->hInstance);	// m_pEdit->CreateでpItem0->m_hWndを親としてウィンドウ作成.
  
 	// 常にウィンドウ作成に成功するものとする.
 	return 0;	// 0を返すと, ウィンドウ作成に成功したということになる.
