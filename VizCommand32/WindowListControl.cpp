@@ -109,7 +109,7 @@ int CWindowListControl::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct){
 	m_pWindowListItemsPanel = new CWindowListItemsPanel();	// CWindowListItemsPanelの作成.
 	
 	// ウィンドウリストアイテムズパネルのウィンドウ生成.
-	m_pWindowListItemsPanel->Create(_T(""), 0, 0, 0, 320 + 300, 240 + 200, hwnd, (HMENU)(WM_APP + 2), lpCreateStruct->hInstance);	// m_pWindowListItemsPanel->Createでウィンドウ生成.
+	m_pWindowListItemsPanel->Create(_T(""), 0, 0, 0, 800, 640, hwnd, (HMENU)(WM_APP + 2), lpCreateStruct->hInstance);	// m_pWindowListItemsPanel->Createでウィンドウ生成.
 
 	// 初回更新タイマーをセット.
 	SetTimer(hwnd, 1, 100, NULL);	// SetTimerで更新タイマーをセット.(100ミリ秒==0.1秒)

@@ -47,14 +47,17 @@ BOOL CMainWindow::Create(LPCTSTR lpctszWindowName, DWORD dwStyle, int x, int y, 
 // ウィンドウの破棄と終了処理関数Destroy.
 void CMainWindow::Destroy(){
 
-	// ウィンドウリストアイテムの削除.
-	m_pWindowListControl->RemoveAll();	// m_pWindowListControl->RemoveAllでアイテムを全て削除.
-
 	// ウィンドウリストコントロールの削除.
 	if (m_pWindowListControl != NULL){	// m_pWindowListControlがNULLでなければ.
+
+		// ウィンドウリストアイテムの削除.
+		m_pWindowListControl->RemoveAll();	// m_pWindowListControl->RemoveAllでアイテムを全て削除.
+
+		// ウィンドウリストコントロールの破棄.
 		m_pWindowListControl->Destroy();	// m_pWindowListControl->Destroyでm_pWindowListControlの終了処理を実行.
 		delete m_pWindowListControl;	// deleteでm_pWindowListControlを解放.
 		m_pWindowListControl = NULL;	// m_pWindowListControlにNULLをセット.
+
 	}
 
 	// 親ウィンドウのDestroyを呼ぶ.
@@ -65,20 +68,23 @@ void CMainWindow::Destroy(){
 // ウィンドウの作成が開始された時.
 int CMainWindow::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct){
 
+#if 0
 	// ウィンドウリストコントロールオブジェクトの作成.
 	m_pWindowListControl = new CWindowListControl();	// CWindowListControlオブジェクトの作成.
 
 	// ウィンドウリストコントロールのウィンドウ作成.
-	m_pWindowListControl->Create(_T(""), 0, 0, 0, 640, 480, hwnd, (HMENU)(WM_APP + 1), lpCreateStruct->hInstance);	// m_pWindowListControl->Createで作成.
+	m_pWindowListControl->Create(_T(""), 0, 0, 0, 720, 800, hwnd, (HMENU)(WM_APP + 1), lpCreateStruct->hInstance);	// m_pWindowListControl->Createで作成.
 
 	// ウィンドウリストアイテムの追加.
 	m_pWindowListControl->Add(_T("Item0"), 320, 32, 64, 64, lpCreateStruct->hInstance);	// m_pWindowListControl->Addで"Item0"を追加.
 	m_pWindowListControl->Add(_T("Item1"), 32, 320, 64, 64, lpCreateStruct->hInstance);	// m_pWindowListControl->Addで"Item1"を追加.
 
-	// マルチビューアイテムの取得.
+	// ウィンドウリストアイテムの取得.
 	CWindowListItem *pItem0 = m_pWindowListControl->Get(0);	// 0番目を取得.
 	CWindowListItem *pItem1 = m_pWindowListControl->Get(1);	// 1番目を取得.
+#endif
 
+#if 0
 	// エディットコントロールの生成.
 	// エディット0.
 	CEdit *pEdit0 = new CEdit();	// CEditオブジェクトを生成.
@@ -89,7 +95,8 @@ int CMainWindow::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct){
 	CEdit *pEdit1 = new CEdit();	//CEditオブジェクトを生成.
 	pEdit1->Create(_T("Edit1"), WS_HSCROLL | WS_VSCROLL | ES_MULTILINE | ES_WANTRETURN | ES_AUTOHSCROLL | ES_AUTOVSCROLL, 0, 0, 100, 480, pItem1->m_hWnd, (HMENU)WM_APP + 201, lpCreateStruct->hInstance);	// m_pEdit1->CreateでpItem1->m_hWndを親としてウィンドウ作成.
 	pItem1->m_mapChildMap.insert(std::make_pair(_T("Edit1"), pEdit1));	// "Edit1"をキー, pEdit1を値として, pItem1->m_mapChildMapに登録.
- 
+#endif
+
 	// 常にウィンドウ作成に成功するものとする.
 	return 0;	// 0を返すと, ウィンドウ作成に成功したということになる.
 
@@ -114,6 +121,11 @@ void CMainWindow::OnSize(UINT nType, int cx, int cy){
 
 	// 親ウィンドウのOnSize.
 	CWindow::OnSize(nType, cx, cy);	// CWindowのOnSize.
+
+	// ウィンドウリストコントロールのサイズはウィンドウにぴったり合わせる.
+	if (m_pWindowListControl != NULL){	// NULLでなければ.
+		MoveWindow(m_pWindowListControl->m_hWnd, m_pWindowListControl->m_x, m_pWindowListControl->m_y, cx, cy, TRUE);	// MoveWindowでm_pWindowListControl->m_hWndのサイズを変更.
+	}
 
 	// 画面更新.
 	InvalidateRect(m_hWnd, NULL, TRUE);	// InvalidateRectで更新.
