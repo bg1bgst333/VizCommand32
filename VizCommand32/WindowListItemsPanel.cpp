@@ -166,3 +166,28 @@ void CWindowListItemsPanel::OnSize(UINT nType, int cx, int cy){
 	CUserControl::OnSize(nType, cx, cy);	// CUserControl::OnSizeを呼ぶ.
 
 }
+
+// 子から親へウィンドウサイズ変更の要求が発生した時.
+void CWindowListItemsPanel::OnSizeChild(WPARAM wParam, LPARAM lParam){
+
+	// サイズ取り出し.
+	int iWidth = LOWORD(wParam);	// LOWORDはiWidth.
+	int iHeight = HIWORD(wParam);	// HIWORDはiHeight.
+	HWND hSrc = (HWND)lParam;	// lParamをHWNDにキャストして, hSrcに格納.
+
+	// ウィンドウマップからウィンドウオブジェクト取得.
+	CWindow *pWindow = m_mapWindowMap[hSrc];	// m_mapWindowMap[hSrc]からpWindowを取得.
+	
+	// 右端, 下端を取得.
+	int w = pWindow->m_x + pWindow->m_iWidth;	// 取得したウィンドウの右端を取得.
+	int h = pWindow->m_y + pWindow->m_iHeight;	// 取得したウィンドウの下端を取得.
+
+	// パネルが小さかったら拡大.
+	if (m_iWidth < w){	// wが大きい.
+		MoveWindow(m_hWnd, m_x, m_y, w, m_iHeight, TRUE);	// MoveWindowで横をwの大きさに拡大.
+	}
+	if (m_iHeight < h){	// hが大きい.
+		MoveWindow(m_hWnd, m_x, m_y, m_iWidth, h, TRUE);	// MoveWindowで縦をhの大きさに拡大.
+	}
+
+}

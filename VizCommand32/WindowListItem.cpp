@@ -108,6 +108,11 @@ void CWindowListItem::OnSize(UINT nType, int cx, int cy){
 	// 親ウィンドウの既定処理.
 	CUserControl::OnSize(nType, cx, cy);	// CUserControl::OnSizeを呼ぶ.
 
+	// UM_SIZECHILDで子ウィンドウのサイズに合わせる.
+	WPARAM wParam;	// WPARAM型wParam.
+	wParam = MAKEWPARAM(m_iWidth, m_iHeight);	// MAKEWPARAMでwParamをセット.
+	SendMessage(GetParent(m_hWnd), UM_SIZECHILD, wParam, (LPARAM)m_hWnd);	// SendMessageでUM_SIZECHILDを送信.
+
 }
 
 // 子から親へウィンドウサイズ変更の要求が発生した時.

@@ -8,7 +8,8 @@ CMainWindow::CMainWindow() : CWindow(){
 
 	// メンバの初期化.
 	m_pWindowListControl = NULL;	// m_pWindowListControlをNULLで初期化.
-	m_pEdit = NULL;	// m_pEditをNULLで初期化.
+	m_pEdit0 = NULL;	// m_pEdit0をNULLで初期化.
+	m_pEdit1 = NULL;	// m_pEdit1をNULLで初期化.
 
 }
 
@@ -49,11 +50,16 @@ BOOL CMainWindow::Create(LPCTSTR lpctszWindowName, DWORD dwStyle, int x, int y, 
 void CMainWindow::Destroy(){
 
 	// エディットコントロールの削除.
-	if (m_pEdit != NULL){	// m_pEditがNULLでない時.
-		m_pEdit->Destroy();	// m_pEdit->Destroyで破棄.
-		delete m_pEdit;	// deleteでm_pEditを解放.
-		m_pEdit = NULL;	// m_pEditにNULLをセット.
+	if (m_pEdit1 != NULL){	// m_pEdit1がNULLでない時.
+		m_pEdit1->Destroy();	// m_pEdit1->Destroyで破棄.
+		delete m_pEdit1;	// deleteでm_pEdit1を解放.
+		m_pEdit1 = NULL;	// m_pEdit1にNULLをセット.
 	}
+	if (m_pEdit0 != NULL){	// m_pEdit0がNULLでない時.
+		m_pEdit0->Destroy();	// m_pEdit0->Destroyで破棄.
+		delete m_pEdit0;	// deleteでm_pEdit0を解放.
+		m_pEdit0 = NULL;	// m_pEdit0にNULLをセット.
+ 	}
 
 	// ウィンドウリストアイテムの削除.
 	m_pWindowListControl->RemoveAll();	// m_pWindowListControl->RemoveAllでアイテムを全て削除.
@@ -85,10 +91,13 @@ int CMainWindow::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct){
 
 	// マルチビューアイテムの取得.
 	CWindowListItem *pItem0 = m_pWindowListControl->Get(0);	// 0番目を取得.
-	
+	CWindowListItem *pItem1 = m_pWindowListControl->Get(1);	// 1番目を取得.
+
 	// エディットコントロールの生成.
-	m_pEdit = new CEdit();	// CEditオブジェクトを生成.
-	m_pEdit->Create(_T("Edit"), WS_HSCROLL | WS_VSCROLL | ES_MULTILINE | ES_WANTRETURN | ES_AUTOHSCROLL | ES_AUTOVSCROLL, 0, 0, 480, 100, pItem0->m_hWnd, (HMENU)WM_APP + 200, lpCreateStruct->hInstance);	// m_pEdit->CreateでpItem0->m_hWndを親としてウィンドウ作成.
+	m_pEdit0 = new CEdit();	// CEditオブジェクトを生成.
+	m_pEdit0->Create(_T("Edit"), WS_HSCROLL | WS_VSCROLL | ES_MULTILINE | ES_WANTRETURN | ES_AUTOHSCROLL | ES_AUTOVSCROLL, 0, 0, 480, 100, pItem0->m_hWnd, (HMENU)WM_APP + 200, lpCreateStruct->hInstance);	// m_pEdit0->CreateでpItem0->m_hWndを親としてウィンドウ作成.
+	m_pEdit1 = new CEdit();	//CEditオブジェクトを生成.
+	m_pEdit1->Create(_T("Edit"), WS_HSCROLL | WS_VSCROLL | ES_MULTILINE | ES_WANTRETURN | ES_AUTOHSCROLL | ES_AUTOVSCROLL, 0, 0, 100, 480, pItem1->m_hWnd, (HMENU)WM_APP + 201, lpCreateStruct->hInstance);	// m_pEdit1->CreateでpItem1->m_hWndを親としてウィンドウ作成.
  
 	// 常にウィンドウ作成に成功するものとする.
 	return 0;	// 0を返すと, ウィンドウ作成に成功したということになる.
