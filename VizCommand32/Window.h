@@ -6,11 +6,19 @@
 // 既定のヘッダ
 #include <tchar.h>		// TCHAR型
 #include <windows.h>	// 標準WindowsAPI
+#include <string>	// std::string
 #include <map>	// std::map
 // 独自のヘッダ
 #include "HandlerConditions.h"	// 構造体HandlerConditions
 
 // マクロの定義
+// UNICODE切り替え
+#ifdef UNICODE
+#define tstring std::wstring
+#else
+#define tstring std::string
+#endif
+
 // 独自ウィンドウメッセージ
 #define UM_SIZECHILD				(WM_APP + 1000)	// 32768 + 1000( = 33768)
 

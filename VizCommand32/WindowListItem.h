@@ -12,6 +12,9 @@ class CWindowListItem : public CUserControl{
 	// publicメンバ
 	public:
 
+		// publicメンバ変数
+		std::map<tstring, CWindow *> m_mapChildMap;	// アイテムの子ウィンドウマップm_mapChildMap.
+
 		// publicメンバ関数
 		// コンストラクタ・デストラクタ
 		CWindowListItem();	// コンストラクタCWindowListItem

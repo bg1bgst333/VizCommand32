@@ -26,9 +26,7 @@ class CMainWindow : public CWindow{
 
 		// publicメンバ変数
 		CWindowListControl *m_pWindowListControl;	// CWindowListControlオブジェクトポインタm_pWindowListControl.
-		CEdit *m_pEdit0;	// CEditオブジェクトポインタm_pEdit0.
-		CEdit *m_pEdit1;	// CEditオブジェクトポインタm_pEdit1.
-
+		
 		// publicメンバ関数
 		// コンストラクタ・デストラクタ
 		CMainWindow();	// コンストラクタCMainWindow()

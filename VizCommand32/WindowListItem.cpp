@@ -5,6 +5,9 @@
 // コンストラクタCWindowListItem
 CWindowListItem::CWindowListItem() : CUserControl(){
 
+	// メンバの初期化.
+	m_mapChildMap.clear();	// m_mapChildMapをクリア.
+
 }
 
 // デストラクタ~CWindowListItem
@@ -41,6 +44,18 @@ BOOL CWindowListItem::Create(LPCTSTR lpctszWindowName, DWORD dwStyle, int x, int
 
 // ウィンドウの破棄と終了処理関数Destroy.
 void CWindowListItem::Destroy(){
+
+	// アイテムの一斉削除
+	std::map<tstring, CWindow *>::iterator itor = m_mapChildMap.begin();	// イテレータ.
+	while (itor != m_mapChildMap.end()) {	// マップの最後まで.
+		if (itor->second != NULL) {	// 値がNULLでなければ.
+			itor->second->Destroy();	// Destroyで破棄処理.
+			delete itor->second;	// 解放.
+			itor->second = NULL;	// NULLをセット.
+		}
+		itor++;	// 進む.
+	}
+	m_mapChildMap.clear();	// クリア.
 
 	// 親ウィンドウのDestroyを呼ぶ.
 	CUserControl::Destroy();	// CUserControl::Destroyを呼ぶ.
