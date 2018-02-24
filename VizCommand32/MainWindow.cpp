@@ -68,13 +68,13 @@ void CMainWindow::Destroy(){
 // ウィンドウの作成が開始された時.
 int CMainWindow::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct){
 
-#if 0
 	// ウィンドウリストコントロールオブジェクトの作成.
 	m_pWindowListControl = new CWindowListControl();	// CWindowListControlオブジェクトの作成.
 
 	// ウィンドウリストコントロールのウィンドウ作成.
-	m_pWindowListControl->Create(_T(""), 0, 0, 0, 720, 800, hwnd, (HMENU)(WM_APP + 1), lpCreateStruct->hInstance);	// m_pWindowListControl->Createで作成.
+	m_pWindowListControl->Create(_T(""), 0, 0, 0, 320, 600, hwnd, (HMENU)(WM_APP + 1), lpCreateStruct->hInstance);	// m_pWindowListControl->Createで作成.
 
+#if 0
 	// ウィンドウリストアイテムの追加.
 	m_pWindowListControl->Add(_T("Item0"), 320, 32, 64, 64, lpCreateStruct->hInstance);	// m_pWindowListControl->Addで"Item0"を追加.
 	m_pWindowListControl->Add(_T("Item1"), 32, 320, 64, 64, lpCreateStruct->hInstance);	// m_pWindowListControl->Addで"Item1"を追加.

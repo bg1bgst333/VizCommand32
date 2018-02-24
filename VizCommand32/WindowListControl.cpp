@@ -40,7 +40,7 @@ BOOL CWindowListControl::RegisterClass(HINSTANCE hInstance, HBRUSH hbrBackground
 BOOL CWindowListControl::Create(LPCTSTR lpctszWindowName, DWORD dwStyle, int x, int y, int iWidth, int iHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance){
 
 	// ウィンドウの作成.
-	return CUserControl::Create(_T("CWindowListControl"), lpctszWindowName, dwStyle | WS_CHILD | WS_VISIBLE | WS_HSCROLL | WS_VSCROLL, x, y, iWidth, iHeight, hWndParent, hMenu, hInstance);	// CWindow::Createで作成.
+	return CUserControl::Create(_T("CWindowListControl"), lpctszWindowName, dwStyle | WS_CHILD | WS_VISIBLE/* | WS_HSCROLL | WS_VSCROLL*/, x, y, iWidth, iHeight, hWndParent, hMenu, hInstance);	// CWindow::Createで作成.
 
 }
 
@@ -108,8 +108,14 @@ int CWindowListControl::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct){
 	// ウィンドウリストアイテムズパネルの生成.
 	m_pWindowListItemsPanel = new CWindowListItemsPanel();	// CWindowListItemsPanelの作成.
 	
+	// クライアント領域のサイズを取得.
+	RECT rc = {0};	// rcを{0}で初期化.
+	GetClientRect(hwnd, &rc);	// GetClientRectでクライアント領域のRECTを取得.
+	m_iClientAreaWidth = rc.right - rc.left;	// 幅.
+	m_iClientAreaHeight = rc.bottom - rc.top;	// 高さ.
+
 	// ウィンドウリストアイテムズパネルのウィンドウ生成.
-	m_pWindowListItemsPanel->Create(_T(""), 0, 0, 0, 800, 640, hwnd, (HMENU)(WM_APP + 2), lpCreateStruct->hInstance);	// m_pWindowListItemsPanel->Createでウィンドウ生成.
+	m_pWindowListItemsPanel->Create(_T(""), 0, 0, 0, m_iClientAreaWidth, m_iClientAreaHeight, hwnd, (HMENU)(WM_APP + 2), lpCreateStruct->hInstance);	// m_pWindowListItemsPanel->Createでウィンドウ生成.
 
 	// 初回更新タイマーをセット.
 	SetTimer(hwnd, 1, 100, NULL);	// SetTimerで更新タイマーをセット.(100ミリ秒==0.1秒)
@@ -161,6 +167,7 @@ void CWindowListControl::OnPaint(){
 	DeleteObject(hBrush);	// ブラシの破棄.
 	DeleteObject(hPen);	// ペンの破棄.
 
+#if 0
 	// スクロールバー設定.
 	// 水平方向.
 	ZeroMemory(&m_ScrollInfo, sizeof(SCROLLINFO));	// ZeroMemoryでm_ScrollInfoをクリア.
@@ -178,6 +185,7 @@ void CWindowListControl::OnPaint(){
 	m_ScrollInfo.nMin = 0;	// 最小値
 	m_ScrollInfo.nMax = m_pWindowListItemsPanel->m_iHeight;	//最大値
 	SetScrollInfo(m_hWnd, SB_VERT, &m_ScrollInfo, TRUE);	// SetScrollInfoでセット.(SetImageのInvalidateRectと第4引数のTRUEがないとスクロールバーつまみが即座に更新されない.)
+#endif
 
   	// 描画終了.
 	EndPaint(m_hWnd, &ps);	// EndPaintで描画終了.
@@ -190,7 +198,17 @@ void CWindowListControl::OnSize(UINT nType, int cx, int cy){
 	// 親ウィンドウの既定処理.
 	CUserControl::OnSize(nType, cx, cy);	// CUserControl::OnSizeを呼ぶ.
 
+	// ウィンドウリストアイテムズパネルの幅はウィンドウリストコントロールの幅にぴったり合わせる.
+	if (m_pWindowListItemsPanel != NULL){	// NULLでなければ.
+		MoveWindow(m_pWindowListItemsPanel->m_hWnd, m_pWindowListItemsPanel->m_x, m_pWindowListItemsPanel->m_y, cx, m_pWindowListItemsPanel->m_iHeight, TRUE);	// MoveWindowでm_pWindowListControl->m_hWndのサイズを幅だけ変更.
+	}
+
+	// 画面更新.
+	InvalidateRect(m_hWnd, NULL, TRUE);	// InvalidateRectで更新.
+
+#if 1
 	// スクロールバー設定.
+#if 0
 	// 水平方向.
 	ZeroMemory(&m_ScrollInfo, sizeof(SCROLLINFO));	// ZeroMemoryでm_ScrollInfoをクリア.
 	m_ScrollInfo.cbSize = sizeof(SCROLLINFO);	// サイズ
@@ -199,6 +217,7 @@ void CWindowListControl::OnSize(UINT nType, int cx, int cy){
 	m_ScrollInfo.nMin = 0;	// 最小値
 	m_ScrollInfo.nMax = m_pWindowListItemsPanel->m_iWidth;	//最大値
 	SetScrollInfo(m_hWnd, SB_HORZ, &m_ScrollInfo, TRUE);	// SetScrollInfoでセット.(SetImageのInvalidateRectと第4引数のTRUEがないとスクロールバーつまみが即座に更新されない.)
+#endif
 	// 垂直方向.
 	ZeroMemory(&m_ScrollInfo, sizeof(SCROLLINFO));	// ZeroMemoryでm_ScrollInfoをクリア.
 	m_ScrollInfo.cbSize = sizeof(SCROLLINFO);	// サイズ
@@ -207,6 +226,7 @@ void CWindowListControl::OnSize(UINT nType, int cx, int cy){
 	m_ScrollInfo.nMin = 0;	// 最小値
 	m_ScrollInfo.nMax = m_pWindowListItemsPanel->m_iHeight;	//最大値
 	SetScrollInfo(m_hWnd, SB_VERT, &m_ScrollInfo, TRUE);	// SetScrollInfoでセット.(SetImageのInvalidateRectと第4引数のTRUEがないとスクロールバーつまみが即座に更新されない.)
+#endif
 
 }
 
