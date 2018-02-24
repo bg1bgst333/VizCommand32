@@ -65,8 +65,17 @@ void CWindowListItem::Destroy(){
 // ウィンドウの作成が開始された時.
 int CWindowListItem::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct){
 
-	// 常にウィンドウ作成に成功するものとする.
-	return 0;	// 0を返すと, ウィンドウ作成に成功したということになる.
+	// 親のOnCreateを呼ぶ.
+	int iResult = CUserControl::OnCreate(hwnd, lpCreateStruct);	// CUserControl::OnCreateを返す.
+
+	// アイテムズパネルに高さを修正するように要求.
+	// UM_SIZECHILDで子ウィンドウのサイズに合わせる.
+	WPARAM wParam;	// WPARAM型wParam.
+	wParam = MAKEWPARAM(m_iWidth, m_iHeight);	// MAKEWPARAMでwParamをセット.
+	PostMessage(GetParent(hwnd), UM_SIZECHILD, wParam, (LPARAM)hwnd);	// SendMessageでUM_SIZECHILDを送信.
+
+	// iResultを返す.
+	return iResult;	// returnでiResultを返す.
 
 }
 

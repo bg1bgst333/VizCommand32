@@ -8,6 +8,7 @@ CWindowListItemsPanel::CWindowListItemsPanel() : CUserControl(){
 	// メンバの初期化.
 	m_vecWindowListItem.clear();	// m_vecWindowListItem.clearでクリア.
 	m_nNextId = 0;	// m_nNextIdを0で初期化.
+	m_iTotalHeight = 0;	// m_iTotalHeightを0で初期化.
 
 }
 
@@ -66,6 +67,18 @@ void CWindowListItemsPanel::Add(LPCTSTR lpctszWindowName, int x, int y, int iWid
 
 }
 
+// アイテムを末尾から追加する関数Add.
+void CWindowListItemsPanel::Add(LPCTSTR lpctszWindowName, int iHeight, HINSTANCE hInstance){
+
+	// ウィンドウリストアイテムの追加.
+	CWindowListItem *pWindowListItem = new CWindowListItem();	// CWindowListItemオブジェクトを生成し, ポインタをpWindowListItemに格納.
+	pWindowListItem->Create(lpctszWindowName, WS_CHILD | WS_VISIBLE, 0, m_iTotalHeight, m_iClientAreaWidth, iHeight, m_hWnd, (HMENU)(WINDOW_LIST_ITEM_ID_START + m_nNextId), hInstance);	// pWindowListItem->Createでアイテム作成.
+	m_vecWindowListItem.push_back(pWindowListItem);	// m_vecWindowListItem.push_backで末尾に追加.
+	m_iTotalHeight += iHeight;	// m_iTotalHeightにiHeightを足す.
+	m_nNextId++;	// m_nNextIdをインクリメント.
+
+}
+
 // アイテムを末尾から削除する関数Remove.
 void CWindowListItemsPanel::Remove(){
 
@@ -107,8 +120,8 @@ size_t CWindowListItemsPanel::GetSize(){
 // ウィンドウの作成が開始された時.
 int CWindowListItemsPanel::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct){
 
-	// 常にウィンドウ作成に成功するものとする.
-	return 0;	// 0を返すと, ウィンドウ作成に成功したということになる.
+	// 親のOnCreateを呼ぶ.
+	return CUserControl::OnCreate(hwnd, lpCreateStruct);
 
 }
 
@@ -189,5 +202,8 @@ void CWindowListItemsPanel::OnSizeChild(WPARAM wParam, LPARAM lParam){
 	if (m_iHeight < h){	// hが大きい.
 		MoveWindow(m_hWnd, m_x, m_y, m_iWidth, h, TRUE);	// MoveWindowで縦をhの大きさに拡大.
 	}
+
+	// アイテムの幅はアイテムズパネルに合わせる.
+	MoveWindow(pWindow->m_hWnd, pWindow->m_x, pWindow->m_y, m_iClientAreaWidth, pWindow->m_iClientAreaHeight, TRUE);	// MoveWindowで横につける.
 
 }

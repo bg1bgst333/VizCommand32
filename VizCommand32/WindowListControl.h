@@ -21,7 +21,7 @@ class CWindowListControl : public CUserControl{
 		int m_iHScrollPos;	// スクロールバーの水平方向の位置m_iHScrollPos
 		int m_iVScrollPos;	// スクロールバーの垂直方向の位置m_iVScrollPos
 		SCROLLINFO m_ScrollInfo;	// スクロール情報m_ScrollInfo.
-
+		
 		// publicメンバ関数
 		// コンストラクタ・デストラクタ
 		CWindowListControl();	// コンストラクタCWindowListControl
@@ -33,6 +33,7 @@ class CWindowListControl : public CUserControl{
 		virtual BOOL Create(LPCTSTR lpctszWindowName, DWORD dwStyle, int x, int y, int iWidth, int iHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance);	// ウィンドウ作成関数Create.
 		virtual void Destroy();	// ウィンドウの破棄と終了処理関数Destroy.
 		virtual void Add(LPCTSTR lpctszWindowName, int x, int y, int iWidth, int iHeight, HINSTANCE hInstance);	// アイテムを末尾から追加する関数Add.
+		virtual void Add(LPCTSTR lpctszWindowName, int iHeight, HINSTANCE hInstance);	// アイテムを末尾から追加する関数Add.
 		virtual void Remove();	// アイテムを末尾から削除する関数Remove.
 		virtual CWindowListItem * Get(int iIndex);	// アイテムを取得する関数Get.
 		virtual void RemoveAll();	// 全てのアイテムを削除する関数RemoveAll.

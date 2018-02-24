@@ -21,6 +21,7 @@ class CWindowListItemsPanel : public CUserControl{
 		// publicメンバ変数
 		std::vector<CWindowListItem *> m_vecWindowListItem;	// ウィンドウリストアイテムリストm_vecWindowListItem.
 		int m_nNextId;	// ウィンドウリストアイテムの次期払い出しリソースID m_nNextId.
+		int m_iTotalHeight;	// ウィンドウリスト全体の高さ.
 
 		// publicメンバ関数
 		// コンストラクタ・デストラクタ
@@ -33,6 +34,7 @@ class CWindowListItemsPanel : public CUserControl{
 		virtual BOOL Create(LPCTSTR lpctszWindowName, DWORD dwStyle, int x, int y, int iWidth, int iHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance);	// ウィンドウ作成関数Create.
 		virtual void Destroy();	// ウィンドウの破棄と終了処理関数Destroy.
 		virtual void Add(LPCTSTR lpctszWindowName, int x, int y, int iWidth, int iHeight, HINSTANCE hInstance);	// アイテムを末尾から追加する関数Add.
+		virtual void Add(LPCTSTR lpctszWindowName, int iHeight, HINSTANCE hInstance);	// アイテムを末尾から追加する関数Add.
 		virtual void Remove();	// アイテムを末尾から削除する関数Remove.
 		virtual CWindowListItem * Get(int iIndex);	// アイテムを取得する関数Get.
 		virtual void RemoveAll();	// 全てのアイテムを削除する関数RemoveAll.
