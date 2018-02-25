@@ -233,6 +233,46 @@ BOOL CWindow::ShowWindow(int nCmdShow){
 
 }
 
+// テキストセット関数SetText.
+void CWindow::SetText(LPCTSTR lpctszText){
+
+	// テキストのセット.
+	SetWindowText(m_hWnd, lpctszText);	// SetWindowTextでlpctszTextのセット.
+
+}
+
+// テキストの長さ取得関数GetTextLength.
+int CWindow::GetTextLength(){
+
+	// テキストの長さを取得し, それを返す.
+	return GetWindowTextLength(m_hWnd);	// GetWindowTextLengthでテキストの長さを取得し, それをそのまま返す.
+
+}
+
+// テキスト取得関数GetText.
+tstring CWindow::GetText(){
+
+	// テキストの長さを返す.
+	int iLen = GetTextLength();	// GetTextLengthでテキストの長さを取得し, iLenに格納.
+
+	// バッファの確保.
+	TCHAR *ptszBuf = new TCHAR[iLen + 1];	// iLen + 1の長さのTCHAR動的配列を確保.
+	ZeroMemory(ptszBuf, (sizeof(TCHAR) * (iLen + 1)));	// ptszBufを0で埋める.
+
+	// テキストの取得.
+	GetWindowText(m_hWnd, ptszBuf, iLen + 1);	// GetWindowTextでテキストを取得し, ptszBufに格納.
+
+	// テキストをtstringに移す.
+	tstring tstrText = ptszBuf;	// tstrTextをptszBufで初期化.
+
+	// バッファの解放.
+	delete [] ptszBuf;	// delete[]でptszBufを解放.
+
+	// テキストを返す.
+	return tstrText;	// tstrTextを返す.
+
+}
+
 // コマンドハンドラの追加.
 void CWindow::AddCommandHandler(UINT nID, UINT nCode, int(CWindow:: * handler)(WPARAM wParam, LPARAM lParam)){
 

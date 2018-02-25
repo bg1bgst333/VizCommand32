@@ -113,6 +113,9 @@ void CWindowListItem::OnPaint(){
 	// 矩形描画.
 	Rectangle(hDC, 0, 0, m_iClientAreaWidth, m_iClientAreaHeight);	// Rectangleで矩形を描画.
 	
+	// ウィンドウ名の表示.
+	TextOut(hDC, 0, 0, GetText().c_str(), GetTextLength());	// TextOutでウィンドウ名を描画.
+
 	// ペンとブラシの復元
 	SelectObject(hDC, hOldBrush);		// 古いブラシを選択.
 	SelectObject(hDC, hOldPen);		// 古いペンを選択.

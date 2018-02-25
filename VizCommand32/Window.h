@@ -58,6 +58,9 @@ class CWindow{
 		virtual BOOL Create(LPCTSTR lpctszClassName, LPCTSTR lpctszWindowName, DWORD dwStyle, int x, int y, int iWidth, int iHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance);	// ウィンドウ作成関数Create.
 		virtual void Destroy();	// ウィンドウの破棄と終了処理関数Destroy.
 		virtual BOOL ShowWindow(int nCmdShow);	// ウィンドウ表示関数ShowWindow.
+		virtual void SetText(LPCTSTR lpctszText);	// テキストセット関数SetText.
+		virtual int GetTextLength();	// テキストの長さ取得関数GetTextLength.
+		virtual tstring GetText();	// テキスト取得関数GetText.
 		virtual void AddCommandHandler(UINT nID, UINT nCode, int(CWindow:: * handler)(WPARAM wParam, LPARAM lParam));	// コマンドハンドラの追加.
 		virtual void DeleteCommandHandler(UINT nID, UINT nCode);	// コマンドハンドラの削除.
 		virtual LRESULT DynamicWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);	// ダイナミックウィンドウプロシージャDynamicWindowProc.

@@ -85,9 +85,9 @@ int CMainWindow::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct){
 #endif
 
 	// ウィンドウリストアイテムの追加.
-	m_pWindowListControl->Add(_T("Item0"), 120, lpCreateStruct->hInstance);	// m_pWindowListControl->Addで"Item0"を追加.
-	m_pWindowListControl->Add(_T("Item1"), 240, lpCreateStruct->hInstance);	// m_pWindowListControl->Addで"Item1"を追加.
-	m_pWindowListControl->Add(_T("Item2"), 360, lpCreateStruct->hInstance);	// m_pWindowListControl->Addで"Item2"を追加.
+	m_pWindowListControl->Add(_T("Item0"), 80, lpCreateStruct->hInstance);	// m_pWindowListControl->Addで"Item0"を追加.
+	m_pWindowListControl->Add(_T("Item1"), 80, lpCreateStruct->hInstance);	// m_pWindowListControl->Addで"Item1"を追加.
+	m_pWindowListControl->Add(_T("Item2"), 80, lpCreateStruct->hInstance);	// m_pWindowListControl->Addで"Item2"を追加.
 
 #if 0
 	// エディットコントロールの生成.
