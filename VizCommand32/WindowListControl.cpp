@@ -79,6 +79,16 @@ void CWindowListControl::Add(LPCTSTR lpctszWindowName, int iHeight, HINSTANCE hI
 
 }
 
+// アイテムを指定の場所に挿入する関数Insert.
+void CWindowListControl::Insert(int iIndex, LPCTSTR lpctszWindowName, int iHeight, HINSTANCE hInstance){
+
+	// アイテムズパネルに追加.
+	if (m_pWindowListItemsPanel != NULL){	// m_pWindowListItemsPanelがNULLでなければ.
+		m_pWindowListItemsPanel->Insert(iIndex, lpctszWindowName, iHeight, hInstance);	// m_pWindowListItemsPanel->InsertでiIndex番目に挿入.
+	}
+
+}
+
 // アイテムを末尾から削除する関数Remove.
 void CWindowListControl::Remove(){
 

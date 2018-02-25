@@ -333,6 +333,20 @@ LRESULT CWindow::DynamicWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			// 既定の処理へ向かう.
 			break;	// breakで抜けて, 既定の処理(DefWindowProc)へ向かう.
 
+		// ウィンドウが移動したとき.
+		case WM_MOVE:
+
+			// WM_MOVEブロック
+			{
+
+				// OnMoveに任せる.
+				OnMove(LOWORD(lParam), HIWORD(lParam));	// OnMoveを呼ぶ.
+
+			}
+
+			// 既定の処理へ向かう.
+			break;	// breakで抜けて, 既定の処理(DefWindowProc)へ向かう.
+
 		// ウィンドウのサイズが変更された時.
 		case WM_SIZE:
 
@@ -472,6 +486,15 @@ void CWindow::OnDestroy(){
 
 	// ウィンドウの終了処理.
 	//Destroy();	// Destroyでこのウィンドウの終了処理をする.
+
+}
+
+// ウィンドウが移動した時.
+void CWindow::OnMove(int x, int y){
+
+	// 座標のセット.
+	m_x = x;	// m_xにxをセット.
+	m_y = y;	// m_yにyをセット.
 
 }
 
