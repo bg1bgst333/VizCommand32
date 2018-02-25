@@ -178,6 +178,11 @@ void CWindowListItemsPanel::OnSize(UINT nType, int cx, int cy){
 	// 親ウィンドウの既定処理.
 	CUserControl::OnSize(nType, cx, cy);	// CUserControl::OnSizeを呼ぶ.
 
+	// 各ウィンドウリストアイテムの幅を右に合わせる.
+	for (std::vector<CWindowListItem *>::iterator itor = m_vecWindowListItem.begin(); itor != m_vecWindowListItem.end(); itor++){	// m_vecWindowListItemの要素分繰り返す.
+		MoveWindow((*itor)->m_hWnd, (*itor)->m_x, (*itor)->m_y, cx, (*itor)->m_iHeight, TRUE);	// 幅だけcxにする.
+	}
+
 }
 
 // 子から親へウィンドウサイズ変更の要求が発生した時.
