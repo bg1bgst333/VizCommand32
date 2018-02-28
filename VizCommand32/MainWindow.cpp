@@ -90,7 +90,8 @@ int CMainWindow::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct){
 	m_pWindowListControl->Add(_T("Item2"), 80, lpCreateStruct->hInstance);	// m_pWindowListControl->Addで"Item2"を追加.
 	m_pWindowListControl->Insert(0, _T("Item-1"), 80, lpCreateStruct->hInstance);	// m_pWindowListControl->Insertで0番目に"Item-1"を挿入.
 	m_pWindowListControl->Insert(1, _T("Item-0.5"), 80, lpCreateStruct->hInstance);	// m_pWindowListControl->Insertで1番目に"Item-0.5"を挿入.
-	m_pWindowListControl->Insert(4, _T("Item1.5"), 80, lpCreateStruct->hInstance);	// m_pWindowListControl->Insertで4番目に"Item1.5"を挿入.
+	m_pWindowListControl->Insert(5, _T("Item3"), 80, lpCreateStruct->hInstance);	// m_pWindowListControl->Insertで2番目に"Item3"を挿入.
+
 #if 0
 	// エディットコントロールの生成.
 	// エディット0.
