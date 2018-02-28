@@ -82,6 +82,49 @@ void CWindowListItemsPanel::Add(LPCTSTR lpctszWindowName, int iHeight, HINSTANCE
 // アイテムを指定の場所に挿入する関数Insert.
 void CWindowListItemsPanel::Insert(int iIndex, LPCTSTR lpctszWindowName, int iHeight, HINSTANCE hInstance){
 
+	// iIndexの値とm_vecWindowListItemの要素数で振り分ける.
+	int iIdx = 0;	// int型iIdxを0で初期化.
+	int iInsertPosY;	// int型iInsertPosYを0で初期化.
+	if (m_vecWindowListItem.size() == 0){	// 要素数が0.
+		iIdx = 0;	// iIdxを0とする.
+		iInsertPosY = 0;	// iInsertPosYを0として一番上に配置.
+	}
+	else{	// 要素数が1以上.
+		if (iIndex < 0){	// インデックスが負の数.
+			iIdx = 0;	// iIdxを0とする.
+			iInsertPosY = 0;	// iInsertPosYを0として一番上に配置.
+		}
+		else if (iIndex >= m_vecWindowListItem.size()){	// インデックスが要素数以上.
+			iIdx = m_vecWindowListItem.size();	// iIdxをm_vecWindowListItem.sizeの値とする.
+			iInsertPosY = m_iTotalHeight;	// iInsertPosYはm_iTotalHeight.
+		}
+		else{
+			iIdx = iIndex;	// iIndexの値を代入.
+			iInsertPosY = m_vecWindowListItem[iIdx]->m_y;	// 現在のiIdx番目のY座標.
+		}
+	}
+
+	// オブジェクト作成.
+	CWindowListItem *pWindowListItem = new CWindowListItem();	// CWindowListItemオブジェクトを生成し, ポインタをpWindowListItemに格納.
+	
+	// ウィンドウ作成.
+	pWindowListItem->Create(lpctszWindowName, WS_CHILD | WS_VISIBLE, 0, iInsertPosY, m_iClientAreaWidth, iHeight, m_hWnd, (HMENU)(WINDOW_LIST_ITEM_ID_START + m_nNextId), hInstance);	// pWindowListItem->Createでアイテム作成.
+
+	// ベクタ挿入.
+	m_vecWindowListItem.insert(m_vecWindowListItem.begin() + iIdx, pWindowListItem);	// m_vecWindowListItem.insertでiIdx番目にpWindowListItemを追加.
+
+	// 下の要素をずらす.
+	if (iIdx != m_vecWindowListItem.size()){	// 末尾ではない時.
+		for (std::vector<CWindowListItem *>::iterator itor = m_vecWindowListItem.begin() + iIdx + 1; itor != m_vecWindowListItem.end(); itor++){	// m_vecWindowListItemのiIdx + 1番目から最後まで繰り返す.
+			MoveWindow((*itor)->m_hWnd, (*itor)->m_x, (*itor)->m_y + iHeight, (*itor)->m_iWidth, (*itor)->m_iHeight, TRUE);	// MoveWindowでiHeight分ずらす.
+		}
+	}
+
+	// 次への準備.
+	m_iTotalHeight += iHeight;	// m_iTotalHeightにiHeightを足す.
+	m_nNextId++;	// m_nNextIdをインクリメント.
+
+#if 0
 	// iIndexの値で動作を振り分ける.
 	if (iIndex == 0){	// 0の場合.
 		CWindowListItem *pWindowListItem = new CWindowListItem();	// CWindowListItemオブジェクトを生成し, ポインタをpWindowListItemに格納.
@@ -104,8 +147,7 @@ void CWindowListItemsPanel::Insert(int iIndex, LPCTSTR lpctszWindowName, int iHe
 			MoveWindow((*itor)->m_hWnd, (*itor)->m_x, (*itor)->m_y + iHeight, (*itor)->m_iWidth, (*itor)->m_iHeight, TRUE);	// MoveWindowでiHeight分ずらす.
 		}
 	}
-	m_iTotalHeight += iHeight;	// m_iTotalHeightにiHeightを足す.
-	m_nNextId++;	// m_nNextIdをインクリメント.
+#endif
 
 }
 
