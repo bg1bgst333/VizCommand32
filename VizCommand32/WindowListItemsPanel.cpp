@@ -91,6 +91,17 @@ void CWindowListItemsPanel::Insert(int iIndex, LPCTSTR lpctszWindowName, int iHe
 			MoveWindow((*itor)->m_hWnd, (*itor)->m_x, (*itor)->m_y + iHeight, (*itor)->m_iWidth, (*itor)->m_iHeight, TRUE);	// MoveWindowでiHeight分ずらす.
 		}
 	}
+	else if (iIndex == m_vecWindowListItem.size()){	// ベクタの要素数と同じ場合.(つまり一番最後.)
+
+	}
+	else{	// 0と要素数の間の場合.
+		CWindowListItem *pWindowListItem = new CWindowListItem();	// CWindowListItemオブジェクトを生成し, ポインタをpWindowListItemに格納.
+		pWindowListItem->Create(lpctszWindowName, WS_CHILD | WS_VISIBLE, 0, m_vecWindowListItem[iIndex]->m_y, m_iClientAreaWidth, iHeight, m_hWnd, (HMENU)(WINDOW_LIST_ITEM_ID_START + m_nNextId), hInstance);	// pWindowListItem->Createでアイテム作成.(挿入位置はm_vecWindowListItem[iIndex]->m_y.)
+		m_vecWindowListItem.insert(m_vecWindowListItem.begin() + iIndex, pWindowListItem);	// m_vecWindowListItem.insertでiIndex番目にpWindowListItemを追加.
+		for (std::vector<CWindowListItem *>::iterator itor = m_vecWindowListItem.begin() + iIndex + 1; itor != m_vecWindowListItem.end(); itor++){	// m_vecWindowListItemのiIndex + 1番目から最後まで繰り返す.
+			MoveWindow((*itor)->m_hWnd, (*itor)->m_x, (*itor)->m_y + iHeight, (*itor)->m_iWidth, (*itor)->m_iHeight, TRUE);	// MoveWindowでiHeight分ずらす.
+		}
+	}
 	m_iTotalHeight += iHeight;	// m_iTotalHeightにiHeightを足す.
 	m_nNextId++;	// m_nNextIdをインクリメント.
 
