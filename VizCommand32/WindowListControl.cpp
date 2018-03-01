@@ -99,6 +99,16 @@ void CWindowListControl::Remove(){
 
 }
 
+// 指定の場所のアイテムを削除する関数Delete.
+void CWindowListControl::Delete(int iIndex){
+
+	// アイテムズパネルから削除.
+	if (m_pWindowListItemsPanel != NULL){	// m_pWindowListItemsPanelがNULLでなければ.
+		m_pWindowListItemsPanel->Delete(iIndex);	// DeleteでiIndex番目を削除.
+	}
+
+}
+
 // アイテムを取得する関数Get.
 CWindowListItem * CWindowListControl::Get(int iIndex){
 

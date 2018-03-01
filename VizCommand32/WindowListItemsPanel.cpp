@@ -162,6 +162,41 @@ void CWindowListItemsPanel::Remove(){
 
 }
 
+// 指定の場所のアイテムを削除する関数Delete.
+void CWindowListItemsPanel::Delete(int iIndex){
+
+	// iIndexの値とm_vecWindowListItemの要素数で振り分ける.
+	int iIdx = 0;	// int型iIdxを0で初期化.
+	if (m_vecWindowListItem.size() == 0){	// 要素数が0なら.
+		return;	// ここで終了.
+	}
+	else if (iIndex < 0){	// iIndexが負の値.
+		iIdx = 0;	// iIdxを0とする.
+	}
+	else if (iIndex > m_vecWindowListItem.size() - 1){	// iIndexが要素番号を超える.
+		iIdx = m_vecWindowListItem.size() - 1;	// iIdxを最後の要素番号とする.
+	}
+	else{	// それ以外.
+		iIdx = iIndex;	// iIdxをiIndexの値とする.
+	}
+
+	// ベクタから削除.
+	int iHeight = 0;	// ずらす高さ.
+	std::vector<CWindowListItem *>::iterator itor = m_vecWindowListItem.begin() + iIdx;	// itorはiIdx番目.
+	if ((*itor) != NULL){	// NULLでない時.
+		iHeight = (*itor)->m_iHeight;	// iHeightにm_iHeightをセット.
+		(*itor)->Destroy();	// (*itor)->Destroyで破棄.
+		delete (*itor);	// deleteで(*itor)を削除.
+		(*itor) = NULL;	// NULLをセット.
+		m_vecWindowListItem.erase(itor);	// itorの指す要素を削除.
+		// アイテムをずらす.
+		for (std::vector<CWindowListItem *>::iterator itor2 = m_vecWindowListItem.begin() + iIdx; itor2 != m_vecWindowListItem.end(); itor2++){	// 新しいiIdx番目から最後まで繰り返す.
+			MoveWindow((*itor2)->m_hWnd, (*itor2)->m_x, (*itor2)->m_y - iHeight, (*itor2)->m_iWidth, (*itor2)->m_iHeight, TRUE);	// MoveWindowで上にずらす.
+		}
+	}
+
+}
+
 // アイテムを取得する関数Get.
 CWindowListItem * CWindowListItemsPanel::Get(int iIndex){
 

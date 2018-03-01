@@ -97,6 +97,13 @@ int CMainWindow::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct){
 	m_pWindowListControl->Insert(1, _T("Item-1"), 80, lpCreateStruct->hInstance);	// m_pWindowListControl->Insertで"Item-1"を追加.
 	m_pWindowListControl->Insert(3, _T("Item3"), 80, lpCreateStruct->hInstance);	// m_pWindowListControl->Insertで"Item3"を追加.
 
+	// ウィンドウリストアイテムの削除.
+	m_pWindowListControl->Delete(3);	// m_pWindowListControl->Deleteで3番目削除.
+	m_pWindowListControl->Delete(1);	// m_pWindowListControl->Deleteで1番目削除.
+	m_pWindowListControl->Delete(10);	// m_pWindowListControl->Deleteで10番目削除.
+	//m_pWindowListControl->Delete(3);	// m_pWindowListControl->Deleteで3番目削除.
+	//m_pWindowListControl->Delete(-4);	// m_pWindowListControl->Deleteで-4番目削除.
+
 #if 0
 	// エディットコントロールの生成.
 	// エディット0.

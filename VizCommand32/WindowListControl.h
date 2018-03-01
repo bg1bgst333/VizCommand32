@@ -36,6 +36,7 @@ class CWindowListControl : public CUserControl{
 		virtual void Add(LPCTSTR lpctszWindowName, int iHeight, HINSTANCE hInstance);	// アイテムを末尾から追加する関数Add.
 		virtual void Insert(int iIndex, LPCTSTR lpctszWindowName, int iHeight, HINSTANCE hInstance);	// アイテムを指定の場所に挿入する関数Insert.
 		virtual void Remove();	// アイテムを末尾から削除する関数Remove.
+		virtual void Delete(int iIndex);	// 指定の場所のアイテムを削除する関数Delete.
 		virtual CWindowListItem * Get(int iIndex);	// アイテムを取得する関数Get.
 		virtual void RemoveAll();	// 全てのアイテムを削除する関数RemoveAll.
 		virtual int OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct);	// ウィンドウの作成が開始された時.
