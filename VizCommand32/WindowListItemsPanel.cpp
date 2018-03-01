@@ -124,6 +124,10 @@ void CWindowListItemsPanel::Insert(int iIndex, LPCTSTR lpctszWindowName, int iHe
 	m_iTotalHeight += iHeight;	// m_iTotalHeightにiHeightを足す.
 	m_nNextId++;	// m_nNextIdをインクリメント.
 
+	// サイズ変更.
+	if (m_hWnd != NULL){	// m_hWndがNULLでない時.
+		MoveWindow(m_hWnd, m_x, m_y, m_iWidth, m_iTotalHeight, TRUE);	// MoveWindowでアイテムズパネルを拡大.
+	}
 #if 0
 	// iIndexの値で動作を振り分ける.
 	if (iIndex == 0){	// 0の場合.
@@ -192,6 +196,12 @@ void CWindowListItemsPanel::Delete(int iIndex){
 		// アイテムをずらす.
 		for (std::vector<CWindowListItem *>::iterator itor2 = m_vecWindowListItem.begin() + iIdx; itor2 != m_vecWindowListItem.end(); itor2++){	// 新しいiIdx番目から最後まで繰り返す.
 			MoveWindow((*itor2)->m_hWnd, (*itor2)->m_x, (*itor2)->m_y - iHeight, (*itor2)->m_iWidth, (*itor2)->m_iHeight, TRUE);	// MoveWindowで上にずらす.
+		}
+		// 次への準備.
+		m_iTotalHeight -= iHeight;	// m_iTotalHeightからiHeightを引く.
+		// サイズ変更.
+		if (m_hWnd != NULL){	// m_hWndがNULLでない時.
+			MoveWindow(m_hWnd, m_x, m_y, m_iWidth, m_iTotalHeight, TRUE);	// MoveWindowでアイテムズパネルを拡大.
 		}
 	}
 

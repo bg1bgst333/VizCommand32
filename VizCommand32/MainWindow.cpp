@@ -72,7 +72,7 @@ int CMainWindow::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct){
 	m_pWindowListControl = new CWindowListControl();	// CWindowListControlオブジェクトの作成.
 
 	// ウィンドウリストコントロールのウィンドウ作成.
-	m_pWindowListControl->Create(_T(""), 0, 0, 0, 480, 10, hwnd, (HMENU)(WM_APP + 1), lpCreateStruct->hInstance);	// m_pWindowListControl->Createで作成.
+	m_pWindowListControl->Create(_T(""), 0, 0, 0, 480, 0, hwnd, (HMENU)(WM_APP + 1), lpCreateStruct->hInstance);	// m_pWindowListControl->Createで作成.
 
 #if 0
 	// ウィンドウリストアイテムの追加.
@@ -91,18 +91,21 @@ int CMainWindow::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct){
 	//m_pWindowListControl->Insert(0, _T("Item-1"), 80, lpCreateStruct->hInstance);	// m_pWindowListControl->Insertで0番目に"Item-1"を挿入.
 	//m_pWindowListControl->Insert(1, _T("Item-0.5"), 80, lpCreateStruct->hInstance);	// m_pWindowListControl->Insertで1番目に"Item-0.5"を挿入.
 	//m_pWindowListControl->Insert(5, _T("Item3"), 80, lpCreateStruct->hInstance);	// m_pWindowListControl->Insertで2番目に"Item3"を挿入.
-	m_pWindowListControl->Insert(0, _T("Item0"), 80, lpCreateStruct->hInstance);	// m_pWindowListControl->Insertで"Item0"を追加.
-	m_pWindowListControl->Insert(-5, _T("Item-5"), 80, lpCreateStruct->hInstance);	// m_pWindowListControl->Insertで"Item-5"を追加.
-	m_pWindowListControl->Insert(5, _T("Item5"), 80, lpCreateStruct->hInstance);	// m_pWindowListControl->Insertで"Item5"を追加.
-	m_pWindowListControl->Insert(1, _T("Item-1"), 80, lpCreateStruct->hInstance);	// m_pWindowListControl->Insertで"Item-1"を追加.
-	m_pWindowListControl->Insert(3, _T("Item3"), 80, lpCreateStruct->hInstance);	// m_pWindowListControl->Insertで"Item3"を追加.
+	//m_pWindowListControl->Insert(0, _T("Item0"), 80, lpCreateStruct->hInstance);	// m_pWindowListControl->Insertで"Item0"を追加.
+	//m_pWindowListControl->Insert(-5, _T("Item-5"), 80, lpCreateStruct->hInstance);	// m_pWindowListControl->Insertで"Item-5"を追加.
+	//m_pWindowListControl->Insert(5, _T("Item5"), 80, lpCreateStruct->hInstance);	// m_pWindowListControl->Insertで"Item5"を追加.
+	//m_pWindowListControl->Insert(1, _T("Item-1"), 80, lpCreateStruct->hInstance);	// m_pWindowListControl->Insertで"Item-1"を追加.
+	//m_pWindowListControl->Insert(3, _T("Item3"), 80, lpCreateStruct->hInstance);	// m_pWindowListControl->Insertで"Item3"を追加.
 
 	// ウィンドウリストアイテムの削除.
-	m_pWindowListControl->Delete(3);	// m_pWindowListControl->Deleteで3番目削除.
-	m_pWindowListControl->Delete(1);	// m_pWindowListControl->Deleteで1番目削除.
-	m_pWindowListControl->Delete(10);	// m_pWindowListControl->Deleteで10番目削除.
+	//m_pWindowListControl->Delete(3);	// m_pWindowListControl->Deleteで3番目削除.
+	//m_pWindowListControl->Delete(1);	// m_pWindowListControl->Deleteで1番目削除.
+	//m_pWindowListControl->Delete(10);	// m_pWindowListControl->Deleteで10番目削除.
 	//m_pWindowListControl->Delete(3);	// m_pWindowListControl->Deleteで3番目削除.
 	//m_pWindowListControl->Delete(-4);	// m_pWindowListControl->Deleteで-4番目削除.
+
+	// 順次更新タイマーをセット.
+	SetTimer(hwnd, 2, 1000, NULL);	// SetTimerで更新タイマーをセット.(1000ミリ秒==1秒)
 
 #if 0
 	// エディットコントロールの生成.
@@ -149,6 +152,59 @@ void CMainWindow::OnSize(UINT nType, int cx, int cy){
 
 	// 画面更新.
 	InvalidateRect(m_hWnd, NULL, TRUE);	// InvalidateRectで更新.
+
+}
+
+// タイマーイベントが発生した時.
+void CMainWindow::OnTimer(UINT_PTR nIDEvent){
+
+	// スタティック変数の宣言.
+	static int iCount;	// static intの変数iCount.
+
+	// 初回更新タイマーの時.
+	HINSTANCE hInstance = (HINSTANCE)GetWindowLong(m_hWnd, GWL_HINSTANCE);
+	if (nIDEvent == 2){	// 2の時.
+		if (iCount == 0){
+			m_pWindowListControl->Insert(0, _T("Item1"), 80, hInstance);
+		}
+		else if (iCount == 1){
+			m_pWindowListControl->Insert(1, _T("Item3"), 80, hInstance);
+		}
+		else if (iCount == 2){
+			m_pWindowListControl->Insert(0, _T("Item0"), 80, hInstance);
+		}
+		else if (iCount == 3){
+			m_pWindowListControl->Insert(10, _T("Item4"), 80, hInstance);
+		}
+		else if (iCount == 4){
+			m_pWindowListControl->Insert(2, _T("Item2"), 80, hInstance);
+		}
+		else if (iCount == 5){
+			m_pWindowListControl->Delete(2);
+		}
+		else if (iCount == 6){
+			m_pWindowListControl->Delete(20);
+		}
+		else if (iCount == 7){
+			m_pWindowListControl->Delete(-10);
+		}
+		else if (iCount == 8){
+			m_pWindowListControl->Delete(0);
+		}
+		else if (iCount == 9){
+			m_pWindowListControl->Delete(0);
+		}
+		else{
+
+			// タイマーを終了.
+			KillTimer(m_hWnd, 2);	// 順次更新タイマーを終了.
+
+		}
+		iCount++;	// iCountをインクリメント.
+	}
+
+	// 無効領域を作成して画面の更新.
+	InvalidateRect(m_hWnd, NULL, TRUE);	// InvalidateRectで無効領域作成.
 
 }
 
