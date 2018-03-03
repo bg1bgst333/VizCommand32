@@ -340,7 +340,7 @@ LRESULT CWindow::DynamicWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			{
 
 				// OnMove‚É”C‚¹‚é.
-				OnMove(LOWORD(lParam), HIWORD(lParam));	// OnMove‚ðŒÄ‚Ô.
+				OnMove((signed short int)LOWORD(lParam), (signed short int)HIWORD(lParam));	// OnMove‚ðŒÄ‚Ô.
 
 			}
 

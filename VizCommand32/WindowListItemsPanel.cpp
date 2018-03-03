@@ -312,7 +312,8 @@ void CWindowListItemsPanel::OnSizeChild(WPARAM wParam, LPARAM lParam){
 
 	// ウィンドウマップからウィンドウオブジェクト取得.
 	CWindow *pWindow = m_mapWindowMap[hSrc];	// m_mapWindowMap[hSrc]からpWindowを取得.
-	
+
+#if 0	
 	// 右端, 下端を取得.
 	int w = pWindow->m_x + pWindow->m_iWidth;	// 取得したウィンドウの右端を取得.
 	int h = pWindow->m_y + pWindow->m_iHeight;	// 取得したウィンドウの下端を取得.
@@ -327,5 +328,31 @@ void CWindowListItemsPanel::OnSizeChild(WPARAM wParam, LPARAM lParam){
 
 	// アイテムの幅はアイテムズパネルに合わせる.
 	MoveWindow(pWindow->m_hWnd, pWindow->m_x, pWindow->m_y, m_iClientAreaWidth, pWindow->m_iClientAreaHeight, TRUE);	// MoveWindowで横につける.
+#endif
+
+	// 変更されたhSrcが何番目かを調べる.
+	BOOL bHit = FALSE;	// bHitをFALSEで初期化.
+	m_iTotalHeight = 0;	// m_iTotalHeightを0に初期化.
+	for (std::vector<CWindowListItem *>::iterator itor = m_vecWindowListItem.begin(); itor != m_vecWindowListItem.end(); itor++){	// m_vecWindowListItemの要素分繰り返す.
+		
+		// hSrcと等しいアイテムを探す.
+		m_iTotalHeight += (*itor)->m_iHeight;	// 高さを足す.
+		if ((*itor)->m_hWnd == hSrc){	// m_hWndとhSrcが等しい.
+			bHit = TRUE;	// bHitをTRUEにする.
+			continue;	// 次へ向かう.
+		}
+		if (bHit){	// bHit
+			MoveWindow((*itor)->m_hWnd, (*itor)->m_x, (*(itor - 1))->m_y + (*(itor - 1))->m_iHeight, (*itor)->m_iWidth, (*itor)->m_iHeight, TRUE);
+		}
+
+	}
+
+	// パネルのサイズ調整.
+	MoveWindow(m_hWnd, m_x, m_y, m_iWidth, m_iTotalHeight, TRUE);	// MoveWindowでサイズ調整.
+
+	// UM_SIZECHILDで子ウィンドウのサイズに合わせる.
+	WPARAM wp;	// WPARAM型wp.
+	wp = MAKEWPARAM(m_iWidth, m_iTotalHeight);	// MAKEWPARAMでwpをセット.
+	SendMessage(GetParent(m_hWnd), UM_SIZECHILD, wp, (LPARAM)m_hWnd);	// SendMessageでUM_SIZECHILDを送信.
 
 }

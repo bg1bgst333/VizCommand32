@@ -451,3 +451,17 @@ void CWindowListControl::OnVScroll(UINT nSBCode, UINT nPos){
 	InvalidateRect(m_hWnd, NULL, TRUE);	// InvalidateRectで無効領域作成.
 
 }
+
+// 子から親へウィンドウサイズ変更の要求が発生した時.
+void CWindowListControl::OnSizeChild(WPARAM wParam, LPARAM lParam){
+
+	// 垂直方向.
+	ZeroMemory(&m_ScrollInfo, sizeof(SCROLLINFO));	// ZeroMemoryでm_ScrollInfoをクリア.
+	m_ScrollInfo.cbSize = sizeof(SCROLLINFO);	// サイズ
+	m_ScrollInfo.fMask = SIF_PAGE | SIF_RANGE;	// フラグ
+	m_ScrollInfo.nPage = m_iClientAreaHeight;	// ページ高さ
+	m_ScrollInfo.nMin = 0;	// 最小値
+	m_ScrollInfo.nMax = m_pWindowListItemsPanel->m_iHeight;	//最大値
+	SetScrollInfo(m_hWnd, SB_VERT, &m_ScrollInfo, TRUE);	// SetScrollInfoでセット.(SetImageのInvalidateRectと第4引数のTRUEがないとスクロールバーつまみが即座に更新されない.)
+
+}

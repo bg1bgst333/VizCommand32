@@ -165,35 +165,42 @@ void CMainWindow::OnTimer(UINT_PTR nIDEvent){
 	HINSTANCE hInstance = (HINSTANCE)GetWindowLong(m_hWnd, GWL_HINSTANCE);
 	if (nIDEvent == 2){	// 2の時.
 		if (iCount == 0){
-			m_pWindowListControl->Insert(0, _T("Item1"), 80, hInstance);
-		}
-		else if (iCount == 1){
-			m_pWindowListControl->Insert(1, _T("Item3"), 80, hInstance);
-		}
-		else if (iCount == 2){
 			m_pWindowListControl->Insert(0, _T("Item0"), 80, hInstance);
 		}
-		else if (iCount == 3){
-			m_pWindowListControl->Insert(10, _T("Item4"), 80, hInstance);
+		else if (iCount == 1){
+			m_pWindowListControl->Insert(1, _T("Item1"), 80, hInstance);
 		}
-		else if (iCount == 4){
+		else if (iCount == 2){
 			m_pWindowListControl->Insert(2, _T("Item2"), 80, hInstance);
 		}
-		else if (iCount == 5){
-			m_pWindowListControl->Delete(2);
+		else if (iCount == 3){
+			m_pWindowListControl->Insert(3, _T("Item3"), 80, hInstance);
 		}
+		else if (iCount == 4){
+			m_pWindowListControl->Insert(4, _T("Item4"), 80, hInstance);
+		}
+		else if (iCount == 5){
+			//m_pWindowListControl->Delete(2);
+			CWindowListItem *pItem = m_pWindowListControl->Get(1);
+			MoveWindow(pItem->m_hWnd, pItem->m_x, pItem->m_y, pItem->m_iWidth, pItem->m_iHeight * 2.5, TRUE);
+			CWindowListItem *pItem2 = m_pWindowListControl->Get(3);
+			MoveWindow(pItem2->m_hWnd, pItem2->m_x, pItem2->m_y, pItem2->m_iWidth, pItem2->m_iHeight * 2.5, TRUE);
+			//InvalidateRect(this->m_pWindowListControl->m_hWnd, NULL, TRUE);
+		}
+		/*
 		else if (iCount == 6){
-			m_pWindowListControl->Delete(20);
+			//m_pWindowListControl->Delete(20);
 		}
 		else if (iCount == 7){
-			m_pWindowListControl->Delete(-10);
+			//m_pWindowListControl->Delete(-10);
 		}
 		else if (iCount == 8){
-			m_pWindowListControl->Delete(0);
+			//m_pWindowListControl->Delete(0);
 		}
 		else if (iCount == 9){
-			m_pWindowListControl->Delete(0);
+			//m_pWindowListControl->Delete(0);
 		}
+		?*/
 		else{
 
 			// タイマーを終了.
