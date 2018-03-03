@@ -170,6 +170,25 @@ LRESULT CCustomControl::DynamicWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, L
 			// DefWindowProcに任せる.
 			return DefWindowProc(hwnd, uMsg, wParam, lParam);	// 引数をDefWindowProcに渡し, 戻り値をそのまま返す.
 
+		// キーが押された時.
+		case WM_KEYDOWN:
+
+			// WM_KEYDOWNブロック
+			{
+
+				// OnKeyDownに任せる.
+				if (OnKeyDown(wParam, LOWORD(lParam), HIWORD(lParam)) == -1) {	// -1の時は入力をキャンセル.
+
+					// 入力キャンセル.
+					return 0;	// 0をここで返すと入力キャンセルとなる.
+
+				}
+
+			}
+
+			// 既定の処理へ向かう.
+			break;	// breakで抜けて, 既定の処理へ向かう.
+
 		// それ以外の時.
 		default:
 
@@ -215,6 +234,40 @@ void CCustomControl::OnDestroy(){
 	if (m_mapWindowMap.find(m_hWnd) != m_mapWindowMap.end()){	// findでみつかったら.
 		m_mapWindowMap.erase(m_hWnd);	// m_mapWindowMap.eraseで削除.
 	}
+
+}
+
+// ウィンドウが移動した時.
+void CCustomControl::OnMove(int x, int y){
+
+	// 座標のセット.
+	m_x = x;	// m_xにxをセット.
+	m_y = y;	// m_yにyをセット.
+
+}
+
+// ウィンドウのサイズが変更された時.
+void CCustomControl::OnSize(UINT nType, int cx, int cy){
+
+	// 生成されたウィンドウのサイズをメンバにセット.
+	RECT rc = {0};	// RECT型rcを{0}で初期化.
+	GetWindowRect(m_hWnd, &rc);	// GetWindowRectでm_hWndのサイズを取得.
+	//m_x = rc.left;	// m_xにrc.leftを代入.
+	//m_y = rc.top;	// m_yにrc.topを代入.
+	m_iWidth = rc.right - rc.left;	// m_iWidthはrc.rightからrc.leftを引く.
+	m_iHeight = rc.bottom - rc.top;	// m_iHeightはrc.bottomからrc.topを引く.
+
+	// クライアント領域のサイズをメンバ変数にセット.
+	m_iClientAreaWidth = cx;	// m_iClientAreaWidthにcxを代入.
+	m_iClientAreaHeight = cy;	// m_iClientAreaHeightにcyを代入.
+
+}
+
+// キーが押された時.
+int CCustomControl::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags){
+
+	// 成功なら0を返す.
+	return 0;	// returnで0を返す.
 
 }
 

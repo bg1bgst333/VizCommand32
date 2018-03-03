@@ -32,7 +32,7 @@ int CEdit::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct){
 	SendMessage(GetParent(hwnd), UM_SIZECHILD, wParam, (LPARAM)hwnd);	// SendMessageでUM_SIZECHILDを送信.
 
 	// 常にウィンドウ作成に成功するものとする.
-	return 0;	// 0を返すと, ウィンドウ作成に成功したということになる.
+	return CCustomControl::OnCreate(hwnd, lpCreateStruct);	// CCustomControl::OnCreateを呼ぶ.
 
 }
 

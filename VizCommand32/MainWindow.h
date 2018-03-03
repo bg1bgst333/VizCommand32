@@ -8,7 +8,7 @@
 // 独自のヘッダ
 #include "Window.h"	// CWindow
 #include "WindowListControl.h"	// CWindowListControl
-#include "Edit.h"	// CEdit
+#include "ScalableEdit.h"	// CScalableEdit
 
 // マクロの定義
 // UNICODE切り替え

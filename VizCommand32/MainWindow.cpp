@@ -148,6 +148,18 @@ void CMainWindow::OnSize(UINT nType, int cx, int cy){
 	// ウィンドウリストコントロールのサイズはウィンドウにぴったり合わせる.
 	if (m_pWindowListControl != NULL){	// NULLでなければ.
 		MoveWindow(m_pWindowListControl->m_hWnd, m_pWindowListControl->m_x, m_pWindowListControl->m_y, cx, cy, TRUE);	// MoveWindowでm_pWindowListControl->m_hWndのサイズを変更.
+		if (m_pWindowListControl->m_pWindowListItemsPanel->m_vecWindowListItem.size() == 5){
+			CWindowListItem *pItem1 = m_pWindowListControl->Get(1);
+			if (pItem1 != NULL){
+				CWindow *pSE1 = pItem1->m_mapChildMap[_T("SE1")];
+				MoveWindow(pSE1->m_hWnd, pSE1->m_x, pSE1->m_y, m_iClientAreaWidth, pSE1->m_iHeight, NULL); 
+			}
+			CWindowListItem *pItem3 = m_pWindowListControl->Get(3);
+			if (pItem3 != NULL){
+				CWindow *pSE3 = pItem3->m_mapChildMap[_T("SE3")];
+				MoveWindow(pSE3->m_hWnd, pSE3->m_x, pSE3->m_y, m_iClientAreaWidth, pSE3->m_iHeight, NULL); 
+			}
+		}
 	}
 
 	// 画面更新.
@@ -181,12 +193,25 @@ void CMainWindow::OnTimer(UINT_PTR nIDEvent){
 		}
 		else if (iCount == 5){
 			//m_pWindowListControl->Delete(2);
-			CWindowListItem *pItem = m_pWindowListControl->Get(1);
-			MoveWindow(pItem->m_hWnd, pItem->m_x, pItem->m_y, pItem->m_iWidth, pItem->m_iHeight * 2.5, TRUE);
-			CWindowListItem *pItem2 = m_pWindowListControl->Get(3);
-			MoveWindow(pItem2->m_hWnd, pItem2->m_x, pItem2->m_y, pItem2->m_iWidth, pItem2->m_iHeight * 2.5, TRUE);
+			// Item1.
+			CWindowListItem *pItem1 = m_pWindowListControl->Get(1);
+			MoveWindow(pItem1->m_hWnd, pItem1->m_x, pItem1->m_y, pItem1->m_iWidth, pItem1->m_iHeight * 2.5, TRUE);
+			// SE1.
+			CScalableEdit *pSE1 = new CScalableEdit();	// CScalableEditオブジェクトを生成.
+			pSE1->Create(_T("SE1"), ES_MULTILINE | ES_WANTRETURN | ES_AUTOHSCROLL | ES_AUTOVSCROLL, 0, 0, m_iClientAreaWidth, 5, pItem1->m_hWnd, (HMENU)WM_APP + 200, hInstance);	// m_pSE1->CreateでpItem1->m_hWndを親としてウィンドウ作成.
+			pItem1->m_mapChildMap.insert(std::make_pair(_T("SE1"), pSE1));	// "SE1"をキー, pSE1を値として, pItem1->m_mapChildMapに登録.
+			//MoveWindow(pItem1->m_hWnd, pItem1->m_x, pItem1->m_y, pItem1->m_iWidth, pSE1->m_iHeight, TRUE);
+			// Item3.
+			CWindowListItem *pItem3 = m_pWindowListControl->Get(3);
+			MoveWindow(pItem3->m_hWnd, pItem3->m_x, pItem3->m_y, pItem3->m_iWidth, pItem3->m_iHeight * 2.5, TRUE);
+			// SE3.
+			CScalableEdit *pSE3 = new CScalableEdit();	// CScalableEditオブジェクトを生成.
+			pSE3->Create(_T("SE3"), ES_MULTILINE | ES_WANTRETURN | ES_AUTOHSCROLL | ES_AUTOVSCROLL, 0, 0, m_iClientAreaWidth, 5, pItem3->m_hWnd, (HMENU)WM_APP + 201, hInstance);	// m_pSE3->CreateでpItem3->m_hWndを親としてウィンドウ作成.
+			pItem3->m_mapChildMap.insert(std::make_pair(_T("SE3"), pSE3));	// "SE3"をキー, pSE3を値として, pItem3->m_mapChildMapに登録.
+			//MoveWindow(pItem3->m_hWnd, pItem3->m_x, pItem3->m_y, pItem3->m_iWidth, pSE3->m_iHeight, TRUE);
 			//InvalidateRect(this->m_pWindowListControl->m_hWnd, NULL, TRUE);
 		}
+		/*
 		else if (iCount == 6){
 			//m_pWindowListControl->Delete(20);
 			CWindowListItem *pItem = m_pWindowListControl->Get(0);
@@ -194,6 +219,7 @@ void CMainWindow::OnTimer(UINT_PTR nIDEvent){
 			CWindowListItem *pItem2 = m_pWindowListControl->Get(4);
 			MoveWindow(pItem2->m_hWnd, pItem2->m_x, pItem2->m_y, pItem2->m_iWidth, pItem2->m_iHeight * 0.5, TRUE);
 		}
+		*/
 		/*
 		else if (iCount == 7){
 			//m_pWindowListControl->Delete(-10);
