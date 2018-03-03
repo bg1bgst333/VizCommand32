@@ -187,10 +187,14 @@ void CMainWindow::OnTimer(UINT_PTR nIDEvent){
 			MoveWindow(pItem2->m_hWnd, pItem2->m_x, pItem2->m_y, pItem2->m_iWidth, pItem2->m_iHeight * 2.5, TRUE);
 			//InvalidateRect(this->m_pWindowListControl->m_hWnd, NULL, TRUE);
 		}
-		/*
 		else if (iCount == 6){
 			//m_pWindowListControl->Delete(20);
+			CWindowListItem *pItem = m_pWindowListControl->Get(0);
+			MoveWindow(pItem->m_hWnd, pItem->m_x, pItem->m_y, pItem->m_iWidth, pItem->m_iHeight * 0.5, TRUE);
+			CWindowListItem *pItem2 = m_pWindowListControl->Get(4);
+			MoveWindow(pItem2->m_hWnd, pItem2->m_x, pItem2->m_y, pItem2->m_iWidth, pItem2->m_iHeight * 0.5, TRUE);
 		}
+		/*
 		else if (iCount == 7){
 			//m_pWindowListControl->Delete(-10);
 		}
