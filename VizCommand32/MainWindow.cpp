@@ -193,12 +193,17 @@ void CMainWindow::OnTimer(UINT_PTR nIDEvent){
 		}
 		else if (iCount == 5){
 			//m_pWindowListControl->Delete(2);
+			// Item0.
+			CWindowListItem *pItem0 = m_pWindowListControl->Get(0);
+			CEditPanel *pEP0 = new CEditPanel();
+			pEP0->Create(_T("EP0"), 0, 0, 0, 200, 18 * 3, pItem0->m_hWnd, (HMENU)WM_APP + 200, hInstance);
+			pItem0->m_mapChildMap.insert(std::make_pair(_T("EP0"), pEP0));
 			// Item1.
 			CWindowListItem *pItem1 = m_pWindowListControl->Get(1);
 			MoveWindow(pItem1->m_hWnd, pItem1->m_x, pItem1->m_y, pItem1->m_iWidth, pItem1->m_iHeight * 2.5, TRUE);
 			// SE1.
 			CScalableEdit *pSE1 = new CScalableEdit();	// CScalableEditオブジェクトを生成.
-			pSE1->Create(_T("SE1"), ES_MULTILINE | ES_WANTRETURN | ES_AUTOHSCROLL | ES_AUTOVSCROLL, 0, 0, m_iClientAreaWidth, 5, pItem1->m_hWnd, (HMENU)WM_APP + 200, hInstance);	// m_pSE1->CreateでpItem1->m_hWndを親としてウィンドウ作成.
+			pSE1->Create(_T("SE1"), ES_MULTILINE | ES_WANTRETURN | ES_AUTOHSCROLL | ES_AUTOVSCROLL, 0, 0, m_iClientAreaWidth, 5, pItem1->m_hWnd, (HMENU)WM_APP + 201, hInstance);	// m_pSE1->CreateでpItem1->m_hWndを親としてウィンドウ作成.
 			pItem1->m_mapChildMap.insert(std::make_pair(_T("SE1"), pSE1));	// "SE1"をキー, pSE1を値として, pItem1->m_mapChildMapに登録.
 			//MoveWindow(pItem1->m_hWnd, pItem1->m_x, pItem1->m_y, pItem1->m_iWidth, pSE1->m_iHeight, TRUE);
 			// Item3.
@@ -206,7 +211,7 @@ void CMainWindow::OnTimer(UINT_PTR nIDEvent){
 			MoveWindow(pItem3->m_hWnd, pItem3->m_x, pItem3->m_y, pItem3->m_iWidth, pItem3->m_iHeight * 2.5, TRUE);
 			// SE3.
 			CScalableEdit *pSE3 = new CScalableEdit();	// CScalableEditオブジェクトを生成.
-			pSE3->Create(_T("SE3"), ES_MULTILINE | ES_WANTRETURN | ES_AUTOHSCROLL | ES_AUTOVSCROLL, 0, 0, m_iClientAreaWidth, 5, pItem3->m_hWnd, (HMENU)WM_APP + 201, hInstance);	// m_pSE3->CreateでpItem3->m_hWndを親としてウィンドウ作成.
+			pSE3->Create(_T("SE3"), ES_MULTILINE | ES_WANTRETURN | ES_AUTOHSCROLL | ES_AUTOVSCROLL, 0, 0, m_iClientAreaWidth, 5, pItem3->m_hWnd, (HMENU)WM_APP + 202, hInstance);	// m_pSE3->CreateでpItem3->m_hWndを親としてウィンドウ作成.
 			pItem3->m_mapChildMap.insert(std::make_pair(_T("SE3"), pSE3));	// "SE3"をキー, pSE3を値として, pItem3->m_mapChildMapに登録.
 			//MoveWindow(pItem3->m_hWnd, pItem3->m_x, pItem3->m_y, pItem3->m_iWidth, pSE3->m_iHeight, TRUE);
 			//InvalidateRect(this->m_pWindowListControl->m_hWnd, NULL, TRUE);
