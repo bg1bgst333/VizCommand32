@@ -10,6 +10,7 @@
 #include "WindowListControl.h"	// CWindowListControl
 #include "ScalableEdit.h"	// CScalableEdit
 #include "EditPanel.h"	// CEditPanel
+#include "ScalableEditPanel.h"	// CScalableEditPanel
 
 // ƒ}ƒNƒ‚Ì’è‹`
 // UNICODEØ‚è‘Ö‚¦

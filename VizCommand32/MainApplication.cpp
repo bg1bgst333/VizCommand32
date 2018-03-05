@@ -12,6 +12,7 @@ BOOL CMainApplication::InitInstance(HINSTANCE hInstance, LPTSTR lpCmdLine, int n
 	CWindowListItemsPanel::RegisterClass(hInstance, (HBRUSH)GetStockObject(BLACK_BRUSH));	// CWindowListItemsPanel::RegisterClassでウィンドウクラス"CWindowListItemsPanel"を登録.
 	CWindowListItem::RegisterClass(hInstance, (HBRUSH)GetStockObject(GRAY_BRUSH));	// CWindowListItem::RegisterClassでウィンドウクラス"CWindowListItem"を登録.
 	CEditPanel::RegisterClass(hInstance, (HBRUSH)GetStockObject(WHITE_BRUSH));	// CEditPanel::RegisterClassでウィンドウクラス"CEditPanel"を登録.
+	CScalableEditPanel::RegisterClass(hInstance, (HBRUSH)GetStockObject(WHITE_BRUSH));	// CScalableEditPanel::RegisterClassでウィンドウクラス"CScalableEditPanel"を登録.
 
 	// CMainWindowオブジェクトの作成.
 	m_pMainWnd = new CMainWindow();	// CMainWindowオブジェクトを作成し, m_pMainWndに格納.

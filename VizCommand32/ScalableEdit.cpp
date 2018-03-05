@@ -127,3 +127,16 @@ int CScalableEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags){
 	return 0;	// returnで0を返すと入力成功.
 
 }
+
+// ウィンドウのサイズが変更された時.
+void CScalableEdit::OnSize(UINT nType, int cx, int cy){
+
+	// 親クラスのOnSize.
+	CCustomControl::OnSize(nType, cx, cy);	// CCustomControl::OnSizeを呼ぶ.
+
+	// UM_SIZECHILDで子ウィンドウのサイズに合わせる.
+	WPARAM wParam;	// WPARAM型wParam.
+	wParam = MAKEWPARAM(m_iWidth, m_iHeight);	// MAKEWPARAMでwParamをセット.
+	SendMessage(GetParent(m_hWnd), UM_SIZECHILD, wParam, (LPARAM)m_hWnd);	// SendMessageでUM_SIZECHILDを送信.
+
+}

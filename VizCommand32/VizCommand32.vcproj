@@ -203,6 +203,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ScalableEditPanel.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\UserControl.cpp"
 				>
 			</File>
@@ -266,6 +270,10 @@
 			</File>
 			<File
 				RelativePath=".\ScalableEdit.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ScalableEditPanel.h"
 				>
 			</File>
 			<File
