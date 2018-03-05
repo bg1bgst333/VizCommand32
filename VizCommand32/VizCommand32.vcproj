@@ -207,6 +207,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\StreamConsole.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\UserControl.cpp"
 				>
 			</File>
@@ -274,6 +278,10 @@
 			</File>
 			<File
 				RelativePath=".\ScalableEditPanel.h"
+				>
+			</File>
+			<File
+				RelativePath=".\StreamConsole.h"
 				>
 			</File>
 			<File

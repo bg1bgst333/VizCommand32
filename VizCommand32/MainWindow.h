@@ -7,10 +7,7 @@
 #include <string>	// std::string
 // 独自のヘッダ
 #include "Window.h"	// CWindow
-#include "WindowListControl.h"	// CWindowListControl
-#include "ScalableEdit.h"	// CScalableEdit
-#include "EditPanel.h"	// CEditPanel
-#include "ScalableEditPanel.h"	// CScalableEditPanel
+#include "StreamConsole.h"	// CStreamConsole
 
 // マクロの定義
 // UNICODE切り替え
@@ -27,7 +24,7 @@ class CMainWindow : public CWindow{
 	public:
 
 		// publicメンバ変数
-		CWindowListControl *m_pWindowListControl;	// CWindowListControlオブジェクトポインタm_pWindowListControl.
+		CStreamConsole *m_pStreamConsole;	// CStreamConsoleオブジェクトポインタm_pStreamConsole.
 		
 		// publicメンバ関数
 		// コンストラクタ・デストラクタ
