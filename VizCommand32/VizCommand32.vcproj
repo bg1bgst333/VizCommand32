@@ -179,6 +179,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Console.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ConsoleCore.cpp"
 				>
 			</File>
@@ -246,6 +250,10 @@
 			>
 			<File
 				RelativePath=".\Application.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Console.h"
 				>
 			</File>
 			<File

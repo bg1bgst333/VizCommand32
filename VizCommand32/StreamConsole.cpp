@@ -1,7 +1,6 @@
 // ヘッダのインクルード
 // 独自のヘッダ
 #include "StreamConsole.h"	// ストリームコンソールクラス
-#include "ConsoleCore.h"	// コンソールコアクラス
 
 // コンストラクタCStreamConsole
 CStreamConsole::CStreamConsole() : CWindowListControl(){
@@ -69,8 +68,8 @@ void CStreamConsole::OnSize(UINT nType, int cx, int cy){
 		for (int i = n - 1; i >= 0; i--){	// iがn - 1から0まで.
 			CWindowListItem *pItem = Get(i);	// Get(i)でpItemを取得.
 			if (pItem != NULL){	// pItemがNULLでない時.
-				if (pItem->m_mapChildMap.find(_T("ConsoleCore")) != pItem->m_mapChildMap.end()){	// "ConsoleCore"が見つかったら.
-					CWindow *pWindow = pItem->m_mapChildMap[_T("ConsoleCore")];	// pItem->m_mapChildMap[_T("ConsoleCore")]で取り出す.(この時, CWindowポインタでいい.)
+				if (pItem->m_mapChildMap.find(_T("Console")) != pItem->m_mapChildMap.end()){	// "Console"が見つかったら.
+					CWindow *pWindow = pItem->m_mapChildMap[_T("Console")];	// pItem->m_mapChildMap[_T("Console")]で取り出す.(この時, CWindowポインタでいい.)
 					MoveWindow(pWindow->m_hWnd, pWindow->m_x, pWindow->m_y, m_iWidth/* cx */, pWindow->m_iHeight, TRUE);	// MoveWindowで横幅をcxとする.
 				}
 			}
@@ -89,10 +88,14 @@ void CStreamConsole::OnTimer(UINT_PTR nIDEvent){
 		// デフォルトアイテムの挿入.
 		Insert(0, _T("0"), 80, hInstance);	// Insertで0番目のアイテムを挿入.
 		CWindowListItem *pItem = Get(0);	// Getで0番目を取得し, pItemに格納.
-		CConsoleCore *pConsoleCore = new CConsoleCore();	// CConsoleCoreオブジェクトを作成し, pConsoleCoreに格納.
-		pConsoleCore->Create(_T(""), 0, 0, 0, m_iClientAreaWidth, m_iClientAreaHeight, pItem->m_hWnd, (HMENU)(WM_APP + 200 + m_nId), hInstance);	// pConsoleCore->Createでウィンドウ作成.
-		pItem->m_mapChildMap.insert(std::make_pair(_T("ConsoleCore"), pConsoleCore));	// pItem->m_mapChildMap.insertで"ConsoleCore"をキーとして, pConsoleCoreを追加.
-	
+		//CConsoleCore *pConsoleCore = new CConsoleCore();	// CConsoleCoreオブジェクトを作成し, pConsoleCoreに格納.
+		//pConsoleCore->Create(_T(""), 0, 0, 0, m_iClientAreaWidth, m_iClientAreaHeight, pItem->m_hWnd, (HMENU)(WM_APP + 200 + m_nId), hInstance);	// pConsoleCore->Createでウィンドウ作成.
+		//pItem->m_mapChildMap.insert(std::make_pair(_T("ConsoleCore"), pConsoleCore));	// pItem->m_mapChildMap.insertで"ConsoleCore"をキーとして, pConsoleCoreを追加.
+		CConsole *pConsole = new CConsole();	// CConsoleオブジェクトを作成し, pConsoleに格納.
+		pConsole->Create(_T(""), 0, 0, 0, m_iClientAreaWidth, m_iClientAreaHeight, pItem->m_hWnd, (HMENU)(WM_APP + 200 + m_nId), hInstance);	// pConsole->Createでウィンドウ作成.
+		pItem->m_mapChildMap.insert(std::make_pair(_T("Console"), pConsole));	// pItem->m_mapChildMap.insertで"Console"をキーとして, pConsoleを追加.
+		m_nId++;	// m_nIdをインクリメント.
+
 		// 無効領域を作成して画面の更新.
 		InvalidateRect(m_hWnd, NULL, TRUE);	// InvalidateRectで無効領域作成.
 
