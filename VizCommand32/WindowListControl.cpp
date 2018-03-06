@@ -147,9 +147,6 @@ int CWindowListControl::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct){
 	// ウィンドウリストアイテムズパネルのウィンドウ生成.
 	m_pWindowListItemsPanel->Create(_T(""), 0, 0, 0, m_iClientAreaWidth, m_iClientAreaHeight, hwnd, (HMENU)(WM_APP + 2), lpCreateStruct->hInstance);	// m_pWindowListItemsPanel->Createでウィンドウ生成.
 
-	// 初回更新タイマーをセット.
-	SetTimer(hwnd, 1, 100, NULL);	// SetTimerで更新タイマーをセット.(100ミリ秒==0.1秒)
-
 	// 常にウィンドウ作成に成功するものとする.
 	return 0;	// 0を返すと, ウィンドウ作成に成功したということになる.
 
@@ -257,22 +254,6 @@ void CWindowListControl::OnSize(UINT nType, int cx, int cy){
 	m_ScrollInfo.nMax = m_pWindowListItemsPanel->m_iHeight;	//最大値
 	SetScrollInfo(m_hWnd, SB_VERT, &m_ScrollInfo, TRUE);	// SetScrollInfoでセット.(SetImageのInvalidateRectと第4引数のTRUEがないとスクロールバーつまみが即座に更新されない.)
 #endif
-
-}
-
-// タイマーイベントが発生した時.
-void CWindowListControl::OnTimer(UINT_PTR nIDEvent){
-
-	// 初回更新タイマーの時.
-	if (nIDEvent == 1){	// 1の時.
-
-		// 無効領域を作成して画面の更新.
-		InvalidateRect(m_hWnd, NULL, TRUE);	// InvalidateRectで無効領域作成.
-
-		// タイマーを終了.
-		KillTimer(m_hWnd, 1);	// 初回更新タイマーを終了.
-
-	}
 
 }
 

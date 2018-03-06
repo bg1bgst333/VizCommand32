@@ -13,6 +13,9 @@ class CStreamConsole : public CWindowListControl{
 	// publicメンバ
 	public:
 
+		// publicメンバ変数
+		HMENU m_nId;	// HMENU型メニューID.
+
 		// publicメンバ関数
 		// コンストラクタ・デストラクタ
 		CStreamConsole();	// コンストラクタCStreamConsole
@@ -23,6 +26,8 @@ class CStreamConsole : public CWindowListControl{
 		// メンバ関数
 		virtual BOOL Create(LPCTSTR lpctszWindowName, DWORD dwStyle, int x, int y, int iWidth, int iHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance);	// ウィンドウ作成関数Create.
 		virtual int OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct);	// ウィンドウ作成時のハンドラOnCreate.
+		virtual void OnSize(UINT nType, int cx, int cy);	// ウィンドウのサイズが変更された時.
+		virtual void OnTimer(UINT_PTR nIDEvent);	// タイマーイベントが発生した時.
 
 };
 

@@ -15,7 +15,7 @@ CScalableEdit::CScalableEdit() : CEdit(){
 BOOL CScalableEdit::Create(LPCTSTR lpctszWindowName, DWORD dwStyle, int x, int y, int iWidth, int iHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance){// ウィンドウ作成関数Create.(ウィンドウクラス名省略バージョン.)
 
 	// ウィンドウクラス名が"Edit"なカスタムコントロールを作成.
-	BOOL bRet = CEdit::Create(lpctszWindowName, dwStyle, x, y, iWidth, iHeight, hWndParent, (HMENU)hMenu, hInstance);	// CCustomControl::Createでエディットコントロールを作成.
+	BOOL bRet = CEdit::Create(lpctszWindowName, dwStyle | ES_MULTILINE | ES_WANTRETURN | ES_AUTOHSCROLL | ES_AUTOVSCROLL, x, y, iWidth, iHeight, hWndParent, (HMENU)hMenu, hInstance);	// CCustomControl::Createでエディットコントロールを作成.
 	
 	// ウィンドウのリサイズ
 	MoveWindow(m_hWnd, m_x, m_y, m_iWidth, m_iLineHeight, TRUE);	// MoveWindowで高さを1行分のm_iLineHeightにする.

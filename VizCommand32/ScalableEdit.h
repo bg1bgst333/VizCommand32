@@ -16,7 +16,7 @@ class CScalableEdit : public CEdit{
 		int m_iLineHeight;	// 行の高さ.
 		int m_iLineCount;	// 行数.
 
-		// publicメンバ巻数
+		// publicメンバ関数
 		// コンストラクタ・デストラクタ
 		CScalableEdit();	// コンストラクタCScalableEdit
 		// メンバ関数
