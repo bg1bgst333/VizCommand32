@@ -8,7 +8,9 @@ CConsoleCore::CConsoleCore() : CScalableEdit(){
 
 	// メンバの初期化.
 	m_tstrCommandString = _T("");	// m_tstrCommandStringを""で初期化.
-	m_tstrFormString = GREATER_THAN;	// フォーム文字列を">"に初期化.
+	m_tstrFormString = GREATER_THAN;	// m_tstrFormStringを">"に初期化.
+	m_lStartPos = 0;	// m_lStartPosを0に初期化.
+	m_lCurrentPos = 0;	// m_lCurrentPosを0に初期化.
 
 }
 
@@ -57,6 +59,9 @@ void CConsoleCore::PutConsole(tstring tstrString){
 	// 文字列を追加する.
 	SendMessage(m_hWnd, EM_REPLACESEL, 0, (LPARAM)tstrString.c_str());	// EM_REPLACESELでtstrStringを追加する.(本来は置換だが, 0を指定したときは追加(挿入)したことになる.)
 
+	// 入力位置の更新.
+	SendMessage(m_hWnd, EM_GETSEL, (WPARAM)&m_lStartPos, NULL);	// EM_GETSELで選択していない場合は開始位置を取得できる.
+
 }
 
 // 入力フォームの出力.
@@ -101,5 +106,22 @@ int CConsoleCore::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags){
 
 	// 親クラスの既定処理.
 	return CScalableEdit::OnKeyDown(nChar, nRepCnt, nFlags);	// CScalableEdit::OnKeyDownを呼ぶ.
+
+}
+
+// 文字キーが押された時.
+int CConsoleCore::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags){
+
+	// バックスペースが押されても戻るのを無効にする.
+	if (nChar == VK_BACK) {	// VK_BACKの時.
+		m_lCurrentPos = 0;	// m_lCurrentPosを0にセット.
+		SendMessage(m_hWnd, EM_GETSEL, (WPARAM)&m_lCurrentPos, NULL);	// EM_GETSELでキャレットの位置を取得.
+		if (m_lCurrentPos <= m_lStartPos) {	// 開始位置より手前だったら入力キャンセルする.
+			return -1;	// -1を返すと入力キャンセルになる.
+		}
+	}
+
+	// 通常は入力を有効にする.
+	return 0;	// 0を返すと有効になる.
 
 }

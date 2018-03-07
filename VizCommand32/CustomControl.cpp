@@ -189,6 +189,24 @@ LRESULT CCustomControl::DynamicWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, L
 			// 既定の処理へ向かう.
 			break;	// breakで抜けて, 既定の処理へ向かう.
 
+		// 文字キーが押された時.
+		case WM_CHAR:
+
+			// WM_CHARブロック
+			{
+				// OnCharに任せる.
+				if (OnChar(wParam, LOWORD(lParam), HIWORD(lParam)) == -1) {	// -1の時は入力をキャンセル.
+
+					// 入力キャンセル.
+					return 0;	// 0をここで返すと入力キャンセルとなる.
+
+				}
+
+			}
+
+			// 既定の処理へ向かう.
+			break;	// breakで抜けて, 既定の処理へ向かう.
+
 		// それ以外の時.
 		default:
 
@@ -265,6 +283,14 @@ void CCustomControl::OnSize(UINT nType, int cx, int cy){
 
 // キーが押された時.
 int CCustomControl::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags){
+
+	// 成功なら0を返す.
+	return 0;	// returnで0を返す.
+
+}
+
+// 文字キーが押された時.
+int CCustomControl::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags){
 
 	// 成功なら0を返す.
 	return 0;	// returnで0を返す.

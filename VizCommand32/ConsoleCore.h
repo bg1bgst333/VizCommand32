@@ -22,6 +22,8 @@ class CConsoleCore : public CScalableEdit{
 		tstring m_tstrProfilePath;	// ホームフォルダ(CSIDL_PROFILE)のパスm_tstrProfilePath.
 		tstring m_tstrInputFormString;	// 実際に出力する入力フォーム文字列m_tstrInputFormString.
 		tstring m_tstrCurrentPath;	// 現在のパスm_tstrCurrentPath.
+		long m_lStartPos;				// 入力開始位置m_lStartPos.
+		long m_lCurrentPos;				// 入力現在位置m_lCurrentPos.
 
 		// publicメンバ関数
 		// コンストラクタ・デストラクタ
@@ -34,6 +36,7 @@ class CConsoleCore : public CScalableEdit{
 		void ShowInputForm();	// 入力フォームの出力.
 		virtual int OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct);	// ウィンドウの作成が開始された時.
 		virtual int OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);	// キーが押された時.
+		virtual int OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);		// 文字キーが押された時.
 
 };
 
