@@ -104,6 +104,15 @@ int CConsoleCore::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags){
 
 	}
 
+	// 左キーが押された時.
+	if (nChar == VK_LEFT){	// VK_LEFTの時.
+		m_lCurrentPos = 0;	// m_lCurrentPosを0にセット.
+		SendMessage(m_hWnd, EM_GETSEL, (WPARAM)&m_lCurrentPos, NULL);	// EM_GETSELでキャレットの位置を取得.
+		if (m_lCurrentPos <= m_lStartPos) {	// 開始位置より手前だったら入力キャンセルする.
+			return -1;	// -1を返すと入力キャンセルになる.
+		}
+	}
+
 	// 親クラスの既定処理.
 	return CScalableEdit::OnKeyDown(nChar, nRepCnt, nFlags);	// CScalableEdit::OnKeyDownを呼ぶ.
 
