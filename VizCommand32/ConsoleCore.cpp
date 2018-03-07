@@ -134,3 +134,18 @@ int CConsoleCore::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags){
 	return 0;	// 0を返すと有効になる.
 
 }
+
+// マウス左ボタンが離された時.
+int CConsoleCore::OnLButtonUp(UINT nFlags, POINT pt){
+
+	// 現在位置が開始位置より前になるようにマウスでクリックされた場合, キャレットを強制的に開始位置に戻す.
+	m_lCurrentPos = 0;	// m_lCurrentPosを0にセット.
+	SendMessage(m_hWnd, EM_GETSEL, (WPARAM)&m_lCurrentPos, NULL);	// EM_GETSELでキャレットの位置を取得.
+	if (m_lCurrentPos < m_lStartPos) {	// 開始位置より手前だったらキャレットの位置を再セット.
+		SendMessage(m_hWnd, EM_SETSEL, (WPARAM)m_lStartPos, (LPARAM)m_lStartPos);	// EM_SETSELでキャレット位置をm_lStartPosに再セット.
+	}
+
+	// 入力は有効にする.
+	return 0;	// 0を返すと有効になる.
+
+}

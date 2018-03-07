@@ -37,6 +37,7 @@ class CConsoleCore : public CScalableEdit{
 		virtual int OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct);	// ウィンドウの作成が開始された時.
 		virtual int OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);	// キーが押された時.
 		virtual int OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);		// 文字キーが押された時.
+		virtual int OnLButtonUp(UINT nFlags, POINT pt);	// マウス左ボタンが離された時.
 
 };
 
