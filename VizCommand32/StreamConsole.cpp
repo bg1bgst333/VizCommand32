@@ -93,6 +93,7 @@ void CStreamConsole::OnTimer(UINT_PTR nIDEvent){
 		//pItem->m_mapChildMap.insert(std::make_pair(_T("ConsoleCore"), pConsoleCore));	// pItem->m_mapChildMap.insertで"ConsoleCore"をキーとして, pConsoleCoreを追加.
 		CConsole *pConsole = new CConsole();	// CConsoleオブジェクトを作成し, pConsoleに格納.
 		pConsole->Create(_T(""), 0, 0, 0, m_iClientAreaWidth, m_iClientAreaHeight, pItem->m_hWnd, (HMENU)(WM_APP + 200 + m_nId), hInstance);	// pConsole->Createでウィンドウ作成.
+		pConsole->ShowInputForm();	// 入力フォームを出力.
 		pItem->m_mapChildMap.insert(std::make_pair(_T("Console"), pConsole));	// pItem->m_mapChildMap.insertで"Console"をキーとして, pConsoleを追加.
 		m_nId++;	// m_nIdをインクリメント.
 

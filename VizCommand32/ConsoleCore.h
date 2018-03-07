@@ -6,6 +6,10 @@
 // 独自のヘッダ
 #include "ScalableEdit.h"	// CScalableEdit
 
+// マクロの定義
+// 入力記号.
+#define GREATER_THAN _T(">")
+
 // コンソールコアクラスCConsoleCore
 class CConsoleCore : public CScalableEdit{
 
@@ -14,15 +18,23 @@ class CConsoleCore : public CScalableEdit{
 
 		// publicメンバ変数
 		tstring m_tstrCommandString;	// コマンド文字列m_tstrCommandString.
+		tstring m_tstrFormString;	// フォーム文字列m_tstrFormString.
+		tstring m_tstrProfilePath;	// ホームフォルダ(CSIDL_PROFILE)のパスm_tstrProfilePath.
+		tstring m_tstrInputFormString;	// 実際に出力する入力フォーム文字列m_tstrInputFormString.
+		tstring m_tstrCurrentPath;	// 現在のパスm_tstrCurrentPath.
 
 		// publicメンバ関数
 		// コンストラクタ・デストラクタ
 		CConsoleCore();	// コンストラクタCConsoleCore
 		// メンバ関数
 		tstring GetCommandString();	// コマンド文字列の取得関数GetCommandString.
+		tstring GetProfilePath(HWND hWnd);	// ホームフォルダ(CSIDL_PROFILE)のパスを取得.
+		tstring GetInputFormString();	// 入力フォーム文字列の取得.
+		void PutConsole(tstring tstrString);	// コンソールに文字列を出力.
+		void ShowInputForm();	// 入力フォームの出力.
+		virtual int OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct);	// ウィンドウの作成が開始された時.
 		virtual int OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);	// キーが押された時.
 
 };
-
 
 #endif

@@ -48,6 +48,16 @@ BOOL CConsole::Create(LPCTSTR lpctszWindowName, DWORD dwStyle, int x, int y, int
 
 }
 
+// 入力フォームの出力.
+void CConsole::ShowInputForm(){
+	
+	// コンソールコアの入力フォーム出力を呼ぶ.
+	if (m_pScalableEdit != NULL){	// m_pScalableEditがNULLでなければ.
+		((CConsoleCore *)m_pScalableEdit)->ShowInputForm();	// ((CConsoleCore *)m_pScalableEdit)->ShowInputFormで入力フォームの出力.
+	}
+
+}
+
 // ウィンドウのサイズが変更された時.
 void CConsole::OnSize(UINT nType, int cx, int cy){
 

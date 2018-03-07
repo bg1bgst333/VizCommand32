@@ -50,8 +50,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,0,0,35
- PRODUCTVERSION 0,0,0,35
+ FILEVERSION 0,0,0,36
+ PRODUCTVERSION 0,0,0,36
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x29L
@@ -66,10 +66,10 @@ BEGIN
     BEGIN
         BLOCK "041104b0"
         BEGIN
-            VALUE "Comments", "Shin-Kiba #35"
+            VALUE "Comments", "Shin-Kiba #36"
             VALUE "CompanyName", "B.G-STATION"
-            VALUE "FileDescription", "Shin-Kiba #35"
-            VALUE "FileVersion", "0, 0, 0, 35"
+            VALUE "FileDescription", "Shin-Kiba #36"
+            VALUE "FileVersion", "0, 0, 0, 36"
             VALUE "InternalName", "VizCommand32"
             VALUE "LegalCopyright", "Copyright (C) 2005-2017 B.G-STATION, All rights reserved."
             VALUE "LegalTrademarks", "B.G-STATION"
