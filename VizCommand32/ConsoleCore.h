@@ -39,6 +39,7 @@ class CConsoleCore : public CScalableEdit{
 		virtual int OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct);	// ウィンドウの作成が開始された時.
 		virtual int OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);	// キーが押された時.
 		virtual int OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);		// 文字キーが押された時.
+		virtual int OnLButtonDown(UINT nFlags, POINT pt);	// マウス左ボタンが押された時.
 		virtual int OnLButtonUp(UINT nFlags, POINT pt);	// マウス左ボタンが離された時.
 		virtual void OnUserMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);	// ユーザ定義メッセージが発生した時.
 		virtual void OnResponseMessage(WPARAM wParam, LPARAM lParam);	// レスポンスメッセージが来た時.

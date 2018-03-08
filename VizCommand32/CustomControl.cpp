@@ -207,6 +207,32 @@ LRESULT CCustomControl::DynamicWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, L
 			// 既定の処理へ向かう.
 			break;	// breakで抜けて, 既定の処理へ向かう.
 
+		// マウス左ボタンが押された時.
+		case WM_LBUTTONDOWN:
+
+			// WM_LBUTTONDOWNブロック
+			{
+
+				// 変数の宣言
+				POINT pt;	// POINT構造体変数pt.
+
+				// 座標の取り出し.
+				pt.x = LOWORD(lParam);	// lParamの下位ワードが座標x.
+				pt.y = HIWORD(lParam);	// lParamの上位ワードが座標y.
+
+				// OnLButtonDownに任せる.
+				if (OnLButtonDown(wParam, pt) == -1) {	// -1の時は入力をキャンセル.
+
+					// 入力キャンセル.
+					return 0;	// 0をここで返すと入力キャンセルとなる.
+
+				}
+
+			}
+
+			// 既定の処理へ向かう.
+			break;	// 抜けてDefWindowProcに向かう.
+
 		// マウス左ボタンが離された時.
 		case WM_LBUTTONUP:
 
@@ -317,6 +343,14 @@ int CCustomControl::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags){
 
 // 文字キーが押された時.
 int CCustomControl::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags){
+
+	// 成功なら0を返す.
+	return 0;	// returnで0を返す.
+
+}
+
+// マウス左ボタンが押された時.
+int CCustomControl::OnLButtonDown(UINT nFlags, POINT pt){
 
 	// 成功なら0を返す.
 	return 0;	// returnで0を返す.

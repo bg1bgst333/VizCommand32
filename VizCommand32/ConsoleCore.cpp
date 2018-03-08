@@ -179,8 +179,22 @@ int CConsoleCore::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags){
 
 }
 
+// マウス左ボタンが押された時.
+int CConsoleCore::OnLButtonDown(UINT nFlags, POINT pt){
+
+	// キャレットを非表示にする.
+	HideCaret(m_hWnd);	// HideCaretでキャレットを非表示にする.
+
+	// 入力は有効にする.
+	return 0;	// 0を返すと有効になる.
+
+}
+
 // マウス左ボタンが離された時.
 int CConsoleCore::OnLButtonUp(UINT nFlags, POINT pt){
+
+	// キャレットを表示する.
+	ShowCaret(m_hWnd);	// ShowCaretでキャレットを表示する.
 
 	// 現在位置が開始位置より前になるようにマウスでクリックされた場合, キャレットを強制的に開始位置に戻す.
 	m_lCurrentPos = 0;	// m_lCurrentPosを0にセット.
