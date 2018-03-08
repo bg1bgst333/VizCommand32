@@ -142,6 +142,12 @@ int CConsole::OnConsoleCoreCommand(WPARAM wParam, LPARAM lParam){
 		OnHello(hSrc);	// hSrcを引数として渡して, OnHelloを呼ぶ.
 
 	}
+	else {	// コマンドが見つからない.
+
+		// コマンドが見つからないエラー.
+		OnErrorCommandNotFound(hSrc);	// hSrcを引数として渡して, OnErrorCommandNotFoundを呼ぶ.
+
+ 	}
 
 	// 成功なら0を返す.
 	return 0;	// 0を返す.
@@ -153,6 +159,17 @@ void CConsole::OnHello(HWND hSrc){
 
 	// "Hello, world!"を出力.
 	SendMessage(hSrc, UM_RESPONSEMESSAGE, (WPARAM)_T("Hello, world!\r\n"), 0);	// UM_RESPONSEMESSAGEで"Hello, world!"を送る.
+
+	// レスポンス終了.
+	SendMessage(hSrc, UM_FINISHRESPONSE, 0, 0);	// UM_FINISHRESPONSEを送る.
+
+}
+
+// コマンドが見つからないエラーが発生した時.
+void CConsole::OnErrorCommandNotFound(HWND hSrc){
+
+	// "Error: Command not found!"を出力.
+	SendMessage(hSrc, UM_RESPONSEMESSAGE, (WPARAM)_T("Error: Command not found!\r\n"), 0);	// UM_RESPONSEMESSAGEで"Error: Command not found!"を送る.
 
 	// レスポンス終了.
 	SendMessage(hSrc, UM_FINISHRESPONSE, 0, 0);	// UM_FINISHRESPONSEを送る.
