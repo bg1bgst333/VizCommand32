@@ -452,6 +452,20 @@ LRESULT CWindow::DynamicWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			// 既定の処理へ向かう.
 			break;	// breakで抜けて, 既定の処理(DefWindowProc)へ向かう.
 
+		// 子エディットコントロールの描画時.
+		case WM_CTLCOLOREDIT:
+
+			// WM_CTLCOLOREDITブロック
+			{
+
+				// OnCtlColorEditに任せる.
+				return (LRESULT)OnCtlColorEdit((HDC)wParam, (HWND)lParam);	// OnCtlColorにwParam, lParamを渡し, 戻り値をそのまま返す.
+
+			}
+
+			// 既定の処理へ向かう.
+			break;	// breakで抜けて, 既定の処理へ向かう.
+
 		// 上記以外の時.
 		default:
 
@@ -563,6 +577,14 @@ void CWindow::OnHScroll(UINT nSBCode, UINT nPos){
 
 // 垂直方向スクロールバーイベント時.
 void CWindow::OnVScroll(UINT nSBCode, UINT nPos){
+
+}
+
+// 子エディットコントロールの描画時.
+HBRUSH CWindow::OnCtlColorEdit(HDC hDC, HWND hEdit){
+
+	// ブラシハンドルを返す.
+	return (HBRUSH)NULL;	// ひとまずNULLで返す.
 
 }
 

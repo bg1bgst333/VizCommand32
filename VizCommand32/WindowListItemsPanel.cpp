@@ -265,6 +265,7 @@ void CWindowListItemsPanel::OnPaint(){
 	// 描画開始.
 	hDC = BeginPaint(m_hWnd, &ps);	// BeginPaintで描画開始.
 
+#if 0
 	// ペンとブラシの生成.
 	hPen = (HPEN)CreatePen(PS_SOLID, 1, RGB(0xff, 0, 0));	// CreatePenで赤(淡)のペンを作成.
 	hBrush = (HBRUSH)CreateSolidBrush(RGB(0x7f, 0, 0));		// CreateSolidBrushで赤(濃)のブラシを作成.
@@ -283,6 +284,7 @@ void CWindowListItemsPanel::OnPaint(){
 	// ペンとブラシの破棄.
 	DeleteObject(hBrush);	// ブラシの破棄.
 	DeleteObject(hPen);	// ペンの破棄.
+#endif
 
 	// 描画終了.
 	EndPaint(m_hWnd, &ps);	// EndPaintで描画終了.

@@ -78,6 +78,7 @@ class CWindow{
 		virtual void OnTimer(UINT_PTR nIDEvent);	// タイマーイベントが発生した時.
 		virtual void OnHScroll(UINT nSBCode, UINT nPos);	// 水平方向スクロールバーイベント時.
 		virtual void OnVScroll(UINT nSBCode, UINT nPos);	// 垂直方向スクロールバーイベント時.
+		virtual HBRUSH OnCtlColorEdit(HDC hDC, HWND hEdit);	// 子エディットコントロールの描画時.
 		virtual void OnUserMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);	// ユーザ定義メッセージが発生した時.
 		virtual void OnSizeChild(WPARAM wParam, LPARAM lParam);	// 子から親へウィンドウサイズ変更の要求が発生した時.
 

@@ -5,6 +5,9 @@
 // コンストラクタCConsole
 CConsole::CConsole() : CScalableEditPanel(){
 
+	// メンバの初期化.
+	m_hbrBackground = NULL;	// m_hbrBackgroundをNULLで初期化.
+
 }
 
 // ウィンドウクラス登録関数RegisterClass.
@@ -41,7 +44,11 @@ BOOL CConsole::Create(LPCTSTR lpctszWindowName, DWORD dwStyle, int x, int y, int
 			MoveWindow(m_hWnd, m_x, m_y, m_iWidth, m_pScalableEdit->m_iHeight, TRUE);	// MoveWindowでm_pScalableEdit->m_iHeightの高さにリサイズ.
 			// コンソールコアのメッセージの投げる先をここにする.
 			if (m_pScalableEdit != NULL){	// m_pScalableEditがNULLでなければ.
+				// 処理するウィンドウのセット.
 				((CConsoleCore *)m_pScalableEdit)->SetProcWindow(m_hWnd);	// ((CConsoleCore *)m_pScalableEdit)->SetProcWindowで処理するウィンドウはここにする.
+				// 黒ブラシ作成.
+				m_hbrBackground = CreateSolidBrush(RGB(0x0, 0x0, 0x0));	// CreateSolidBrushで黒ブラシを作成し, m_hbrBackgroundに格納.
+				SetFocus(m_pScalableEdit->m_hWnd);	// SetFocusでm_pScalableEdit->m_hWndにフォーカスを当てる.
 			}
 		}
 
@@ -49,6 +56,20 @@ BOOL CConsole::Create(LPCTSTR lpctszWindowName, DWORD dwStyle, int x, int y, int
 
 	// 戻り値を返す.
 	return bRet;	// bRetを返す.
+
+}
+
+// ウィンドウの破棄と終了処理関数Destroy.
+void CConsole::Destroy(){
+
+	// ブラシの破棄.
+	if (m_hbrBackground != NULL){	// m_hbrBackgroundがNULLでない時.
+		DeleteObject(m_hbrBackground);	// DeleteObjectで削除.
+		m_hbrBackground = NULL;	// m_hbrBackgroundにNULlをセット.
+	}
+
+	// 親のDestroyを呼ぶ.
+	CScalableEditPanel::Destroy();
 
 }
 
@@ -77,6 +98,16 @@ void CConsole::OnSize(UINT nType, int cx, int cy){
 	WPARAM wParam;	// WPARAM型wParam.
 	wParam = MAKEWPARAM(m_iWidth, m_iHeight);	// MAKEWPARAMでwParamをセット.
 	SendMessage(GetParent(m_hWnd), UM_SIZECHILD, wParam, (LPARAM)m_hWnd);	// SendMessageでUM_SIZECHILDを送信.
+
+}
+
+// 子エディットコントロールの描画時.
+HBRUSH CConsole::OnCtlColorEdit(HDC hDC, HWND hEdit){
+
+	// 背景を黒, テキストを白にする.
+	SetBkColor(hDC, RGB(0x0, 0x0, 0x0));	// 背景は黒.
+	SetTextColor(hDC, RGB(0xff, 0xff, 0xff));	// テキストは白.
+	return m_hbrBackground;	// m_hbrBackgroundを返す.
 
 }
 

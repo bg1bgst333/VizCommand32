@@ -169,6 +169,7 @@ void CWindowListControl::OnPaint(){
 	// 描画開始.
 	hDC = BeginPaint(m_hWnd, &ps);	// BeginPaintで描画開始.
 
+#if 0
 	// ペンとブラシの生成.
 	hPen = (HPEN)CreatePen(PS_SOLID, 1, RGB(0, 0, 0xff));	// CreatePenで青(淡)のペンを作成.
 	hBrush = (HBRUSH)CreateSolidBrush(RGB(0, 0, 0x7f));		// CreateSolidBrushで青(濃)のブラシを作成.
@@ -206,6 +207,7 @@ void CWindowListControl::OnPaint(){
 	m_ScrollInfo.nMin = 0;	// 最小値
 	m_ScrollInfo.nMax = m_pWindowListItemsPanel->m_iHeight;	//最大値
 	SetScrollInfo(m_hWnd, SB_VERT, &m_ScrollInfo, TRUE);	// SetScrollInfoでセット.(SetImageのInvalidateRectと第4引数のTRUEがないとスクロールバーつまみが即座に更新されない.)
+#endif
 #endif
 
   	// 描画終了.
