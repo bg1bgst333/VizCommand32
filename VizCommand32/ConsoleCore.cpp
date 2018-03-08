@@ -137,6 +137,12 @@ int CConsoleCore::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct){
 // キーが押された時.
 int CConsoleCore::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags){
 
+	// 上キーが押された時.
+	if (nChar == VK_UP){	// VK_UPの時.
+		// 上キーはとりあえず無効にして, 上に戻れなくする.
+		return -1;	// -1を返すと入力キャンセルになる.
+	}
+
 	// リターンキーが押された時.
 	if (nChar == VK_RETURN){	// nCharがVK_RETURNの時.
 
