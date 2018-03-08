@@ -7,21 +7,10 @@
 CConsoleCore::CConsoleCore() : CScalableEdit(){
 
 	// メンバの初期化.
-	m_tstrCommandString = _T("");	// m_tstrCommandStringを""で初期化.
 	m_tstrFormString = GREATER_THAN;	// m_tstrFormStringを">"に初期化.
+	m_tstrCommandString = _T("");	// m_tstrCommandStringを""で初期化.
 	m_lStartPos = 0;	// m_lStartPosを0に初期化.
 	m_lCurrentPos = 0;	// m_lCurrentPosを0に初期化.
-
-}
-
-// コマンド文字列の取得関数GetCommandString.
-tstring CConsoleCore::GetCommandString(){
-
-	// テキストの取得.
-	m_tstrCommandString = GetText();	// GetTextで取得した文字列をm_tstrCommandStringに格納.
-
-	// コマンド文字列を返す.
-	return m_tstrCommandString;	// m_tstrCommandStringを返す.
 
 }
 
@@ -69,6 +58,25 @@ void CConsoleCore::ShowInputForm(){
 
 	// 入力フォーム文字列を出力.
 	PutConsole(m_tstrInputFormString);	// PutConsoleでm_tstrInputFormStringを出力.
+
+}
+
+// コマンド文字列の取得関数GetCommandString.
+tstring CConsoleCore::GetCommandString(){
+
+	// 変数の宣言
+	unsigned int uiCommandStringLen;	// コマンド文字列の長さuiCommandStringLen.
+	tstring tstrText;	// テキストtstrText.
+
+	// テキストの取得.
+	tstrText = GetText();	// GetTextでテキストを取得し, tstrTextに格納.
+
+	// コマンド文字列の切り出し.
+	uiCommandStringLen = (unsigned int)tstrText.length() - m_lStartPos;	// uiCommandStringLenにtstrTextの長さからm_iStartPosを引いたものを格納.
+	m_tstrCommandString = tstrText.substr(m_lStartPos, uiCommandStringLen);	// tstrText.substrでm_lStartPosからuiCommandStringLen分の部分文字列を抜き出して, m_tstrCommandStringに格納.
+
+	// コマンド文字列を返す.
+	return m_tstrCommandString;	// m_tstrCommandStringを返す.
 
 }
 
