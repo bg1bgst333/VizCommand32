@@ -24,6 +24,7 @@ class CConsoleCore : public CScalableEdit{
 		tstring m_tstrCommandString;	// コマンド文字列m_tstrCommandString.
 		long m_lStartPos;				// 入力開始位置m_lStartPos.
 		long m_lCurrentPos;				// 入力現在位置m_lCurrentPos.
+		HWND m_hProcWnd;	// コマンドに対する処理を実行するウィンドウのウィンドウハンドルm_hProcWnd.
 
 		// publicメンバ関数
 		// コンストラクタ・デストラクタ
@@ -34,10 +35,14 @@ class CConsoleCore : public CScalableEdit{
 		void PutConsole(tstring tstrString);	// コンソールに文字列を出力.
 		void ShowInputForm();	// 入力フォームの出力.
 		tstring GetCommandString();	// コマンド文字列の取得関数GetCommandString.
+		void SetProcWindow(HWND hWnd);	// コマンドに対する処理を実行するウィンドウをセット.
 		virtual int OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct);	// ウィンドウの作成が開始された時.
 		virtual int OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);	// キーが押された時.
 		virtual int OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);		// 文字キーが押された時.
 		virtual int OnLButtonUp(UINT nFlags, POINT pt);	// マウス左ボタンが離された時.
+		virtual void OnUserMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);	// ユーザ定義メッセージが発生した時.
+		virtual void OnResponseMessage(WPARAM wParam, LPARAM lParam);	// レスポンスメッセージが来た時.
+		virtual void OnFinishResponse(WPARAM wParam, LPARAM lParam);	// レスポンスが終了した時.
 
 };
 

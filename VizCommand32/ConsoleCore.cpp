@@ -80,6 +80,14 @@ tstring CConsoleCore::GetCommandString(){
 
 }
 
+// コマンドに対する処理を実行するウィンドウをセット.
+void CConsoleCore::SetProcWindow(HWND hWnd){
+
+	// メンバにセット.
+	m_hProcWnd = hWnd;	// m_hProcWndにhWndをセット.
+
+}
+
 // ウィンドウの作成が開始された時.
 int CConsoleCore::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct){
 
@@ -108,7 +116,9 @@ int CConsoleCore::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags){
 
 		// コマンド文字列の取得.
 		GetCommandString();	// GetCommandStringでコマンド文字列を取得.
-		MessageBox(m_hWnd, m_tstrCommandString.c_str(), _T("VizCommand"), MB_OK);	// MessageBoxでm_tstrCommandStringを表示.
+
+		// レスポンスを返すウィンドウにコマンド文字列を投げる.
+		PostMessage(m_hProcWnd, UM_CONSOLECORECOMMAND, (WPARAM)m_tstrCommandString.c_str(), (LPARAM)m_hWnd);	// UM_CONSOLECORECOMMANDでコマンド文字列を送信.
 
 	}
 
@@ -155,5 +165,85 @@ int CConsoleCore::OnLButtonUp(UINT nFlags, POINT pt){
 
 	// 入力は有効にする.
 	return 0;	// 0を返すと有効になる.
+
+}
+
+// ユーザ定義メッセージが発生した時.
+void CConsoleCore::OnUserMessage(UINT uMsg, WPARAM wParam, LPARAM lParam){
+
+	// switch-case文で振り分ける.
+	switch (uMsg) {
+
+		// 子から親へウィンドウサイズ変更の要求が発生した時.
+		case UM_SIZECHILD:
+
+			// UM_SIZECHILDブロック
+			{
+
+				// OnSizeChildに任せる.
+				OnSizeChild(wParam, lParam);	// OnSizeChildに任せる.
+
+			}
+
+			// 既定の処理へ向かう.
+			break;	// 抜けてDefWindowProcに向かう.
+
+		// レスポンスメッセージが来た時.
+		case UM_RESPONSEMESSAGE:
+
+			// UM_RESPONSEMESSAGEブロック
+			{
+		
+				// OnResponseMessageに任せる.
+				OnResponseMessage(wParam, lParam);	// OnResponseMessageに任せる.
+
+			}
+
+			// 既定の処理へ向かう.
+			break;	// 抜けてDefWindowProcに向かう.
+
+		// レスポンスが終了した時.
+		case UM_FINISHRESPONSE:
+
+			// UM_FINISHRESPONSEブロック
+			{
+
+				// OnFinishResponseに任せる.
+				OnFinishResponse(wParam, lParam);	// OnFinishResponseに任せる.
+
+			}
+
+			// 既定の処理へ向かう.
+			break;	// 抜けてDefWindowProcに向かう.
+
+		// それ以外.
+		default:
+
+			// 既定の処理へ向かう.
+			break;	// 抜けてDefWindowProcに向かう.
+
+	}
+
+}
+
+// レスポンスメッセージが来た時.
+void CConsoleCore::OnResponseMessage(WPARAM wParam, LPARAM lParam){
+
+	// 変数の宣言
+	tstring tstrMessage;	// メッセージ文字列を格納するtstrMessage.
+
+	// メッセージ文字列を取得.
+	tstrMessage = (TCHAR *)wParam;	// wParamを(TCHAR *)にキャストしてtstrMessageにセット.
+
+	// メッセージを出力.
+	PutConsole(tstrMessage);	// PutConsoleでtstrMessageを出力.
+
+}
+
+// レスポンスが終了した時.
+void CConsoleCore::OnFinishResponse(WPARAM wParam, LPARAM lParam){
+
+	// 入力フォームを出力.
+	ShowInputForm();	// ShowInputFormで入力フォームを出力.
 
 }

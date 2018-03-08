@@ -21,6 +21,9 @@
 
 // 独自ウィンドウメッセージ
 #define UM_SIZECHILD				(WM_APP + 1000)	// 32768 + 1000( = 33768)
+#define UM_CONSOLECORECOMMAND		(WM_APP + 1001)	// 32768 + 1001( = 33769)
+#define UM_RESPONSEMESSAGE			(WM_APP + 1002)	// 32768 + 1002( = 33770)
+#define UM_FINISHRESPONSE			(WM_APP + 1003)	// 32768 + 1003( = 33771)
 
 // ウィンドウクラスCWindow
 class CWindow{
