@@ -152,7 +152,7 @@ int CConsole::OnConsoleCoreCommand(WPARAM wParam, LPARAM lParam){
 void CConsole::OnHello(HWND hSrc){
 
 	// "Hello, world!"を出力.
-	SendMessage(hSrc, UM_RESPONSEMESSAGE, (WPARAM)_T("Hello, world!"), 0);	// UM_RESPONSEMESSAGEで"Hello, world!"を送る.
+	SendMessage(hSrc, UM_RESPONSEMESSAGE, (WPARAM)_T("Hello, world!\r\n"), 0);	// UM_RESPONSEMESSAGEで"Hello, world!"を送る.
 
 	// レスポンス終了.
 	SendMessage(hSrc, UM_FINISHRESPONSE, 0, 0);	// UM_FINISHRESPONSEを送る.

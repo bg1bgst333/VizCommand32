@@ -45,6 +45,32 @@ tstring CConsoleCore::GetInputFormString(){
 // コンソールに文字列を出力.
 void CConsoleCore::PutConsole(tstring tstrString){
 
+	// 変数の初期化
+	int iCount = 0;	// 改行の個数iCountを0に初期化.
+
+	// 改行の数を数える.
+	for (int i = 1; i < (int)tstrString.length(); i++){	// iは1からtstrString.length() - 1まで.
+		if (tstrString.at(i - 1) == _T('\r') && tstrString.at(i) == _T('\n')){	// 改行がみつかったら.
+
+			// 変数の宣言
+			int iHeight;	// 新しい高さiHeight.
+			WPARAM wParam;	// WPARAM型wParam.
+
+			// 改行したら1行分大きくする.
+			iHeight = m_iHeight + m_iLineHeight;	// 現在のウィンドウの高さに1行分の高さを足す.
+			MoveWindow(m_hWnd, m_x, m_y, m_iWidth, iHeight, TRUE);	// MoveWindowで高さをiHeightにする.
+			m_iLineCount++;	// 行数m_LineCountを増やす.
+
+			// UM_SIZECHILDで子ウィンドウのサイズに合わせる.
+			wParam = MAKEWPARAM(m_iWidth, m_iHeight);	// MAKEWPARAMでm_iWidthとm_iHeightからwParamを作成.
+			SendMessage(GetParent(m_hWnd), UM_SIZECHILD, wParam, (LPARAM)m_hWnd);	// UM_SIZECHILDで親ウィンドウをこのウィンドウのサイズに合わせる.
+
+			// iCountを増やす.
+			iCount++;	// iCountをインクリメント.
+
+		}
+	}
+
 	// 文字列を追加する.
 	SendMessage(m_hWnd, EM_REPLACESEL, 0, (LPARAM)tstrString.c_str());	// EM_REPLACESELでtstrStringを追加する.(本来は置換だが, 0を指定したときは追加(挿入)したことになる.)
 
