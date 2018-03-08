@@ -135,17 +135,11 @@ void CWindowListControl::RemoveAll(){
 // ウィンドウの作成が開始された時.
 int CWindowListControl::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct){
 
-	// ウィンドウリストアイテムズパネルの生成.
-	m_pWindowListItemsPanel = new CWindowListItemsPanel();	// CWindowListItemsPanelの作成.
-	
 	// クライアント領域のサイズを取得.
 	RECT rc = {0};	// rcを{0}で初期化.
 	GetClientRect(hwnd, &rc);	// GetClientRectでクライアント領域のRECTを取得.
 	m_iClientAreaWidth = rc.right - rc.left;	// 幅.
 	m_iClientAreaHeight = rc.bottom - rc.top;	// 高さ.
-
-	// ウィンドウリストアイテムズパネルのウィンドウ生成.
-	m_pWindowListItemsPanel->Create(_T(""), 0, 0, 0, m_iClientAreaWidth, m_iClientAreaHeight, hwnd, (HMENU)(WM_APP + 2), lpCreateStruct->hInstance);	// m_pWindowListItemsPanel->Createでウィンドウ生成.
 
 	// 常にウィンドウ作成に成功するものとする.
 	return 0;	// 0を返すと, ウィンドウ作成に成功したということになる.

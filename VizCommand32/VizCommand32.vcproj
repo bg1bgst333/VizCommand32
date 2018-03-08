@@ -219,6 +219,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\StreamConsoleItemsPanel.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\UserControl.cpp"
 				>
 			</File>
@@ -298,6 +302,10 @@
 			</File>
 			<File
 				RelativePath=".\StreamConsole.h"
+				>
+			</File>
+			<File
+				RelativePath=".\StreamConsoleItemsPanel.h"
 				>
 			</File>
 			<File

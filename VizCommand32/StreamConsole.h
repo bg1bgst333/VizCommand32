@@ -29,6 +29,8 @@ class CStreamConsole : public CWindowListControl{
 		virtual int OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct);	// ウィンドウ作成時のハンドラOnCreate.
 		virtual void OnSize(UINT nType, int cx, int cy);	// ウィンドウのサイズが変更された時.
 		virtual void OnTimer(UINT_PTR nIDEvent);	// タイマーイベントが発生した時.
+		virtual void OnUserMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);	// ユーザ定義メッセージが発生した時.
+		virtual void OnRequestScrollBottom(WPARAM wParam, LPARAM lParam);	// 下へのスクロールが要求された時.
 
 };
 

@@ -1,6 +1,7 @@
 // ヘッダのインクルード
 // 独自のヘッダ
 #include "StreamConsole.h"	// ストリームコンソールクラス
+#include "StreamConsoleItemsPanel.h"	// ストリームコンソールアイテムズパネルクラス
 
 // コンストラクタCStreamConsole
 CStreamConsole::CStreamConsole() : CWindowListControl(){
@@ -47,6 +48,13 @@ int CStreamConsole::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct){
 
 	// 親ウィンドウのOnCreateを呼ぶ.
 	int iRet = CWindowListControl::OnCreate(hwnd, lpCreateStruct);	// CWindowListControl::OnCreateを返す.
+	
+	// ウィンドウリストアイテムズパネルの生成.
+	//m_pWindowListItemsPanel = new CWindowListItemsPanel();	// CWindowListItemsPanelの作成.
+	m_pWindowListItemsPanel = new CStreamConsoleItemsPanel();	// CStreamConsoleItemsPanelの作成.
+
+	// ウィンドウリストアイテムズパネルのウィンドウ生成.
+	m_pWindowListItemsPanel->Create(_T(""), 0, 0, 0, m_iClientAreaWidth, m_iClientAreaHeight, hwnd, (HMENU)(WM_APP + 2), lpCreateStruct->hInstance);	// m_pWindowListItemsPanel->Createでウィンドウ生成.
 	
 	// 初回更新タイマーをセット.
 	SetTimer(hwnd, 1, 100, NULL);	// SetTimerで更新タイマーをセット.(100ミリ秒==0.1秒)
@@ -102,6 +110,76 @@ void CStreamConsole::OnTimer(UINT_PTR nIDEvent){
 
 		// タイマーを終了.
 		KillTimer(m_hWnd, 1);	// 初回更新タイマーを終了.
+
+	}
+
+}
+
+// ユーザ定義メッセージが発生した時.
+void CStreamConsole::OnUserMessage(UINT uMsg, WPARAM wParam, LPARAM lParam){
+
+	// switch-case文で振り分ける.
+	switch (uMsg) {
+
+		// 子から親へウィンドウサイズ変更の要求が発生した時.
+		case UM_SIZECHILD:
+
+			// UM_SIZECHILDブロック
+			{
+
+				// OnSizeChildに任せる.
+				OnSizeChild(wParam, lParam);	// OnSizeChildに任せる.
+
+			}
+
+			// 既定の処理へ向かう.
+			break;	// 抜けてDefWindowProcに向かう.
+
+		// 下へのスクロールが要求された時.
+		case UM_REQUESTSCROLLBOTTOM:
+
+			// UM_REQUESTSCROLLBOTTOMブロック
+			{
+
+				// OnRequestScrollBottomに任せる.
+				OnRequestScrollBottom(wParam, lParam);	// OnRequestScrollBottomに任せる.
+
+			}
+
+			// 既定の処理へ向かう.
+			break;	// 抜けてDefWindowProcに向かう.
+
+		// それ以外.
+		default:
+
+			// 既定の処理へ向かう.
+			break;	// 抜けてDefWindowProcに向かう.
+
+	};
+
+}
+
+// 下へのスクロールが要求された時.
+void CStreamConsole::OnRequestScrollBottom(WPARAM wParam, LPARAM lParam){
+
+	// スクロール情報を取得する.
+	ZeroMemory(&m_ScrollInfo, sizeof(m_ScrollInfo));	// ZeroMemoryで0で初期化.
+	m_ScrollInfo.fMask = SIF_POS | SIF_RANGE | SIF_PAGE;	// m_ScrollInfo.fMaskでマスクをセット.
+	GetScrollInfo(m_hWnd, SB_VERT, &m_ScrollInfo);	// GetScrollInfoでスクロール
+
+	// スクロール可能になった時.
+	if (m_ScrollInfo.nMax > m_ScrollInfo.nPage){	// nMaxのほうがnPageより大きい.
+
+		// アイテムズパネルのトータルの高さを取得.
+		int iTotalHeight = (int)wParam;	// wParamをintにキャストし, iTotalHeightに代入.
+		m_ScrollInfo.nMax = iTotalHeight;	// m_ScrollInfo.nMaxがiTotalHeight.
+		m_ScrollInfo.nPos = m_ScrollInfo.nMax;	// m_ScrollInfo.nPosはm_ScrollInfo.nMax.
+
+		// スクロール情報を設定する.
+		SetScrollInfo(m_hWnd, SB_VERT, &m_ScrollInfo, TRUE);	// SetScrollInfoでm_ScrollInfoをセット.
+
+		// アイテムズパネルの移動.
+		MoveWindow(m_pWindowListItemsPanel->m_hWnd, m_pWindowListItemsPanel->m_x, -m_ScrollInfo.nPos + m_ScrollInfo.nPage, m_pWindowListItemsPanel->m_iWidth, m_pWindowListItemsPanel->m_iHeight, TRUE);	// MoveWindowで-m_ScrollInfo.nPosの位置に移動.
 
 	}
 
