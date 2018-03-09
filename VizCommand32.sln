@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VizCommand32", "VizCommand32\VizCommand32.vcproj", "{A3CBFD6F-040F-41E3-A9FA-26595042FDD5}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "VizCommand32Setup", "VizCommand32Setup\VizCommand32Setup.vdproj", "{CF11D756-0376-43CA-A553-B9104C2B393A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -13,6 +15,10 @@ Global
 		{A3CBFD6F-040F-41E3-A9FA-26595042FDD5}.Debug|Win32.Build.0 = Debug|Win32
 		{A3CBFD6F-040F-41E3-A9FA-26595042FDD5}.Release|Win32.ActiveCfg = Release|Win32
 		{A3CBFD6F-040F-41E3-A9FA-26595042FDD5}.Release|Win32.Build.0 = Release|Win32
+		{CF11D756-0376-43CA-A553-B9104C2B393A}.Debug|Win32.ActiveCfg = Debug
+		{CF11D756-0376-43CA-A553-B9104C2B393A}.Debug|Win32.Build.0 = Debug
+		{CF11D756-0376-43CA-A553-B9104C2B393A}.Release|Win32.ActiveCfg = Release
+		{CF11D756-0376-43CA-A553-B9104C2B393A}.Release|Win32.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
