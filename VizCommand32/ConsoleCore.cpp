@@ -11,6 +11,7 @@ CConsoleCore::CConsoleCore() : CScalableEdit(){
 	m_tstrCommandString = _T("");	// m_tstrCommandStringを""で初期化.
 	m_lStartPos = 0;	// m_lStartPosを0に初期化.
 	m_lCurrentPos = 0;	// m_lCurrentPosを0に初期化.
+	m_ccmdCommand.Clear();	// コマンドのクリア.
 
 }
 
@@ -146,11 +147,17 @@ int CConsoleCore::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags){
 	// リターンキーが押された時.
 	if (nChar == VK_RETURN){	// nCharがVK_RETURNの時.
 
+		// コマンド情報をいったんクリア.
+		m_ccmdCommand.Clear();	// m_ccmdCommand.Clearでクリア.
+
 		// コマンド文字列の取得.
 		GetCommandString();	// GetCommandStringでコマンド文字列を取得.
 
-		// レスポンスを返すウィンドウにコマンド文字列を投げる.
-		PostMessage(m_hProcWnd, UM_CONSOLECORECOMMAND, (WPARAM)m_tstrCommandString.c_str(), (LPARAM)m_hWnd);	// UM_CONSOLECORECOMMANDでコマンド文字列を送信.
+		// コマンド文字列をコマンドオブジェクトにセット.
+		m_ccmdCommand.Set(m_tstrCommandString);	// m_ccmdCommand.Setでm_tstrCommandStringをセット.
+
+		// レスポンスを返すウィンドウにコマンドオブジェクトを投げる.
+		PostMessage(m_hProcWnd, UM_CONSOLECORECOMMAND, (WPARAM)&m_ccmdCommand, (LPARAM)m_hWnd);	// UM_CONSOLECORECOMMANDでm_ccmdCommandを送信.
 
 	}
 
@@ -290,6 +297,7 @@ void CConsoleCore::OnResponseMessage(WPARAM wParam, LPARAM lParam){
 void CConsoleCore::OnFinishResponse(WPARAM wParam, LPARAM lParam){
 
 	// 入力フォームを出力.
+	m_ccmdCommand.Clear();	// m_ccmdCommand.Clearでクリア.
 	ShowInputForm();	// ShowInputFormで入力フォームを出力.
 
 }

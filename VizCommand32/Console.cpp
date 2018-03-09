@@ -1,6 +1,7 @@
 // ヘッダのインクルード
 // 独自のヘッダ
 #include "Console.h"	// CConsole
+#include "Command.h"	// CCommand
 
 // コンストラクタCConsole
 CConsole::CConsole() : CScalableEditPanel(){
@@ -158,19 +159,20 @@ void CConsole::OnUserMessage(UINT uMsg, WPARAM wParam, LPARAM lParam){
 // コンソールコアからメッセージが送られた時.
 int CConsole::OnConsoleCoreCommand(WPARAM wParam, LPARAM lParam){
 
-	// 変数の宣言
-	tstring tstrCommand;	// コマンド文字列tstring型tstrCommand.
-	HWND hSrc;	// 送信元ウィンドウハンドルHWND型hSrc.
+	// 変数の初期
+	CCommand *pCommand = NULL;	// CCommandオブジェクトポインタpCommandをNULLで初期化.
+	HWND hSrc = NULL;	// 送信元ウィンドウハンドルhSrcをNULLで初期化.
 
 	// コマンドとソースを取得.
-	tstrCommand = (TCHAR *)wParam;	// wParamをTCHAR *型にキャストしてtstrCommandに格納.
-	hSrc = (HWND)lParam;	// lParamをHWND型にキャストしてhSrcに格納.
+	pCommand = (CCommand *)wParam;	// wParamを(CCommand *)にキャストしてpCommandに格納.
+	hSrc = (HWND)lParam;	// lParamをHWNDにキャストしてhSrcに格納.
 
 	// コマンドの判別.
-	if (tstrCommand == _T("hello")) {	// コマンド"hello".
+	tstring tstrCommandName = pCommand->GetCommandName();	// pCommand->GetCommandNameで取得したコマンド名をtstrCommandNameに格納.
+	if (tstrCommandName == _T("hello")){	// helloコマンド.
 
 		// OnHelloに任せる.
-		OnHello(hSrc);	// hSrcを引数として渡して, OnHelloを呼ぶ.
+		OnHello(hSrc, pCommand);	// hSrc, pCommandを引数として渡して, OnHelloを呼ぶ.
 
 	}
 	else {	// コマンドが見つからない.
@@ -186,7 +188,23 @@ int CConsole::OnConsoleCoreCommand(WPARAM wParam, LPARAM lParam){
 }
 
 // "Hello, world!"の出力を要求された時.
-void CConsole::OnHello(HWND hSrc){
+void CConsole::OnHello(HWND hSrc, CCommand *pCommand){
+
+	// "/g"オプションがあれば, StreamConsoleに投げる.
+	if (pCommand->m_vectstrCommandToken.size() > 1){	// オプションがある場合.
+		if (pCommand->m_vectstrCommandToken[1] == _T("/g")){	// "/g"オプションなら.
+
+			// "Hello, GUI world!"を出力.
+			SendMessage(hSrc, UM_RESPONSEMESSAGE, (WPARAM)_T("Hello, GUI world!\r\n"), 0);	// UM_RESPONSEMESSAGEで"Hello, GUI world!"を送る.
+
+			// レスポンス終了.
+			SendMessage(hSrc, UM_FINISHRESPONSE, 0, 0);	// UM_FINISHRESPONSEを送る.
+
+			// 終了.
+			return;	// ここで終了.
+
+		}
+	}
 
 	// "Hello, world!"を出力.
 	SendMessage(hSrc, UM_RESPONSEMESSAGE, (WPARAM)_T("Hello, world!\r\n"), 0);	// UM_RESPONSEMESSAGEで"Hello, world!"を送る.

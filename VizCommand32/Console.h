@@ -30,7 +30,7 @@ class CConsole : public CScalableEditPanel{
 		virtual HBRUSH OnCtlColorEdit(HDC hDC, HWND hEdit);	// 子エディットコントロールの描画時.
 		virtual void OnUserMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);	// ユーザ定義メッセージが発生した時.
 		virtual int OnConsoleCoreCommand(WPARAM wParam, LPARAM lParam);	// コンソールコアからメッセージが送られた時.
-		virtual void OnHello(HWND hSrc);	// "Hello, world!"の出力を要求された時.
+		virtual void OnHello(HWND hSrc, CCommand *pCommand);	// "Hello, world!"の出力を要求された時.
 		virtual void OnErrorCommandNotFound(HWND hSrc);	// コマンドが見つからないエラーが発生した時.
 
 };

@@ -5,6 +5,7 @@
 // ヘッダのインクルード
 // 独自のヘッダ
 #include "ScalableEdit.h"	// CScalableEdit
+#include "Command.h"	// CCommand
 
 // マクロの定義
 // 入力記号.
@@ -22,6 +23,7 @@ class CConsoleCore : public CScalableEdit{
 		tstring m_tstrInputFormString;	// 実際に出力する入力フォーム文字列m_tstrInputFormString.
 		tstring m_tstrCurrentPath;	// 現在のパスm_tstrCurrentPath.
 		tstring m_tstrCommandString;	// コマンド文字列m_tstrCommandString.
+		CCommand m_ccmdCommand;	// コマンドオブジェクトm_ccmdCommand.
 		long m_lStartPos;				// 入力開始位置m_lStartPos.
 		long m_lCurrentPos;				// 入力現在位置m_lCurrentPos.
 		HWND m_hProcWnd;	// コマンドに対する処理を実行するウィンドウのウィンドウハンドルm_hProcWnd.
