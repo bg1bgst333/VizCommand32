@@ -8,6 +8,7 @@ CStreamConsole::CStreamConsole() : CWindowListControl(){
 
 	// メンバの初期化.
 	m_nId = 0;	// m_nIdを0で初期化.
+	m_iNext = 0;	// m_iNextを0で初期化.
 
 }
 
@@ -94,8 +95,10 @@ void CStreamConsole::OnTimer(UINT_PTR nIDEvent){
 	if (nIDEvent == 1){	// 1の時.
 
 		// デフォルトアイテムの挿入.
-		Insert(0, _T("0"), 80, hInstance);	// Insertで0番目のアイテムを挿入.
-		CWindowListItem *pItem = Get(0);	// Getで0番目を取得し, pItemに格納.
+		TCHAR tszNext[16] = {0};	// tszNextを{0}で初期化.
+		_stprintf(tszNext, _T("%d"), m_iNext);	// m_iNextをtszNextに変換. 
+		Insert(m_iNext, tszNext, 80, hInstance);	// Insertでm_iNext番目のアイテムを挿入.
+		CWindowListItem *pItem = Get(m_iNext);	// Getでm_iNext番目を取得し, pItemに格納.
 		//CConsoleCore *pConsoleCore = new CConsoleCore();	// CConsoleCoreオブジェクトを作成し, pConsoleCoreに格納.
 		//pConsoleCore->Create(_T(""), 0, 0, 0, m_iClientAreaWidth, m_iClientAreaHeight, pItem->m_hWnd, (HMENU)(WM_APP + 200 + m_nId), hInstance);	// pConsoleCore->Createでウィンドウ作成.
 		//pItem->m_mapChildMap.insert(std::make_pair(_T("ConsoleCore"), pConsoleCore));	// pItem->m_mapChildMap.insertで"ConsoleCore"をキーとして, pConsoleCoreを追加.
@@ -105,6 +108,7 @@ void CStreamConsole::OnTimer(UINT_PTR nIDEvent){
 		pConsole->ShowInputForm();	// 入力フォームを出力.
 		pItem->m_mapChildMap.insert(std::make_pair(_T("Console"), pConsole));	// pItem->m_mapChildMap.insertで"Console"をキーとして, pConsoleを追加.
 		m_nId++;	// m_nIdをインクリメント.
+		m_iNext++;	// m_iNextをインクリメント.
 
 		// 無効領域を作成して画面の更新.
 		InvalidateRect(m_hWnd, NULL, TRUE);	// InvalidateRectで無効領域作成.
@@ -232,8 +236,47 @@ void CStreamConsole::OnHello(HWND hSrc, CCommand *pCommand){
 	if (pCommand->m_vectstrCommandToken.size() > 1){	// オプションがある場合.
 		if (pCommand->m_vectstrCommandToken[1] == _T("/s")){	// "/s"オプションなら.
 
-			// メッセージボックスで"hello /s"を表示.
-			MessageBox(m_hWnd, _T("hello /s"), _T("VizCommand"), MB_OK);	// MessageBoxで"hello /s"を表示.
+			// インスタンスハンドルを取得.
+			HINSTANCE hInstance = (HINSTANCE)GetWindowLong(m_hWnd, GWL_HINSTANCE);	// GetWindowLongでhInstanceを取得.
+
+			// アイテムの挿入.
+			TCHAR tszNext[16] = {0};	// tszNextを{0}で初期化.
+			_stprintf(tszNext, _T("%d"), m_iNext);	// m_iNextをtszNextに変換. 
+			Insert(m_iNext, tszNext, 80, hInstance);	// Insertでm_iNext番目のアイテムを挿入.
+			CWindowListItem *pItem = Get(m_iNext);	// Getでm_iNext番目を取得し, pItemに格納.
+			m_nId++;	// m_nIdをインクリメント.
+			m_iNext++;	// m_iNextをインクリメント.
+
+			// アイテムの挿入.
+			TCHAR tszNext2[16] = {0};	// tszNext2を{0}で初期化.
+			_stprintf(tszNext2, _T("%d"), m_iNext);	// m_iNextをtszNext2に変換. 
+			Insert(m_iNext, tszNext2, 80, hInstance);	// Insertでm_iNext番目のアイテムを挿入.
+			CWindowListItem *pItem2 = Get(m_iNext);	// Getでm_iNext番目を取得し, pItem2に格納.
+			m_nId++;	// m_nIdをインクリメント.
+			m_iNext++;	// m_iNextをインクリメント.
+
+			// コンソールの追加.
+			CConsole *pConsole = new CConsole();	// CConsoleオブジェクトを作成し, pConsoleに格納.
+			pConsole->SetProcWindow(m_hWnd);	// pConsole->SetProcWindowでストリームコマンドならここに投げるようにする.
+			pConsole->Create(_T(""), 0, 0, 0, m_iClientAreaWidth, m_iClientAreaHeight, pItem2->m_hWnd, (HMENU)(WM_APP + 200 + m_nId), hInstance);	// pConsole->Createでウィンドウ作成.
+			pConsole->ShowInputForm();	// 入力フォームを出力.
+			pItem2->m_mapChildMap.insert(std::make_pair(_T("Console"), pConsole));	// pItem2->m_mapChildMap.insertで"Console"をキーとして, pConsoleを追加.
+			
+
+#if 0
+			// デフォルトアイテムの挿入.
+			TCHAR tszNext2[16] = {0};	// tszNext2を{0}で初期化.
+			_stprintf(tszNext2, _T("%d"), m_iNext);	// m_iNextをtszNext2に変換. 
+			Insert(m_iNext, tszNext2, 80, hInstance);	// Insertでm_iNext番目のアイテムを挿入.
+			CWindowListItem *pItem2 = Get(m_iNext);	// Getでm_iNext番目を取得し, pItem2に格納.
+			CConsole *pConsole = new CConsole();	// CConsoleオブジェクトを作成し, pConsoleに格納.
+			pConsole->SetProcWindow(m_hWnd);	// pConsole->SetProcWindowでストリームコマンドならここに投げるようにする.
+			pConsole->Create(_T(""), 0, 0, 0, m_iClientAreaWidth, m_iClientAreaHeight, pItem->m_hWnd, (HMENU)(WM_APP + 200 + m_nId), hInstance);	// pConsole->Createでウィンドウ作成.
+			pConsole->ShowInputForm();	// 入力フォームを出力.
+			pItem2->m_mapChildMap.insert(std::make_pair(_T("Console"), pConsole));	// pItem2->m_mapChildMap.insertで"Console"をキーとして, pConsoleを追加.
+			m_nId++;	// m_nIdをインクリメント.
+			m_iNext++;	// m_iNextをインクリメント.
+#endif
 
 			// 終了.
 			return;	// ここで終了.

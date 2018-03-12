@@ -16,6 +16,7 @@ class CStreamConsole : public CWindowListControl{
 
 		// publicメンバ変数
 		HMENU m_nId;	// HMENU型メニューID.
+		int m_iNext;	// int型m_iNext.
 
 		// publicメンバ関数
 		// コンストラクタ・デストラクタ
