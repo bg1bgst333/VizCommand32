@@ -15,6 +15,7 @@ class CConsole : public CScalableEditPanel{
 
 		// publicメンバ変数
 		HBRUSH m_hbrBackground;	// 背景色ブラシm_hbrBackground.
+		HWND m_hProcWnd;	// コマンドに対する処理を実行するウィンドウのウィンドウハンドルm_hProcWnd.
 
 		// publicメンバ関数
 		// コンストラクタ・デストラクタ
@@ -26,6 +27,7 @@ class CConsole : public CScalableEditPanel{
 		virtual BOOL Create(LPCTSTR lpctszWindowName, DWORD dwStyle, int x, int y, int iWidth, int iHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance);	// ウィンドウ作成関数Create.
 		virtual void Destroy();	// ウィンドウの破棄と終了処理関数Destroy.
 		void ShowInputForm();	// 入力フォームの出力.
+		void SetProcWindow(HWND hWnd);	// コマンドに対する処理を実行するウィンドウをセット.
 		virtual void OnSize(UINT nType, int cx, int cy);	// ウィンドウのサイズが変更された時.
 		virtual HBRUSH OnCtlColorEdit(HDC hDC, HWND hEdit);	// 子エディットコントロールの描画時.
 		virtual void OnUserMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);	// ユーザ定義メッセージが発生した時.

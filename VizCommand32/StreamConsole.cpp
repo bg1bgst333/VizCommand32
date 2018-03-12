@@ -100,6 +100,7 @@ void CStreamConsole::OnTimer(UINT_PTR nIDEvent){
 		//pConsoleCore->Create(_T(""), 0, 0, 0, m_iClientAreaWidth, m_iClientAreaHeight, pItem->m_hWnd, (HMENU)(WM_APP + 200 + m_nId), hInstance);	// pConsoleCore->Createでウィンドウ作成.
 		//pItem->m_mapChildMap.insert(std::make_pair(_T("ConsoleCore"), pConsoleCore));	// pItem->m_mapChildMap.insertで"ConsoleCore"をキーとして, pConsoleCoreを追加.
 		CConsole *pConsole = new CConsole();	// CConsoleオブジェクトを作成し, pConsoleに格納.
+		pConsole->SetProcWindow(m_hWnd);	// pConsole->SetProcWindowでストリームコマンドならここに投げるようにする.
 		pConsole->Create(_T(""), 0, 0, 0, m_iClientAreaWidth, m_iClientAreaHeight, pItem->m_hWnd, (HMENU)(WM_APP + 200 + m_nId), hInstance);	// pConsole->Createでウィンドウ作成.
 		pConsole->ShowInputForm();	// 入力フォームを出力.
 		pItem->m_mapChildMap.insert(std::make_pair(_T("Console"), pConsole));	// pItem->m_mapChildMap.insertで"Console"をキーとして, pConsoleを追加.
@@ -149,6 +150,20 @@ void CStreamConsole::OnUserMessage(UINT uMsg, WPARAM wParam, LPARAM lParam){
 			// 既定の処理へ向かう.
 			break;	// 抜けてDefWindowProcに向かう.
 
+		// コンソールからストリームコンソールへのメッセージが送られた時.
+		case UM_STREAMCOMMAND:
+
+			// UM_STREAMCOMMANDブロック
+			{
+
+				// OnStreamCommandに任せる.
+				OnStreamCommand(wParam, lParam);	// OnStreamCommandに任せる.
+
+			}
+
+			// 既定の処理へ向かう.
+			break;	// 抜けてDefWindowProcに向かう.
+
 		// それ以外.
 		default:
 
@@ -182,5 +197,51 @@ void CStreamConsole::OnRequestScrollBottom(WPARAM wParam, LPARAM lParam){
 		MoveWindow(m_pWindowListItemsPanel->m_hWnd, m_pWindowListItemsPanel->m_x, -m_ScrollInfo.nPos + m_ScrollInfo.nPage, m_pWindowListItemsPanel->m_iWidth, m_pWindowListItemsPanel->m_iHeight, TRUE);	// MoveWindowで-m_ScrollInfo.nPosの位置に移動.
 
 	}
+
+}
+
+// コンソールからストリームコンソールへのメッセージが送られた時.
+int CStreamConsole::OnStreamCommand(WPARAM wParam, LPARAM lParam){
+
+	// 変数の初期
+	CCommand *pCommand = NULL;	// CCommandオブジェクトポインタpCommandをNULLで初期化.
+	HWND hSrc = NULL;	// 送信元ウィンドウハンドルhSrcをNULLで初期化.
+
+	// コマンドとソースを取得.
+	pCommand = (CCommand *)wParam;	// wParamを(CCommand *)にキャストしてpCommandに格納.
+	hSrc = (HWND)lParam;	// lParamをHWNDにキャストしてhSrcに格納.
+
+	// コマンドの判別.
+	tstring tstrCommandName = pCommand->GetCommandName();	// pCommand->GetCommandNameで取得したコマンド名をtstrCommandNameに格納.
+	if (tstrCommandName == _T("hello")){	// helloコマンド.
+
+		// OnHelloに任せる.
+		OnHello(hSrc, pCommand);	// hSrc, pCommandを引数として渡して, OnHelloを呼ぶ.
+
+	}
+
+	// 成功なら0を返す.
+	return 0;	// 0を返す.
+
+}
+
+// "Hello, world!"の出力を要求された時.
+void CStreamConsole::OnHello(HWND hSrc, CCommand *pCommand){
+
+	// "/s"オプションがあれば, StreamConsoleに投げる.
+	if (pCommand->m_vectstrCommandToken.size() > 1){	// オプションがある場合.
+		if (pCommand->m_vectstrCommandToken[1] == _T("/s")){	// "/s"オプションなら.
+
+			// メッセージボックスで"hello /s"を表示.
+			MessageBox(m_hWnd, _T("hello /s"), _T("VizCommand"), MB_OK);	// MessageBoxで"hello /s"を表示.
+
+			// 終了.
+			return;	// ここで終了.
+
+		}
+	}
+
+	// 終了.
+	return;	// ここで終了.
 
 }

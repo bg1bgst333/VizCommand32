@@ -84,6 +84,14 @@ void CConsole::ShowInputForm(){
 
 }
 
+// コマンドに対する処理を実行するウィンドウをセット.
+void CConsole::SetProcWindow(HWND hWnd){
+
+	// メンバにセット.
+	m_hProcWnd = hWnd;	// m_hProcWndにhWndをセット.
+
+}
+
 // ウィンドウのサイズが変更された時.
 void CConsole::OnSize(UINT nType, int cx, int cy){
 
@@ -190,15 +198,12 @@ int CConsole::OnConsoleCoreCommand(WPARAM wParam, LPARAM lParam){
 // "Hello, world!"の出力を要求された時.
 void CConsole::OnHello(HWND hSrc, CCommand *pCommand){
 
-	// "/g"オプションがあれば, StreamConsoleに投げる.
+	// "/s"オプションがあれば, StreamConsoleに投げる.
 	if (pCommand->m_vectstrCommandToken.size() > 1){	// オプションがある場合.
-		if (pCommand->m_vectstrCommandToken[1] == _T("/g")){	// "/g"オプションなら.
+		if (pCommand->m_vectstrCommandToken[1] == _T("/s")){	// "/s"オプションなら.
 
-			// "Hello, GUI world!"を出力.
-			SendMessage(hSrc, UM_RESPONSEMESSAGE, (WPARAM)_T("Hello, GUI world!\r\n"), 0);	// UM_RESPONSEMESSAGEで"Hello, GUI world!"を送る.
-
-			// レスポンス終了.
-			SendMessage(hSrc, UM_FINISHRESPONSE, 0, 0);	// UM_FINISHRESPONSEを送る.
+			// ストリームコンソールに処理を投げる.
+			SendMessage(m_hProcWnd, UM_STREAMCOMMAND, (WPARAM)pCommand, (LPARAM)m_hWnd);	// UM_STREAMCOMMANDでストリームコンソールにさらに投げる.
 
 			// 終了.
 			return;	// ここで終了.

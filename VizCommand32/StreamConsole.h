@@ -31,6 +31,8 @@ class CStreamConsole : public CWindowListControl{
 		virtual void OnTimer(UINT_PTR nIDEvent);	// タイマーイベントが発生した時.
 		virtual void OnUserMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);	// ユーザ定義メッセージが発生した時.
 		virtual void OnRequestScrollBottom(WPARAM wParam, LPARAM lParam);	// 下へのスクロールが要求された時.
+		virtual int OnStreamCommand(WPARAM wParam, LPARAM lParam);	// コンソールからストリームコンソールへのメッセージが送られた時.
+		virtual void OnHello(HWND hSrc, CCommand *pCommand);	// "Hello, world!"の出力を要求された時.
 
 };
 

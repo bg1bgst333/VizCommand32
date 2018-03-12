@@ -25,6 +25,7 @@
 #define UM_RESPONSEMESSAGE			(WM_APP + 1002)	// 32768 + 1002( = 33770)
 #define UM_FINISHRESPONSE			(WM_APP + 1003)	// 32768 + 1003( = 33771)
 #define UM_REQUESTSCROLLBOTTOM		(WM_APP + 1004)	// 32768 + 1004( = 33772)
+#define UM_STREAMCOMMAND			(WM_APP + 1005)	// 32768 + 1005( = 33773)
 
 // ウィンドウクラスCWindow
 class CWindow{
