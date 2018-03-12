@@ -169,7 +169,7 @@ void CWindowListControl::OnPaint(){
 	// 描画開始.
 	hDC = BeginPaint(m_hWnd, &ps);	// BeginPaintで描画開始.
 
-#if 1
+#if 0
 	// ペンとブラシの生成.
 	hPen = (HPEN)CreatePen(PS_SOLID, 1, RGB(0, 0, 0xff));	// CreatePenで青(淡)のペンを作成.
 	hBrush = (HBRUSH)CreateSolidBrush(RGB(0, 0, 0x7f));		// CreateSolidBrushで青(濃)のブラシを作成.

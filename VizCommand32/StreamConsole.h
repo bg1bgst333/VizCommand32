@@ -6,7 +6,8 @@
 // 独自のヘッダ
 #include "UserControl.h"	// CUserControl
 #include "WindowListControl.h"	// CWindowListControl
-#include "Console.h"	// コンソールクラス
+#include "Console.h"	// CConsole
+#include "StaticPanel.h"	// CStaticPanel
 
 // ストリームコンソールクラスCStreamConsole
 class CStreamConsole : public CWindowListControl{

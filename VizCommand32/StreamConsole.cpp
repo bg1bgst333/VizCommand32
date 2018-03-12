@@ -81,6 +81,10 @@ void CStreamConsole::OnSize(UINT nType, int cx, int cy){
 					CWindow *pWindow = pItem->m_mapChildMap[_T("Console")];	// pItem->m_mapChildMap[_T("Console")]で取り出す.(この時, CWindowポインタでいい.)
 					MoveWindow(pWindow->m_hWnd, pWindow->m_x, pWindow->m_y, m_iWidth/* cx */, pWindow->m_iHeight, TRUE);	// MoveWindowで横幅をcxとする.
 				}
+				if (pItem->m_mapChildMap.find(_T("StaticPanel")) != pItem->m_mapChildMap.end()){	// "StaticPanel"が見つかったら.
+					CWindow *pWindow = pItem->m_mapChildMap[_T("StaticPanel")];	// pItem->m_mapChildMap[_T("StaticPanel")]で取り出す.(このとき, CWindowポインタでいい.)
+					MoveWindow(pWindow->m_hWnd, pWindow->m_x, pWindow->m_y, m_iWidth, pWindow->m_iHeight, TRUE);	// MoveWindowで横幅をcxとする.
+				}
 			}
 		}
 	}
@@ -247,6 +251,12 @@ void CStreamConsole::OnHello(HWND hSrc, CCommand *pCommand){
 			m_nId++;	// m_nIdをインクリメント.
 			m_iNext++;	// m_iNextをインクリメント.
 
+			// スタティックパネルの追加.
+			CStaticPanel *pStaticPanel =  new CStaticPanel();	// CStaticPanelオブジェクトを作成, pStaticPanelに格納.
+			pStaticPanel->Create(_T(""), 0, 0, 0, m_iClientAreaWidth, m_iClientAreaHeight, pItem->m_hWnd, (HMENU)(WM_APP + 200 + m_nId), hInstance);	// pStaticPanel->Createでウィンドウ作成.
+			pStaticPanel->m_pStatic->SetText(_T("Hello, Static world!"));	// "Hello, Static world!"をセット.
+			pItem->m_mapChildMap.insert(std::make_pair(_T("StaticPanel"), pStaticPanel));	// pItem->m_mapChildMap.insertで"StaticPanel"をキーとして, pStaticPanelを追加.
+
 			// アイテムの挿入.
 			TCHAR tszNext2[16] = {0};	// tszNext2を{0}で初期化.
 			_stprintf(tszNext2, _T("%d"), m_iNext);	// m_iNextをtszNext2に変換. 
@@ -258,11 +268,10 @@ void CStreamConsole::OnHello(HWND hSrc, CCommand *pCommand){
 			// コンソールの追加.
 			CConsole *pConsole = new CConsole();	// CConsoleオブジェクトを作成し, pConsoleに格納.
 			pConsole->SetProcWindow(m_hWnd);	// pConsole->SetProcWindowでストリームコマンドならここに投げるようにする.
-			pConsole->Create(_T(""), 0, 0, 0, m_iClientAreaWidth, m_iClientAreaHeight, pItem2->m_hWnd, (HMENU)(WM_APP + 200 + m_nId), hInstance);	// pConsole->Createでウィンドウ作成.
+			pConsole->Create(_T(""), 0, 0, 0, m_iClientAreaWidth, m_iClientAreaHeight, pItem2->m_hWnd, (HMENU)(WM_APP + 201 + m_nId), hInstance);	// pConsole->Createでウィンドウ作成.
 			pConsole->ShowInputForm();	// 入力フォームを出力.
 			pItem2->m_mapChildMap.insert(std::make_pair(_T("Console"), pConsole));	// pItem2->m_mapChildMap.insertで"Console"をキーとして, pConsoleを追加.
 			
-
 #if 0
 			// デフォルトアイテムの挿入.
 			TCHAR tszNext2[16] = {0};	// tszNext2を{0}で初期化.

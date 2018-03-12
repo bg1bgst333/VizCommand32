@@ -219,6 +219,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Static.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\StaticPanel.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\StreamConsole.cpp"
 				>
 			</File>
@@ -306,6 +314,14 @@
 			</File>
 			<File
 				RelativePath=".\ScalableEditPanel.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Static.h"
+				>
+			</File>
+			<File
+				RelativePath=".\StaticPanel.h"
 				>
 			</File>
 			<File
