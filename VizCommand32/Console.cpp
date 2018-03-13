@@ -183,6 +183,12 @@ int CConsole::OnConsoleCoreCommand(WPARAM wParam, LPARAM lParam){
 		OnHello(hSrc, pCommand);	// hSrc, pCommandを引数として渡して, OnHelloを呼ぶ.
 
 	}
+	else if (tstrCommandName == _T("list")){	// listコマンド.
+
+		// OnListに任せる.
+		OnList(hSrc, pCommand);	// hSrc, pCommandを引数として渡して, OnListを呼ぶ.
+
+	}
 	else {	// コマンドが見つからない.
 
 		// コマンドが見つからないエラー.
@@ -216,6 +222,14 @@ void CConsole::OnHello(HWND hSrc, CCommand *pCommand){
 
 	// レスポンス終了.
 	SendMessage(hSrc, UM_FINISHRESPONSE, 0, 0);	// UM_FINISHRESPONSEを送る.
+
+}
+
+// ファイルリストの出力を要求された時.
+void CConsole::OnList(HWND hSrc, CCommand *pCommand){
+
+	// ストリームコンソールに処理を投げる.
+	SendMessage(m_hProcWnd, UM_STREAMCOMMAND, (WPARAM)pCommand, (LPARAM)m_hWnd);	// UM_STREAMCOMMANDでストリームコンソールにさらに投げる.
 
 }
 

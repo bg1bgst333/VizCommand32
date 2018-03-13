@@ -85,6 +85,10 @@ void CStreamConsole::OnSize(UINT nType, int cx, int cy){
 					CWindow *pWindow = pItem->m_mapChildMap[_T("StaticPanel")];	// pItem->m_mapChildMap[_T("StaticPanel")]で取り出す.(このとき, CWindowポインタでいい.)
 					MoveWindow(pWindow->m_hWnd, pWindow->m_x, pWindow->m_y, m_iWidth, pWindow->m_iHeight, TRUE);	// MoveWindowで横幅をcxとする.
 				}
+				if (pItem->m_mapChildMap.find(_T("ListControlPanel")) != pItem->m_mapChildMap.end()){	// "ListControlPanel"が見つかったら.
+					CWindow *pWindow = pItem->m_mapChildMap[_T("ListControlPanel")];	// pItem->m_mapChildMap[_T("ListControlPanel")]で取り出す.(このとき, CWindowポインタでいい.)
+					MoveWindow(pWindow->m_hWnd, pWindow->m_x, pWindow->m_y, m_iWidth, pWindow->m_iHeight, TRUE);	// MoveWindowで横幅をcxとする.
+				}
 			}
 		}
 	}
@@ -227,6 +231,12 @@ int CStreamConsole::OnStreamCommand(WPARAM wParam, LPARAM lParam){
 		OnHello(hSrc, pCommand);	// hSrc, pCommandを引数として渡して, OnHelloを呼ぶ.
 
 	}
+	else if (tstrCommandName == _T("list")){	// listコマンド.
+
+		// OnListに任せる.
+		OnList(hSrc, pCommand);	// hSrc, pCommandを引数として渡して, OnListを呼ぶ.
+
+	}
 
 	// 成功なら0を返す.
 	return 0;	// 0を返す.
@@ -248,8 +258,6 @@ void CStreamConsole::OnHello(HWND hSrc, CCommand *pCommand){
 			_stprintf(tszNext, _T("%d"), m_iNext);	// m_iNextをtszNextに変換. 
 			Insert(m_iNext, tszNext, 80, hInstance);	// Insertでm_iNext番目のアイテムを挿入.
 			CWindowListItem *pItem = Get(m_iNext);	// Getでm_iNext番目を取得し, pItemに格納.
-			m_nId++;	// m_nIdをインクリメント.
-			m_iNext++;	// m_iNextをインクリメント.
 
 			// スタティックパネルの追加.
 			CStaticPanel *pStaticPanel =  new CStaticPanel();	// CStaticPanelオブジェクトを作成, pStaticPanelに格納.
@@ -257,41 +265,75 @@ void CStreamConsole::OnHello(HWND hSrc, CCommand *pCommand){
 			pStaticPanel->m_pStatic->SetText(_T("Hello, Static world!"));	// "Hello, Static world!"をセット.
 			pItem->m_mapChildMap.insert(std::make_pair(_T("StaticPanel"), pStaticPanel));	// pItem->m_mapChildMap.insertで"StaticPanel"をキーとして, pStaticPanelを追加.
 
+			// 次へ.
+			m_nId++;	// m_nIdをインクリメント.
+			m_iNext++;	// m_iNextをインクリメント.
+
 			// アイテムの挿入.
 			TCHAR tszNext2[16] = {0};	// tszNext2を{0}で初期化.
 			_stprintf(tszNext2, _T("%d"), m_iNext);	// m_iNextをtszNext2に変換. 
 			Insert(m_iNext, tszNext2, 80, hInstance);	// Insertでm_iNext番目のアイテムを挿入.
 			CWindowListItem *pItem2 = Get(m_iNext);	// Getでm_iNext番目を取得し, pItem2に格納.
-			m_nId++;	// m_nIdをインクリメント.
-			m_iNext++;	// m_iNextをインクリメント.
 
 			// コンソールの追加.
 			CConsole *pConsole = new CConsole();	// CConsoleオブジェクトを作成し, pConsoleに格納.
 			pConsole->SetProcWindow(m_hWnd);	// pConsole->SetProcWindowでストリームコマンドならここに投げるようにする.
-			pConsole->Create(_T(""), 0, 0, 0, m_iClientAreaWidth, m_iClientAreaHeight, pItem2->m_hWnd, (HMENU)(WM_APP + 201 + m_nId), hInstance);	// pConsole->Createでウィンドウ作成.
+			pConsole->Create(_T(""), 0, 0, 0, m_iClientAreaWidth, m_iClientAreaHeight, pItem2->m_hWnd, (HMENU)(WM_APP + 200 + m_nId), hInstance);	// pConsole->Createでウィンドウ作成.
 			pConsole->ShowInputForm();	// 入力フォームを出力.
 			pItem2->m_mapChildMap.insert(std::make_pair(_T("Console"), pConsole));	// pItem2->m_mapChildMap.insertで"Console"をキーとして, pConsoleを追加.
-			
-#if 0
-			// デフォルトアイテムの挿入.
-			TCHAR tszNext2[16] = {0};	// tszNext2を{0}で初期化.
-			_stprintf(tszNext2, _T("%d"), m_iNext);	// m_iNextをtszNext2に変換. 
-			Insert(m_iNext, tszNext2, 80, hInstance);	// Insertでm_iNext番目のアイテムを挿入.
-			CWindowListItem *pItem2 = Get(m_iNext);	// Getでm_iNext番目を取得し, pItem2に格納.
-			CConsole *pConsole = new CConsole();	// CConsoleオブジェクトを作成し, pConsoleに格納.
-			pConsole->SetProcWindow(m_hWnd);	// pConsole->SetProcWindowでストリームコマンドならここに投げるようにする.
-			pConsole->Create(_T(""), 0, 0, 0, m_iClientAreaWidth, m_iClientAreaHeight, pItem->m_hWnd, (HMENU)(WM_APP + 200 + m_nId), hInstance);	// pConsole->Createでウィンドウ作成.
-			pConsole->ShowInputForm();	// 入力フォームを出力.
-			pItem2->m_mapChildMap.insert(std::make_pair(_T("Console"), pConsole));	// pItem2->m_mapChildMap.insertで"Console"をキーとして, pConsoleを追加.
+
+			// 次へ.
 			m_nId++;	// m_nIdをインクリメント.
 			m_iNext++;	// m_iNextをインクリメント.
-#endif
 
 			// 終了.
 			return;	// ここで終了.
 
 		}
 	}
+
+	// 終了.
+	return;	// ここで終了.
+
+}
+
+// ファイルリストの出力を要求された時.
+void CStreamConsole::OnList(HWND hSrc, CCommand *pCommand){
+
+	// インスタンスハンドルを取得.
+	HINSTANCE hInstance = (HINSTANCE)GetWindowLong(m_hWnd, GWL_HINSTANCE);	// GetWindowLongでhInstanceを取得.
+
+	// アイテムの挿入.
+	TCHAR tszNext[16] = {0};	// tszNextを{0}で初期化.
+	_stprintf(tszNext, _T("%d"), m_iNext);	// m_iNextをtszNextに変換. 
+	Insert(m_iNext, tszNext, 240, hInstance);	// Insertでm_iNext番目のアイテムを挿入.
+	CWindowListItem *pItem = Get(m_iNext);	// Getでm_iNext番目を取得し, pItemに格納.
+
+	// リストコントロールパネルの追加.
+	CListControlPanel *pListControlPanel = new CListControlPanel();	// CListControlPanelオブジェクトを作成, pListControlPanelに格納.
+	pListControlPanel->Create(_T(""), 0, 0, 0, m_iClientAreaWidth, m_iClientAreaHeight, pItem->m_hWnd, (HMENU)(WM_APP + 200 + m_nId), hInstance);	// pListControlPanel->Createでウィンドウ作成.
+	pItem->m_mapChildMap.insert(std::make_pair(_T("ListControlPanel"), pListControlPanel));	// pItem->m_mapChildMap.insertで"ListControlPanel"をキーとして, pListControlPanelを追加.
+
+	// 次へ.
+	m_nId++;	// m_nIdをインクリメント.
+	m_iNext++;	// m_iNextをインクリメント.
+
+	// アイテムの挿入.
+	TCHAR tszNext2[16] = {0};	// tszNext2を{0}で初期化.
+	_stprintf(tszNext2, _T("%d"), m_iNext);	// m_iNextをtszNext2に変換. 
+	Insert(m_iNext, tszNext2, 80, hInstance);	// Insertでm_iNext番目のアイテムを挿入.
+	CWindowListItem *pItem2 = Get(m_iNext);	// Getでm_iNext番目を取得し, pItem2に格納.
+
+	// コンソールの追加.
+	CConsole *pConsole = new CConsole();	// CConsoleオブジェクトを作成し, pConsoleに格納.
+	pConsole->SetProcWindow(m_hWnd);	// pConsole->SetProcWindowでストリームコマンドならここに投げるようにする.
+	pConsole->Create(_T(""), 0, 0, 0, m_iClientAreaWidth, m_iClientAreaHeight, pItem2->m_hWnd, (HMENU)(WM_APP + 200 + m_nId), hInstance);	// pConsole->Createでウィンドウ作成.
+	pConsole->ShowInputForm();	// 入力フォームを出力.
+	pItem2->m_mapChildMap.insert(std::make_pair(_T("Console"), pConsole));	// pItem2->m_mapChildMap.insertで"Console"をキーとして, pConsoleを追加.
+
+	// 次へ.
+	m_nId++;	// m_nIdをインクリメント.
+	m_iNext++;	// m_iNextをインクリメント.
 
 	// 終了.
 	return;	// ここで終了.

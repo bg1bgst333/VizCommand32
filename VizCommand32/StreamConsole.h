@@ -8,6 +8,7 @@
 #include "WindowListControl.h"	// CWindowListControl
 #include "Console.h"	// CConsole
 #include "StaticPanel.h"	// CStaticPanel
+#include "ListControlPanel.h"	// CListControlPanel
 
 // ストリームコンソールクラスCStreamConsole
 class CStreamConsole : public CWindowListControl{
@@ -35,6 +36,7 @@ class CStreamConsole : public CWindowListControl{
 		virtual void OnRequestScrollBottom(WPARAM wParam, LPARAM lParam);	// 下へのスクロールが要求された時.
 		virtual int OnStreamCommand(WPARAM wParam, LPARAM lParam);	// コンソールからストリームコンソールへのメッセージが送られた時.
 		virtual void OnHello(HWND hSrc, CCommand *pCommand);	// "Hello, world!"の出力を要求された時.
+		virtual void OnList(HWND hSrc, CCommand *pCommand);	// ファイルリストの出力を要求された時.
 
 };
 

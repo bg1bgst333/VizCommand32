@@ -13,6 +13,7 @@ BOOL CMainApplication::InitInstance(HINSTANCE hInstance, LPTSTR lpCmdLine, int n
 	CWindowListItem::RegisterClass(hInstance, (HBRUSH)GetStockObject(BLACK_BRUSH));	// CWindowListItem::RegisterClassでウィンドウクラス"CWindowListItem"を登録.
 	CConsole::RegisterClass(hInstance, (HBRUSH)GetStockObject(BLACK_BRUSH));	// CConsole::RegisterClassでウィンドウクラス"CConsole"を登録.
 	CStaticPanel::RegisterClass(hInstance, (HBRUSH)GetStockObject(BLACK_BRUSH));	// CStaticPanel::RegisterClassでウィンドウクラス"CStaticPanel"を登録.
+	CListControlPanel::RegisterClass(hInstance, (HBRUSH)GetStockObject(BLACK_BRUSH));	// CListControlPanel::RegisterClassでウィンドウクラス"CListControlPanel"を登録.
 
 	// CMainWindowオブジェクトの作成.
 	m_pMainWnd = new CMainWindow();	// CMainWindowオブジェクトを作成し, m_pMainWndに格納.

@@ -203,6 +203,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ListControl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ListControlPanel.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\MainApplication.cpp"
 				>
 			</File>
@@ -294,6 +302,14 @@
 			</File>
 			<File
 				RelativePath=".\HandlerConditions.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ListControl.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ListControlPanel.h"
 				>
 			</File>
 			<File
