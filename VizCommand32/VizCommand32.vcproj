@@ -60,6 +60,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="comctl32.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -133,6 +134,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="comctl32.lib"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -200,6 +202,14 @@
 			</File>
 			<File
 				RelativePath=".\EditPanel.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\FileListControl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\FileListControlPanel.cpp"
 				>
 			</File>
 			<File
@@ -298,6 +308,22 @@
 			</File>
 			<File
 				RelativePath=".\EditPanel.h"
+				>
+			</File>
+			<File
+				RelativePath=".\FileInfo.h"
+				>
+			</File>
+			<File
+				RelativePath=".\FileInfoList.h"
+				>
+			</File>
+			<File
+				RelativePath=".\FileListControl.h"
+				>
+			</File>
+			<File
+				RelativePath=".\FileListControlPanel.h"
 				>
 			</File>
 			<File

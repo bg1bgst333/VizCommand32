@@ -10,6 +10,9 @@ CListControl::CListControl() : CCustomControl(){
 // デストラクタ~CListControl
 CListControl::~CListControl(){
 
+	// メンバの終了処理
+	Destroy();	// Destroyでこのウィンドウの終了処理をする.
+
 }
 
 // ウィンドウ作成関数Create.(ウィンドウクラス名省略バージョン.)

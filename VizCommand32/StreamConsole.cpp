@@ -85,8 +85,8 @@ void CStreamConsole::OnSize(UINT nType, int cx, int cy){
 					CWindow *pWindow = pItem->m_mapChildMap[_T("StaticPanel")];	// pItem->m_mapChildMap[_T("StaticPanel")]で取り出す.(このとき, CWindowポインタでいい.)
 					MoveWindow(pWindow->m_hWnd, pWindow->m_x, pWindow->m_y, m_iWidth, pWindow->m_iHeight, TRUE);	// MoveWindowで横幅をcxとする.
 				}
-				if (pItem->m_mapChildMap.find(_T("ListControlPanel")) != pItem->m_mapChildMap.end()){	// "ListControlPanel"が見つかったら.
-					CWindow *pWindow = pItem->m_mapChildMap[_T("ListControlPanel")];	// pItem->m_mapChildMap[_T("ListControlPanel")]で取り出す.(このとき, CWindowポインタでいい.)
+				if (pItem->m_mapChildMap.find(_T("FileListControlPanel")) != pItem->m_mapChildMap.end()){	// "ListControlPanel"が見つかったら.
+					CWindow *pWindow = pItem->m_mapChildMap[_T("FileListControlPanel")];	// pItem->m_mapChildMap[_T("ListControlPanel")]で取り出す.(このとき, CWindowポインタでいい.)
 					MoveWindow(pWindow->m_hWnd, pWindow->m_x, pWindow->m_y, m_iWidth, pWindow->m_iHeight, TRUE);	// MoveWindowで横幅をcxとする.
 				}
 			}
@@ -309,10 +309,10 @@ void CStreamConsole::OnList(HWND hSrc, CCommand *pCommand){
 	Insert(m_iNext, tszNext, 240, hInstance);	// Insertでm_iNext番目のアイテムを挿入.
 	CWindowListItem *pItem = Get(m_iNext);	// Getでm_iNext番目を取得し, pItemに格納.
 
-	// リストコントロールパネルの追加.
-	CListControlPanel *pListControlPanel = new CListControlPanel();	// CListControlPanelオブジェクトを作成, pListControlPanelに格納.
-	pListControlPanel->Create(_T(""), 0, 0, 0, m_iClientAreaWidth, m_iClientAreaHeight, pItem->m_hWnd, (HMENU)(WM_APP + 200 + m_nId), hInstance);	// pListControlPanel->Createでウィンドウ作成.
-	pItem->m_mapChildMap.insert(std::make_pair(_T("ListControlPanel"), pListControlPanel));	// pItem->m_mapChildMap.insertで"ListControlPanel"をキーとして, pListControlPanelを追加.
+	// ファイルリストコントロールパネルの追加.
+	CFileListControlPanel *pFileListControlPanel = new CFileListControlPanel();	// CFileListControlPanelオブジェクトを作成, pFileListControlPanelに格納.
+	pFileListControlPanel->Create(_T(""), 0, 0, 0, m_iClientAreaWidth, m_iClientAreaHeight, pItem->m_hWnd, (HMENU)(WM_APP + 200 + m_nId), hInstance);	// pFileListControlPanel->Createでウィンドウ作成.
+	pItem->m_mapChildMap.insert(std::make_pair(_T("FileListControlPanel"), pFileListControlPanel));	// pItem->m_mapChildMap.insertで"FileListControlPanel"をキーとして, pFileListControlPanelを追加.
 
 	// 次へ.
 	m_nId++;	// m_nIdをインクリメント.

@@ -8,7 +8,7 @@
 #include "WindowListControl.h"	// CWindowListControl
 #include "Console.h"	// CConsole
 #include "StaticPanel.h"	// CStaticPanel
-#include "ListControlPanel.h"	// CListControlPanel
+#include "FileListControlPanel.h"	// CFileListControlPanel
 
 // ストリームコンソールクラスCStreamConsole
 class CStreamConsole : public CWindowListControl{
