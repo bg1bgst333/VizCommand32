@@ -60,7 +60,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="comctl32.lib"
+				AdditionalDependencies="comctl32.lib shlwapi.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -134,7 +134,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="comctl32.lib"
+				AdditionalDependencies="comctl32.lib shlwapi.lib"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -202,6 +202,10 @@
 			</File>
 			<File
 				RelativePath=".\EditPanel.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\FileInfoList.cpp"
 				>
 			</File>
 			<File

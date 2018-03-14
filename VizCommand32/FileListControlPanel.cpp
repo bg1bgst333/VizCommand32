@@ -6,6 +6,9 @@
 // コンストラクタCFileListControlPanel
 CFileListControlPanel::CFileListControlPanel() : CListControlPanel(){
 
+	// メンバの初期化.
+	m_tstrPath = _T("");	// m_tstrPathに""をセット.
+
 }
 
 // デストラクタ~CFileListControlPanel
@@ -41,6 +44,17 @@ BOOL CFileListControlPanel::Create(LPCTSTR lpctszWindowName, DWORD dwStyle, int 
 
 }
 
+// ファイルの探索ScanFile.
+void CFileListControlPanel::ScanFile(tstring tstrPath){
+
+	// メンバにセット.
+	m_tstrPath = tstrPath;	// m_tstrPathにtstrPathをセット.
+
+	// ファイルのスキャン.
+	((CFileListControl *)m_pListControl)->ScanFile(tstrPath);	// ((CFileListControl *)m_pListControl)->ScanFileでtstrPathのファイルをスキャン.
+
+}
+
 // ウィンドウの作成が開始された時.
 int CFileListControlPanel::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct){
 
@@ -65,7 +79,19 @@ void CFileListControlPanel::OnTimer(UINT_PTR nIDEvent){
 	// タイマーを終了.
 	KillTimer(m_hWnd, 2);	// 初回更新タイマーを終了.
 
-	// ひとまずメッセージボックスを表示.
-	MessageBox(m_hWnd, _T("CFileListControlPanel::OnTimer"), _T("VizCommand"), MB_OK);	// MessageBoxで"CFileListControlPanel::OnTimer".
+}
+
+// ウィンドウの破棄と終了処理関数Destroy.
+void CFileListControlPanel::Destroy(){
+
+	// リストコントロールを削除.
+	if (m_pListControl != NULL){	// m_pListControlがNULLでない時.
+		m_pListControl->Destroy();	// m_pListControl->Destroyで終了処理.
+		delete m_pListControl;	// deleteでm_pListControlを解放.
+		m_pListControl = NULL;	// m_pListControlにNULLをセット.
+	}
+
+	// 親クラスのDestroyを呼ぶ.
+	CListControlPanel::Destroy();	// CListControlPanel::Destroyを呼ぶ.
 
 }
