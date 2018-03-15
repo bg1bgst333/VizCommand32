@@ -93,7 +93,6 @@ void CFileInfoList::Scan(tstring tstrScanPath){
 			tstrFileName = tstrFileName + wfdFindData.cFileName;	// wfdFindData.cFileNameを連結.
 			SHGetFileInfo(tstrFileName.c_str(), 0, &sfi, sizeof(SHFILEINFO), SHGFI_ICON | SHGFI_LARGEICON);	// SHGetFileInfoでファイル情報を取得.
 			AddInfo(tstrFileName.c_str(), sfi.hIcon);	// AddInfoでファイル情報を追加.
-			MessageBox(NULL, tstrFileName.c_str(), _T("VizCommand"), MB_OK);	// MessageBoxでtstrFileNameを表示.
 		}
 	}
 

@@ -27,6 +27,7 @@ class CFileListControlPanel : public CListControlPanel{
 		// メンバ関数
 		virtual BOOL Create(LPCTSTR lpctszWindowName, DWORD dwStyle, int x, int y, int iWidth, int iHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance);	// ウィンドウ作成関数Create.
 		void ScanFile(tstring tstrPath);	// ファイルの探索ScanFile.
+		void ShowFileList();	// ファイルリストの表示ShowFileList.
 		virtual void Destroy();	// ウィンドウの破棄と終了処理関数Destroy.
 		virtual int OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct);	// ウィンドウの作成が開始された時.
 		virtual void OnTimer(UINT_PTR nIDEvent);	// タイマーイベントが発生した時.

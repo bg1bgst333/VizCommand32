@@ -5,6 +5,9 @@
 // コンストラクタCListControl
 CListControl::CListControl() : CCustomControl(){
 
+	// メンバの初期化.
+	m_hImageList = NULL;	// m_hImageListをNULLで初期化.
+
 }
 
 // デストラクタ~CListControl
@@ -19,7 +22,37 @@ CListControl::~CListControl(){
 BOOL CListControl::Create(LPCTSTR lpctszWindowName, DWORD dwStyle, int x, int y, int iWidth, int iHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance){
 
 	// ウィンドウクラス名が"SysListView32"なカスタムコントロールを作成.
-	return CCustomControl::Create(_T("SysListView32"), lpctszWindowName, dwStyle, x, y, iWidth, iHeight, hWndParent, (HMENU)hMenu, hInstance);	// CCustomControl::Createでリストコントロールを作成.
+	BOOL bRet = CCustomControl::Create(_T("SysListView32"), lpctszWindowName, dwStyle, x, y, iWidth, iHeight, hWndParent, (HMENU)hMenu, hInstance);	// CCustomControl::Createでリストコントロールを作成.
+
+	// イメージリストの作成.
+	m_hImageList = ImageList_Create(32, 32, ILC_COLOR24, 24, 0);	// ImageList_Createで作成.
+
+	// 生成成功か失敗かを返す.
+	return bRet;	// bRetを返す.
+
+}
+
+// イメージリストのセットSetImageList.
+void CListControl::SetImageList(int nImageListType){
+
+	// イメージリストのセット.
+	ListView_SetImageList(m_hWnd, m_hImageList, nImageListType);	// ListView_SetImageListでイメージリストをセット.
+
+}
+
+// イメージリストにアイコンを追加するAddIcon.
+int CListControl::AddIcon(HICON hIcon){
+
+	// アイコンの追加.
+	return ImageList_AddIcon(m_hImageList, hIcon);	// ImageList_AddIconでアイコンを追加.
+
+}
+
+// リストコントロールにアイテムを追加InsertItem.
+int CListControl::InsertItem(LPLVITEM pItem){
+
+	// アイテムの追加.
+	return ListView_InsertItem(m_hWnd, pItem);	// ListView_InsertItemでpItemを追加.
 
 }
 
@@ -46,5 +79,19 @@ void CListControl::OnSize(UINT nType, int cx, int cy){
 	WPARAM wParam;	// WPARAM型wParam.
 	wParam = MAKEWPARAM(m_iWidth, m_iHeight);	// MAKEWPARAMでwParamをセット.
 	SendMessage(GetParent(m_hWnd), UM_SIZECHILD, wParam, (LPARAM)m_hWnd);	// SendMessageでUM_SIZECHILDを送信.
+
+}
+
+// ウィンドウの破棄と終了処理関数Destroy.
+void CListControl::Destroy(){
+
+	// イメージリストの破棄.
+	if (m_hImageList != NULL){	// m_hImageListがNULLでない時.
+		ImageList_Destroy(m_hImageList);	// ImageList_Destroyで破棄.
+		m_hImageList = NULL;	// m_hImageListにNULLをセット.
+	}
+
+	// 親クラスのDestroy.
+	CCustomControl::Destroy();	// CCustomControl::Destroyを呼ぶ.
 
 }

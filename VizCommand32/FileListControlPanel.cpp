@@ -55,6 +55,14 @@ void CFileListControlPanel::ScanFile(tstring tstrPath){
 
 }
 
+// ファイルリストの表示ShowFileList.
+void CFileListControlPanel::ShowFileList(){
+
+	// ファイルリストの表示.
+	((CFileListControl *)m_pListControl)->ShowFileList();	// ((CFileListControl *)m_pListControl)->ShowFileListでファイルリストを表示.
+
+}
+
 // ウィンドウの作成が開始された時.
 int CFileListControlPanel::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct){
 

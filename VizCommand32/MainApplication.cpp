@@ -2,6 +2,7 @@
 // 独自のヘッダ
 #include "MainApplication.h"	// CMainApplication
 #include "MainWindow.h"	// CMainWindow
+// 既定のヘッダ
 #include <commctrl.h>	// コモンコントロール
 
 // インスタンス初期化関数InitInstance.

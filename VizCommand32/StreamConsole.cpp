@@ -314,6 +314,7 @@ void CStreamConsole::OnList(HWND hSrc, CCommand *pCommand){
 	pFileListControlPanel->Create(_T(""), 0, 0, 0, m_iClientAreaWidth, m_iClientAreaHeight, pItem->m_hWnd, (HMENU)(WM_APP + 200 + m_nId), hInstance);	// pFileListControlPanel->Createでウィンドウ作成.
 	if (pCommand->m_vectstrCommandToken.size() >= 2){	// トークンが2つ以上.
 		pFileListControlPanel->ScanFile(pCommand->m_vectstrCommandToken[1]);	// pFileListControlPanel->ScanFileで第1パラメータのパスをスキャンする.
+		pFileListControlPanel->ShowFileList();	// pFileListControlPanel->ShowFileListでファイルリストを表示.
 	}
 	pItem->m_mapChildMap.insert(std::make_pair(_T("FileListControlPanel"), pFileListControlPanel));	// pItem->m_mapChildMap.insertで"FileListControlPanel"をキーとして, pFileListControlPanelを追加.
 
