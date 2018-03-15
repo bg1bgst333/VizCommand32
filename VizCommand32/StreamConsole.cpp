@@ -87,7 +87,7 @@ void CStreamConsole::OnSize(UINT nType, int cx, int cy){
 				}
 				if (pItem->m_mapChildMap.find(_T("FileListControlPanel")) != pItem->m_mapChildMap.end()){	// "ListControlPanel"が見つかったら.
 					CWindow *pWindow = pItem->m_mapChildMap[_T("FileListControlPanel")];	// pItem->m_mapChildMap[_T("ListControlPanel")]で取り出す.(このとき, CWindowポインタでいい.)
-					MoveWindow(pWindow->m_hWnd, pWindow->m_x, pWindow->m_y, m_iWidth, pWindow->m_iHeight, TRUE);	// MoveWindowで横幅をcxとする.
+					MoveWindow(pWindow->m_hWnd, pWindow->m_x, pWindow->m_y, cx, pWindow->m_iHeight, TRUE);	// MoveWindowで横幅をcxとする.
 				}
 			}
 		}

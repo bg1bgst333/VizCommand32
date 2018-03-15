@@ -83,4 +83,25 @@ void CListControlPanel::OnSize(UINT nType, int cx, int cy){
 		MoveWindow(m_pListControl->m_hWnd, m_pListControl->m_x, m_pListControl->m_y, cx, cy, TRUE);	// MoveWindowでリサイズ.
 	}
 
+	// UM_SIZECHILDで子ウィンドウのサイズに合わせる.
+	WPARAM wParam;	// WPARAM型wParam.
+	wParam = MAKEWPARAM(m_iWidth, m_iHeight);	// MAKEWPARAMでwParamをセット.
+	SendMessage(GetParent(m_hWnd), UM_SIZECHILD, wParam, (LPARAM)m_hWnd);	// SendMessageでUM_SIZECHILDを送信.
+
+}
+
+// 子から親へウィンドウサイズ変更の要求が発生した時.
+void CListControlPanel::OnSizeChild(WPARAM wParam, LPARAM lParam){
+
+	// サイズ取り出し.
+	int iWidth = LOWORD(wParam);	// LOWORDはiWidth.
+	int iHeight = HIWORD(wParam);	// HIWORDはiHeight.
+
+	// サイズセット.
+	m_iWidth = iWidth;	// m_iWidthにiWidthをセット.
+	m_iHeight = iHeight;	// m_iHeightにiHeightをセット.
+
+	// 自身のウィンドウサイズ変更.
+	MoveWindow(m_hWnd, m_x, m_y, m_iWidth, m_iHeight, TRUE);	// MoveWindowで子ウィンドウのサイズに合わせる.
+
 }

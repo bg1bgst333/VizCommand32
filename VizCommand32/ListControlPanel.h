@@ -29,6 +29,7 @@ class CListControlPanel : public CUserControl{
 		virtual void Destroy();	// ウィンドウの破棄と終了処理関数Destroy.
 		virtual int OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct);	// ウィンドウの作成が開始された時.
 		virtual void OnSize(UINT nType, int cx, int cy);	// ウィンドウのサイズが変更された時.
+		virtual void OnSizeChild(WPARAM wParam, LPARAM lParam);	// 子から親へウィンドウサイズ変更の要求が発生した時.
 
 };
 

@@ -87,6 +87,11 @@ void CFileListControlPanel::OnTimer(UINT_PTR nIDEvent){
 	// タイマーを終了.
 	KillTimer(m_hWnd, 2);	// 初回更新タイマーを終了.
 
+	// UM_SIZECHILDで子ウィンドウのサイズに合わせる.(これは本来はCListControlPanelでやるべき.)
+	WPARAM wParam;	// WPARAM型wParam.
+	wParam = MAKEWPARAM(m_iWidth, m_iHeight);	// MAKEWPARAMでwParamをセット.
+	SendMessage(GetParent(m_hWnd), UM_SIZECHILD, wParam, (LPARAM)m_hWnd);	// SendMessageでUM_SIZECHILDを送信.
+
 }
 
 // ウィンドウの破棄と終了処理関数Destroy.
