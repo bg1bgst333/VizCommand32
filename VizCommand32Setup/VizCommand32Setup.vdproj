@@ -15,6 +15,12 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_3BA524CF90F5CF78066ACCA86C501015"
+        "OwnerKey" = "8:_3FB1929BF8944D27B287A8A42F58ABB1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_3FB1929BF8944D27B287A8A42F58ABB1"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -101,6 +107,26 @@
         }
         "File"
         {
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3BA524CF90F5CF78066ACCA86C501015"
+            {
+            "SourcePath" = "8:comdlg32.dll"
+            "TargetName" = "8:comdlg32.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_A07E5F675BC247418C799632B8F39802"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
         }
         "FileType"
         {
@@ -167,14 +193,14 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:VizCommand"
-        "ProductCode" = "8:{CA4B9D9A-4E34-462D-AC5B-DCF0646624E0}"
-        "PackageCode" = "8:{693AA094-85E2-49A5-B6DE-056ADA61B326}"
+        "ProductCode" = "8:{88AA3B36-8893-4C78-895E-31501C2C1E5D}"
+        "PackageCode" = "8:{374920FA-73F9-405B-93A6-FD84D4E0A9BC}"
         "UpgradeCode" = "8:{7E34EA28-A9B4-4EE5-8D4D-05DE23F5F2CE}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:0.0.1"
+        "ProductVersion" = "8:0.0.2"
         "Manufacturer" = "8:B.G-STATION"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
