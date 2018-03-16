@@ -504,6 +504,9 @@ LRESULT CWindow::DynamicWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 // ウィンドウの作成が開始された時.
 int CWindow::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct){
 
+	// リサイズ時の挙動を変更.
+	SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, 0,NULL, SPIF_SENDWININICHANGE);	// SystemParametersInfoでドラッグしてもすぐにリサイズしない.
+
 	// 常にウィンドウ作成に成功するものとする.
 	return 0;	// 0を返すと, ウィンドウ作成に成功したということになる.
 

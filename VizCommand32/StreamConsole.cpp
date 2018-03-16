@@ -311,7 +311,7 @@ void CStreamConsole::OnList(HWND hSrc, CCommand *pCommand){
 
 	// ファイルリストコントロールパネルの追加.
 	CFileListControlPanel *pFileListControlPanel = new CFileListControlPanel();	// CFileListControlPanelオブジェクトを作成, pFileListControlPanelに格納.
-	pFileListControlPanel->Create(_T(""), 0, 0, 0, m_iClientAreaWidth, m_iClientAreaHeight, pItem->m_hWnd, (HMENU)(WM_APP + 200 + m_nId), hInstance);	// pFileListControlPanel->Createでウィンドウ作成.
+	pFileListControlPanel->Create(_T(""), 0, 0, 0, m_iClientAreaWidth, 240, pItem->m_hWnd, (HMENU)(WM_APP + 200 + m_nId), hInstance);	// pFileListControlPanel->Createでウィンドウ作成.(高さは240固定.)
 	if (pCommand->m_vectstrCommandToken.size() >= 2){	// トークンが2つ以上.
 		pFileListControlPanel->ScanFile(pCommand->m_vectstrCommandToken[1]);	// pFileListControlPanel->ScanFileで第1パラメータのパスをスキャンする.
 		pFileListControlPanel->ShowFileList();	// pFileListControlPanel->ShowFileListでファイルリストを表示.
