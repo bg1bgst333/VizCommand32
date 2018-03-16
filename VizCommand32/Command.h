@@ -39,6 +39,7 @@ class CCommand{
 		void Set(tstring tstrCommandString);	// コマンド文字列のセット.
 		void Clear();	// コマンドのクリア.
 		tstring GetCommandName();	// コマンド名の取得.
+		tstring GetCommandString();	// コマンド文字列の取得.
 
 };
 

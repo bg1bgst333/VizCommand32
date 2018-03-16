@@ -9,6 +9,9 @@ void CCommand::Set(tstring tstrCommandString){
 	tstringstream tstrsrStream;	// 文字列ストリームtstrsrStream.
 	tstring token;	// トークンtoken.
 
+	// メンバにセット.
+	m_tstrCommandString = tstrCommandString;	// m_tstrCommandStringにtstrCommandStringを代入.
+
 	// 文字列ストリームを受け取る.
 	tstrsrStream << tstrCommandString;	// 出力演算子で文字列をストリームに投入.
 
@@ -44,5 +47,13 @@ tstring CCommand::GetCommandName(){
 
 	// コマンド名を返す.
 	return m_tstrCommandName;	// m_tstrCommandNameを返す.
+
+}
+
+// コマンド文字列の取得.
+tstring CCommand::GetCommandString(){
+
+	// コマンド文字列を返す.
+	return m_tstrCommandString;	// m_tstrCommandStringを返す.
 
 }

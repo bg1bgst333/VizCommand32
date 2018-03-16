@@ -228,6 +228,15 @@ void CConsole::OnHello(HWND hSrc, CCommand *pCommand){
 // ファイルリストの出力を要求された時.
 void CConsole::OnList(HWND hSrc, CCommand *pCommand){
 
+	// パスが指定されていない場合は現在のパスを補完.
+	if (pCommand->m_vectstrCommandToken.size() == 1){	// トークンが1つ.
+		tstring tstrNewCommand = pCommand->GetCommandString();	// tstrNewCommandにpCommand->GetCommandStringで取得したコマンド文字列を代入.
+		pCommand->Clear();	// コマンドをいったんクリア.
+		tstrNewCommand = tstrNewCommand + _T(" ");	// スペースを連結.
+		tstrNewCommand = tstrNewCommand + ((CConsoleCore *)m_pScalableEdit)->m_tstrCurrentPath;	// カレントパスを連結.
+		pCommand->Set(tstrNewCommand);	// コマンドにセット.
+	}
+
 	// ストリームコンソールに処理を投げる.
 	SendMessage(m_hProcWnd, UM_STREAMCOMMAND, (WPARAM)pCommand, (LPARAM)m_hWnd);	// UM_STREAMCOMMANDでストリームコンソールにさらに投げる.
 
