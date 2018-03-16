@@ -119,7 +119,7 @@ void CStreamConsole::OnTimer(UINT_PTR nIDEvent){
 		m_iNext++;	// m_iNextをインクリメント.
 
 		// 無効領域を作成して画面の更新.
-		InvalidateRect(m_hWnd, NULL, TRUE);	// InvalidateRectで無効領域作成.
+		//InvalidateRect(m_hWnd, NULL, FALSE);	// InvalidateRectで無効領域作成.
 
 		// タイマーを終了.
 		KillTimer(m_hWnd, 1);	// 初回更新タイマーを終了.

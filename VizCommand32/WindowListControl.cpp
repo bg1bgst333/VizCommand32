@@ -227,7 +227,7 @@ void CWindowListControl::OnSize(UINT nType, int cx, int cy){
 	}
 
 	// 画面更新.
-	InvalidateRect(m_hWnd, NULL, TRUE);	// InvalidateRectで更新.
+	//InvalidateRect(m_hWnd, NULL, FALSE);	// InvalidateRectで更新.
 
 #if 1
 	// スクロールバー設定.
@@ -337,7 +337,7 @@ void CWindowListControl::OnHScroll(UINT nSBCode, UINT nPos){
 	// アイテムズパネルの移動.
 	MoveWindow(m_pWindowListItemsPanel->m_hWnd, 0 - m_iHScrollPos, 0 - m_iVScrollPos, m_pWindowListItemsPanel->m_iWidth, m_pWindowListItemsPanel->m_iHeight, TRUE);	// MoveWindowで移動.
 	// 無効領域を作成して画面の更新.
-	InvalidateRect(m_hWnd, NULL, TRUE);	// InvalidateRectで無効領域作成.
+	//InvalidateRect(m_hWnd, NULL, FALSE);	// InvalidateRectで無効領域作成.
 
 }
 
@@ -425,7 +425,7 @@ void CWindowListControl::OnVScroll(UINT nSBCode, UINT nPos){
 	// アイテムズパネルの移動.
 	MoveWindow(m_pWindowListItemsPanel->m_hWnd, 0 - m_iHScrollPos, 0 - m_iVScrollPos, m_pWindowListItemsPanel->m_iWidth, m_pWindowListItemsPanel->m_iHeight, TRUE);	// MoveWindowで移動.
 	// 無効領域を作成して画面の更新.
-	InvalidateRect(m_hWnd, NULL, TRUE);	// InvalidateRectで無効領域作成.
+	//InvalidateRect(m_hWnd, NULL, FALSE);	// InvalidateRectで無効領域作成.
 
 }
 
