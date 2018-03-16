@@ -8,6 +8,7 @@ CConsoleCore::CConsoleCore() : CScalableEdit(){
 
 	// メンバの初期化.
 	m_tstrFormString = GREATER_THAN;	// m_tstrFormStringを">"に初期化.
+	m_tstrCurrentPath = _T("");	// m_tstrCurrentPathを""で初期化.
 	m_tstrCommandString = _T("");	// m_tstrCommandStringを""で初期化.
 	m_lStartPos = 0;	// m_lStartPosを0に初期化.
 	m_lCurrentPos = 0;	// m_lCurrentPosを0に初期化.
@@ -29,6 +30,44 @@ tstring CConsoleCore::GetProfilePath(HWND hWnd){
 
 	// ホームフォルダのパスを返す.
 	return m_tstrProfilePath;	// m_tstrProfilePathを返す.
+
+}
+
+// カレントパスのセット.
+void CConsoleCore::SetCurrentPath(tstring tstrPath){
+
+	// 指定されたパスを現在のパスとしてセット.
+	m_tstrCurrentPath = tstrPath;	// m_tstrCurrentPathをtstrPathにする.
+	SetCurrentDirectory(m_tstrCurrentPath.c_str());	// SetCurrentDirectoryで現在のパスとしてm_tstrCurrentPathをセット.
+
+}
+
+// カレントパスの取得.
+tstring CConsoleCore::GetCurrentPath(){
+
+	// 変数の初期化.
+	TCHAR tszPath[1024] = { 0 };	// tszPathを{0}で初期化.
+	
+	// 現在のパスを取得.
+	GetCurrentDirectory(1024, tszPath);	// GetCurrentDirectoryで現在のパスを取得.
+	m_tstrCurrentPath = tszPath;	// tszPathをm_tstrCurrentPathにセット.
+
+	// パスを返す.
+	return m_tstrCurrentPath;	// m_tstrCurrentPathを返す.
+
+}
+
+// フルパスの取得.
+tstring CConsoleCore::GetFullPath(tstring tstrPath){
+
+	// 変数の初期化.
+	TCHAR tszPath[1024] = { 0 };	// tszPathを{0}で初期化.
+
+	// フルパスを取得.
+	GetFullPathName(tstrPath.c_str(), 1024, tszPath, NULL);	// GetFullPathNameでフルパスを取得.
+
+	// tszPathを返す.
+	return tstring(tszPath);	// tszPathをtstringに変換して返す.
 
 }
 
@@ -121,11 +160,8 @@ int CConsoleCore::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct){
 	// 親クラスのOnCreateを呼ぶ.
 	CScalableEdit::OnCreate(hwnd, lpCreateStruct);	// CScalableEdit::OnCreateを呼ぶ.
 
-	// ホームフォルダの取得.
-	GetProfilePath(hwnd);	// GetProfilePathでホームフォルダを取得.
-
-	// 現在のパスをホームフォルダにセット.
-	m_tstrCurrentPath = m_tstrProfilePath;	// m_tstrCurrentPathにm_tstrProfilePathをセット.
+	// ホームフォルダをカレントパスにする.
+	SetCurrentPath(GetProfilePath(hwnd));	// GetProfilePathで取得したホームフォルダパスをSetCurrentPathでセットしてカレントパスとする.
 
 	// 入力フォーム文字列を取得.
 	GetInputFormString();	// GetInputFormStringを取得.

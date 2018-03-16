@@ -228,12 +228,25 @@ void CConsole::OnHello(HWND hSrc, CCommand *pCommand){
 // ファイルリストの出力を要求された時.
 void CConsole::OnList(HWND hSrc, CCommand *pCommand){
 
-	// パスが指定されていない場合は現在のパスを補完.
-	if (pCommand->m_vectstrCommandToken.size() == 1){	// トークンが1つ.
+	// パスの補完処理.
+	if (pCommand->m_vectstrCommandToken.size() == 0){	// トークンが無い.
+		return;	// 異常終了なのでここで終了.
+	}
+	else if (pCommand->m_vectstrCommandToken.size() == 1){	// トークンが1つ.(パスが指定されていない.)
 		tstring tstrNewCommand = pCommand->GetCommandString();	// tstrNewCommandにpCommand->GetCommandStringで取得したコマンド文字列を代入.
 		pCommand->Clear();	// コマンドをいったんクリア.
 		tstrNewCommand = tstrNewCommand + _T(" ");	// スペースを連結.
 		tstrNewCommand = tstrNewCommand + ((CConsoleCore *)m_pScalableEdit)->m_tstrCurrentPath;	// カレントパスを連結.
+		pCommand->Set(tstrNewCommand);	// コマンドにセット.
+	}
+	else if (pCommand->m_vectstrCommandToken.size() >= 2){	// トークンが2つ以上.
+		tstring tstrCommandName = pCommand->GetCommandName();	// コマンド名を取得.
+		tstring tstrRelativePath = pCommand->m_vectstrCommandToken[1];	// tstrRelativePathに相対パスの可能性のあるパスをセット.
+		tstring tstrFullPath = ((CConsoleCore *)m_pScalableEdit)->GetFullPath(tstrRelativePath);	// フルパスに変換.
+		pCommand->Clear();	// コマンドをいったんクリア.
+		tstring tstrNewCommand = tstrCommandName;	// tstrNewCommandにtstrCommandNameをセット.
+		tstrNewCommand = tstrNewCommand + _T(" ");	// スペースを連結.
+		tstrNewCommand = tstrNewCommand + tstrFullPath;	// フルパスを連結.
 		pCommand->Set(tstrNewCommand);	// コマンドにセット.
 	}
 

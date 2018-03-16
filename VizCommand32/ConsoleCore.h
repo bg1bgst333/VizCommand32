@@ -33,6 +33,9 @@ class CConsoleCore : public CScalableEdit{
 		CConsoleCore();	// コンストラクタCConsoleCore
 		// メンバ関数
 		tstring GetProfilePath(HWND hWnd);	// ホームフォルダ(CSIDL_PROFILE)のパスを取得.
+		void SetCurrentPath(tstring tstrPath);	// カレントパスのセット.
+		tstring GetCurrentPath();	// カレントパスの取得.
+		tstring GetFullPath(tstring tstrPath);	// フルパスの取得.
 		tstring GetInputFormString();	// 入力フォーム文字列の取得.
 		void PutConsole(tstring tstrString);	// コンソールに文字列を出力.
 		void ShowInputForm();	// 入力フォームの出力.
