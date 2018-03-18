@@ -253,6 +253,11 @@ void CStreamConsole::OnHello(HWND hSrc, CCommand *pCommand){
 			// インスタンスハンドルを取得.
 			HINSTANCE hInstance = (HINSTANCE)GetWindowLong(m_hWnd, GWL_HINSTANCE);	// GetWindowLongでhInstanceを取得.
 
+			// 以前のコンソールを取得.
+			CWindowListItem *pPrevItem = Get(m_iNext - 1);	// 以前のアイテムを取得.
+			CConsole *pPrevConsole = (CConsole *)pPrevItem->m_mapChildMap[_T("Console")];	// 以前のコンソールを取得.
+			tstring tstrPrevCurrentPath = ((CConsoleCore *)pPrevConsole->m_pScalableEdit)->GetCurrentPath();	// 以前のカレントパスを取得.
+
 			// アイテムの挿入.
 			TCHAR tszNext[16] = {0};	// tszNextを{0}で初期化.
 			_stprintf(tszNext, _T("%d"), m_iNext);	// m_iNextをtszNextに変換. 
@@ -279,6 +284,8 @@ void CStreamConsole::OnHello(HWND hSrc, CCommand *pCommand){
 			CConsole *pConsole = new CConsole();	// CConsoleオブジェクトを作成し, pConsoleに格納.
 			pConsole->SetProcWindow(m_hWnd);	// pConsole->SetProcWindowでストリームコマンドならここに投げるようにする.
 			pConsole->Create(_T(""), 0, 0, 0, m_iClientAreaWidth, m_iClientAreaHeight, pItem2->m_hWnd, (HMENU)(WM_APP + 200 + m_nId), hInstance);	// pConsole->Createでウィンドウ作成.
+			((CConsoleCore *)pConsole->m_pScalableEdit)->SetCurrentPath(tstrPrevCurrentPath);	// カレントパスは以前のカレントパス.
+			((CConsoleCore *)pConsole->m_pScalableEdit)->GetInputFormString();	// フォーム文字列の取得.
 			pConsole->ShowInputForm();	// 入力フォームを出力.
 			pItem2->m_mapChildMap.insert(std::make_pair(_T("Console"), pConsole));	// pItem2->m_mapChildMap.insertで"Console"をキーとして, pConsoleを追加.
 
@@ -302,6 +309,11 @@ void CStreamConsole::OnList(HWND hSrc, CCommand *pCommand){
 
 	// インスタンスハンドルを取得.
 	HINSTANCE hInstance = (HINSTANCE)GetWindowLong(m_hWnd, GWL_HINSTANCE);	// GetWindowLongでhInstanceを取得.
+
+	// 以前のコンソールを取得.
+	CWindowListItem *pPrevItem = Get(m_iNext - 1);	// 以前のアイテムを取得.
+	CConsole *pPrevConsole = (CConsole *)pPrevItem->m_mapChildMap[_T("Console")];	// 以前のコンソールを取得.
+	tstring tstrPrevCurrentPath = ((CConsoleCore *)pPrevConsole->m_pScalableEdit)->GetCurrentPath();	// 以前のカレントパスを取得.
 
 	// アイテムの挿入.
 	TCHAR tszNext[16] = {0};	// tszNextを{0}で初期化.
@@ -332,6 +344,8 @@ void CStreamConsole::OnList(HWND hSrc, CCommand *pCommand){
 	CConsole *pConsole = new CConsole();	// CConsoleオブジェクトを作成し, pConsoleに格納.
 	pConsole->SetProcWindow(m_hWnd);	// pConsole->SetProcWindowでストリームコマンドならここに投げるようにする.
 	pConsole->Create(_T(""), 0, 0, 0, m_iClientAreaWidth, m_iClientAreaHeight, pItem2->m_hWnd, (HMENU)(WM_APP + 200 + m_nId), hInstance);	// pConsole->Createでウィンドウ作成.
+	((CConsoleCore *)pConsole->m_pScalableEdit)->SetCurrentPath(tstrPrevCurrentPath);	// カレントパスは以前のカレントパス.
+	((CConsoleCore *)pConsole->m_pScalableEdit)->GetInputFormString();	// フォーム文字列の取得.
 	pConsole->ShowInputForm();	// 入力フォームを出力.
 	pItem2->m_mapChildMap.insert(std::make_pair(_T("Console"), pConsole));	// pItem2->m_mapChildMap.insertで"Console"をキーとして, pConsoleを追加.
 

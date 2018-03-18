@@ -63,8 +63,13 @@ tstring CConsoleCore::GetFullPath(tstring tstrPath){
 	// 変数の初期化.
 	TCHAR tszPath[1024] = { 0 };	// tszPathを{0}で初期化.
 
+	// 現在のパスの相対パスをしていしても絶対パスになるようにする.
+	tstring tstrRelativePath = m_tstrCurrentPath;	// カレントパスのセット.
+	tstrRelativePath = tstrRelativePath + _T("\\");	// "\"の連結.
+	tstrRelativePath = tstrRelativePath + tstrPath;	// カレントパスの相対パス.
+
 	// フルパスを取得.
-	GetFullPathName(tstrPath.c_str(), 1024, tszPath, NULL);	// GetFullPathNameでフルパスを取得.
+	GetFullPathName(tstrRelativePath.c_str(), 1024, tszPath, NULL);	// GetFullPathNameでtstrRelativePathのフルパスを取得.
 
 	// tszPathを返す.
 	return tstring(tszPath);	// tszPathをtstringに変換して返す.

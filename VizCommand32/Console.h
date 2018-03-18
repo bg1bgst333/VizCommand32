@@ -34,6 +34,7 @@ class CConsole : public CScalableEditPanel{
 		virtual int OnConsoleCoreCommand(WPARAM wParam, LPARAM lParam);	// コンソールコアからメッセージが送られた時.
 		virtual void OnHello(HWND hSrc, CCommand *pCommand);	// "Hello, world!"の出力を要求された時.
 		virtual void OnList(HWND hSrc, CCommand *pCommand);	// ファイルリストの出力を要求された時.
+		virtual void OnWalk(HWND hSrc, CCommand *pCommand);	// カレントフォルダの移動を要求された時.
 		virtual void OnErrorCommandNotFound(HWND hSrc);	// コマンドが見つからないエラーが発生した時.
 
 };

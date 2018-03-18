@@ -189,6 +189,12 @@ int CConsole::OnConsoleCoreCommand(WPARAM wParam, LPARAM lParam){
 		OnList(hSrc, pCommand);	// hSrc, pCommandを引数として渡して, OnListを呼ぶ.
 
 	}
+	else if (tstrCommandName == _T("walk")){	// walkコマンド.
+
+		// OnWalkに任せる.
+		OnWalk(hSrc, pCommand);	// hSrc, pCommandを引数として渡して, OnWalkを呼ぶ.
+
+	}
 	else {	// コマンドが見つからない.
 
 		// コマンドが見つからないエラー.
@@ -252,6 +258,38 @@ void CConsole::OnList(HWND hSrc, CCommand *pCommand){
 
 	// ストリームコンソールに処理を投げる.
 	SendMessage(m_hProcWnd, UM_STREAMCOMMAND, (WPARAM)pCommand, (LPARAM)m_hWnd);	// UM_STREAMCOMMANDでストリームコンソールにさらに投げる.
+
+}
+
+// カレントフォルダの移動を要求された時.
+void CConsole::OnWalk(HWND hSrc, CCommand *pCommand){
+
+	// パスの保管処理.
+	if (pCommand->m_vectstrCommandToken.size() == 0){	// トークンが無い.
+		return;	// 異常終了なのでここで終了.
+	}
+	else if (pCommand->m_vectstrCommandToken.size() == 1){	// トークンが1つ.(パスが指定されていない.)
+		
+		// 入力フォームの更新.
+		((CConsoleCore *)m_pScalableEdit)->SetCurrentPath(((CConsoleCore *)m_pScalableEdit)->GetProfilePath(((CConsoleCore *)m_pScalableEdit)->m_hWnd));	// SetCurrentPathでホームフォルダをセット.
+		((CConsoleCore *)m_pScalableEdit)->GetInputFormString();	// GetInputFormStringで入力フォームを取得.
+		
+		// レスポンス終了.
+		SendMessage(hSrc, UM_FINISHRESPONSE, 0, 0);	// UM_FINISHRESPONSEを送る.
+
+	}
+	else if (pCommand->m_vectstrCommandToken.size() >= 2){	// トークンが2つ以上.
+
+		// 入力フォームの更新.
+		tstring tstrRelativePath = pCommand->m_vectstrCommandToken[1];	// 指定のパスをtstrRelativePathに格納.
+		tstring tstrNewPath = ((CConsoleCore *)m_pScalableEdit)->GetFullPath(tstrRelativePath);	// tstrRelativePathからフルパスを取得し, tstrNewPathに格納.
+		((CConsoleCore *)m_pScalableEdit)->SetCurrentPath(tstrNewPath);	// SetCurrentPathでtstrNewPathをセット.
+		((CConsoleCore *)m_pScalableEdit)->GetInputFormString();	// GetInputFormStringで入力フォームを取得.
+		
+		// レスポンス終了.
+		SendMessage(hSrc, UM_FINISHRESPONSE, 0, 0);	// UM_FINISHRESPONSEを送る.
+
+	}
 
 }
 
