@@ -249,6 +249,11 @@ void CConsole::OnList(HWND hSrc, CCommand *pCommand){
 		tstring tstrCommandName = pCommand->GetCommandName();	// コマンド名を取得.
 		tstring tstrRelativePath = pCommand->m_vectstrCommandToken[1];	// tstrRelativePathに相対パスの可能性のあるパスをセット.
 		tstring tstrFullPath = ((CConsoleCore *)m_pScalableEdit)->GetFullPath(tstrRelativePath);	// フルパスに変換.
+		if (tstrFullPath == _T("")){	// tstrFullPathが""の時.(パスが存在しない時.)
+			SendMessage(hSrc, UM_RESPONSEMESSAGE, (WPARAM)_T("Error: Path not exist!\r\n"), 0);	// UM_RESPONSEMESSAGEで"Error: Path not exist!"を送る.
+			SendMessage(hSrc, UM_FINISHRESPONSE, 0, 0);	// UM_FINISHRESPONSEを送る.
+			return;	// ここで終了.
+		}
 		pCommand->Clear();	// コマンドをいったんクリア.
 		tstring tstrNewCommand = tstrCommandName;	// tstrNewCommandにtstrCommandNameをセット.
 		tstrNewCommand = tstrNewCommand + _T(" ");	// スペースを連結.
