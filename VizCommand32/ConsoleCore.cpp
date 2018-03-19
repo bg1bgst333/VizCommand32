@@ -82,6 +82,11 @@ tstring CConsoleCore::GetFullPath(tstring tstrPath){
 		GetFullPathName(tstrPath.c_str(), 1024, tszPath, NULL);	// GetFullPathNameでtstrPathのフルパスを取得.
 
 	}
+
+	// パスが存在するかをチェック.
+	if (!PathFileExists(tszPath)){	// 存在しない時.
+		return tstring(_T(""));	// ""を返す.
+	}
 	
 	// tszPathを返す.
 	return tstring(tszPath);	// tszPathをtstringに変換して返す.

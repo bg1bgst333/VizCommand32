@@ -283,8 +283,19 @@ void CConsole::OnWalk(HWND hSrc, CCommand *pCommand){
 		// 入力フォームの更新.
 		tstring tstrRelativePath = pCommand->m_vectstrCommandToken[1];	// 指定のパスをtstrRelativePathに格納.
 		tstring tstrNewPath = ((CConsoleCore *)m_pScalableEdit)->GetFullPath(tstrRelativePath);	// tstrRelativePathからフルパスを取得し, tstrNewPathに格納.
-		((CConsoleCore *)m_pScalableEdit)->SetCurrentPath(tstrNewPath);	// SetCurrentPathでtstrNewPathをセット.
-		((CConsoleCore *)m_pScalableEdit)->GetInputFormString();	// GetInputFormStringで入力フォームを取得.
+		if (tstrNewPath == _T("")){	// 存在しない場合は""が返る.
+
+			// "Error: Path not exist!"を出力.
+			SendMessage(hSrc, UM_RESPONSEMESSAGE, (WPARAM)_T("Error: Path not exist!\r\n"), 0);	// UM_RESPONSEMESSAGEで"Error: Path not exist!"を送る.
+
+		}
+		else{	// パスがある場合.
+
+			// 新しいパスをカレントパスにする.
+			((CConsoleCore *)m_pScalableEdit)->SetCurrentPath(tstrNewPath);	// SetCurrentPathでtstrNewPathをセット.
+			((CConsoleCore *)m_pScalableEdit)->GetInputFormString();	// GetInputFormStringで入力フォームを取得.
+
+		}
 		
 		// レスポンス終了.
 		SendMessage(hSrc, UM_FINISHRESPONSE, 0, 0);	// UM_FINISHRESPONSEを送る.
