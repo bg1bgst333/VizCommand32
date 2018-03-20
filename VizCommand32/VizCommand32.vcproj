@@ -181,6 +181,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\BinaryFile.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Command.cpp"
 				>
 			</File>
@@ -202,6 +206,10 @@
 			</File>
 			<File
 				RelativePath=".\EditPanel.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\File.cpp"
 				>
 			</File>
 			<File
@@ -230,6 +238,14 @@
 			</File>
 			<File
 				RelativePath=".\MainWindow.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Picture.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\PicturePanel.cpp"
 				>
 			</File>
 			<File
@@ -291,6 +307,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\BinaryFile.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Command.h"
 				>
 			</File>
@@ -312,6 +332,10 @@
 			</File>
 			<File
 				RelativePath=".\EditPanel.h"
+				>
+			</File>
+			<File
+				RelativePath=".\File.h"
 				>
 			</File>
 			<File
@@ -348,6 +372,14 @@
 			</File>
 			<File
 				RelativePath=".\MainWindow.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Picture.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PicturePanel.h"
 				>
 			</File>
 			<File

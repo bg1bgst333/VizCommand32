@@ -9,6 +9,7 @@
 #include "Console.h"	// CConsole
 #include "StaticPanel.h"	// CStaticPanel
 #include "FileListControlPanel.h"	// CFileListControlPanel
+#include "PicturePanel.h"	// CPicturePanel
 
 // ストリームコンソールクラスCStreamConsole
 class CStreamConsole : public CWindowListControl{
@@ -37,6 +38,7 @@ class CStreamConsole : public CWindowListControl{
 		virtual int OnStreamCommand(WPARAM wParam, LPARAM lParam);	// コンソールからストリームコンソールへのメッセージが送られた時.
 		virtual void OnHello(HWND hSrc, CCommand *pCommand);	// "Hello, world!"の出力を要求された時.
 		virtual void OnList(HWND hSrc, CCommand *pCommand);	// ファイルリストの出力を要求された時.
+		virtual void OnView(HWND hSrc, CCommand *pCommand);	// ファイルの表示を要求された時.
 
 };
 

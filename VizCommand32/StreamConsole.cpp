@@ -237,6 +237,12 @@ int CStreamConsole::OnStreamCommand(WPARAM wParam, LPARAM lParam){
 		OnList(hSrc, pCommand);	// hSrc, pCommandを引数として渡して, OnListを呼ぶ.
 
 	}
+	else if (tstrCommandName == _T("view")){	// viewコマンド.
+
+		// OnViewに任せる.
+		OnView(hSrc, pCommand);	// hSrc, pCommandを引数として渡して, OnViewを呼ぶ.
+
+	}
 
 	// 成功なら0を返す.
 	return 0;	// 0を返す.
@@ -329,6 +335,60 @@ void CStreamConsole::OnList(HWND hSrc, CCommand *pCommand){
 		pFileListControlPanel->ShowFileList();	// pFileListControlPanel->ShowFileListでファイルリストを表示.
 	}
 	pItem->m_mapChildMap.insert(std::make_pair(_T("FileListControlPanel"), pFileListControlPanel));	// pItem->m_mapChildMap.insertで"FileListControlPanel"をキーとして, pFileListControlPanelを追加.
+
+	// 次へ.
+	m_nId++;	// m_nIdをインクリメント.
+	m_iNext++;	// m_iNextをインクリメント.
+
+	// アイテムの挿入.
+	TCHAR tszNext2[16] = {0};	// tszNext2を{0}で初期化.
+	_stprintf(tszNext2, _T("%d"), m_iNext);	// m_iNextをtszNext2に変換. 
+	Insert(m_iNext, tszNext2, 80, hInstance);	// Insertでm_iNext番目のアイテムを挿入.
+	CWindowListItem *pItem2 = Get(m_iNext);	// Getでm_iNext番目を取得し, pItem2に格納.
+
+	// コンソールの追加.
+	CConsole *pConsole = new CConsole();	// CConsoleオブジェクトを作成し, pConsoleに格納.
+	pConsole->SetProcWindow(m_hWnd);	// pConsole->SetProcWindowでストリームコマンドならここに投げるようにする.
+	pConsole->Create(_T(""), 0, 0, 0, m_iClientAreaWidth, m_iClientAreaHeight, pItem2->m_hWnd, (HMENU)(WM_APP + 200 + m_nId), hInstance);	// pConsole->Createでウィンドウ作成.
+	((CConsoleCore *)pConsole->m_pScalableEdit)->SetCurrentPath(tstrPrevCurrentPath);	// カレントパスは以前のカレントパス.
+	((CConsoleCore *)pConsole->m_pScalableEdit)->GetInputFormString();	// フォーム文字列の取得.
+	pConsole->ShowInputForm();	// 入力フォームを出力.
+	pItem2->m_mapChildMap.insert(std::make_pair(_T("Console"), pConsole));	// pItem2->m_mapChildMap.insertで"Console"をキーとして, pConsoleを追加.
+
+	// 次へ.
+	m_nId++;	// m_nIdをインクリメント.
+	m_iNext++;	// m_iNextをインクリメント.
+
+	// 終了.
+	return;	// ここで終了.
+
+}
+
+// ファイルの表示を要求された時.
+void CStreamConsole::OnView(HWND hSrc, CCommand *pCommand){
+
+	// インスタンスハンドルを取得.
+	HINSTANCE hInstance = (HINSTANCE)GetWindowLong(m_hWnd, GWL_HINSTANCE);	// GetWindowLongでhInstanceを取得.
+
+	// 以前のコンソールを取得.
+	CWindowListItem *pPrevItem = Get(m_iNext - 1);	// 以前のアイテムを取得.
+	CConsole *pPrevConsole = (CConsole *)pPrevItem->m_mapChildMap[_T("Console")];	// 以前のコンソールを取得.
+	tstring tstrPrevCurrentPath = ((CConsoleCore *)pPrevConsole->m_pScalableEdit)->GetCurrentPath();	// 以前のカレントパスを取得.
+
+	// アイテムの挿入.
+	TCHAR tszNext[16] = {0};	// tszNextを{0}で初期化.
+	_stprintf(tszNext, _T("%d"), m_iNext);	// m_iNextをtszNextに変換. 
+	Insert(m_iNext, tszNext, 240, hInstance);	// Insertでm_iNext番目のアイテムを挿入.
+	CWindowListItem *pItem = Get(m_iNext);	// Getでm_iNext番目を取得し, pItemに格納.
+
+	// ピクチャーパネルの追加.
+	CPicturePanel *pPicturePanel = new CPicturePanel();	// CPicturePanelオブジェクトを作成, pPicturePanelに格納.
+	pPicturePanel->Create(_T(""), 0, 0, 0, m_iClientAreaWidth, 320, pItem->m_hWnd, (HMENU)(WM_APP + 200 + m_nId), hInstance);	// pPicturePanel->Createでウィンドウ作成.(高さは320固定.)
+	if (pCommand->m_vectstrCommandToken.size() >= 2){	// トークンが2つ以上.
+		((CPicture *)pPicturePanel->m_pPicture)->LoadImage(hInstance, pCommand->m_vectstrCommandToken[1].c_str());	// ((CPicture *)pPicturePanel->m_pPicture)->LoadImageでパラメータに指定した画像をロード.
+		((CPicture *)pPicturePanel->m_pPicture)->SetImage();	// ((CPicture *)pPicturePanel->m_pPicture)->SetImageで画像を表示.
+	}
+	pItem->m_mapChildMap.insert(std::make_pair(_T("PicturePanel"), pPicturePanel));	// pItem->m_mapChildMap.insertで"PicturePanel"をキーとして, pPicturePanelを追加.
 
 	// 次へ.
 	m_nId++;	// m_nIdをインクリメント.

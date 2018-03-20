@@ -195,6 +195,12 @@ int CConsole::OnConsoleCoreCommand(WPARAM wParam, LPARAM lParam){
 		OnWalk(hSrc, pCommand);	// hSrc, pCommandを引数として渡して, OnWalkを呼ぶ.
 
 	}
+	else if (tstrCommandName == _T("view")){	// viewコマンド.
+
+		// OnViewに任せる.
+		OnView(hSrc, pCommand);	// hSrc, pCommandを引数として渡して, OnViewを呼ぶ.
+
+	}
 	else {	// コマンドが見つからない.
 
 		// コマンドが見つからないエラー.
@@ -306,6 +312,36 @@ void CConsole::OnWalk(HWND hSrc, CCommand *pCommand){
 		SendMessage(hSrc, UM_FINISHRESPONSE, 0, 0);	// UM_FINISHRESPONSEを送る.
 
 	}
+
+}
+
+// ファイルの表示を要求された時.
+void CConsole::OnView(HWND hSrc, CCommand *pCommand){
+
+	// パスの存在確認.
+	if (pCommand->m_vectstrCommandToken.size() <= 1){	// トークンが無い, またはパスが指定されていない.
+		SendMessage(hSrc, UM_RESPONSEMESSAGE, (WPARAM)_T("Error: No path!\r\n"), 0);	// UM_RESPONSEMESSAGEで"Error: No path!\r\n"を送る.
+		SendMessage(hSrc, UM_FINISHRESPONSE, 0, 0);	// UM_FINISHRESPONSEを送る.
+		return;	// 異常終了なのでここで終了.
+	}
+	else if (pCommand->m_vectstrCommandToken.size() >= 2){	// トークンが2つ以上.
+		tstring tstrCommandName = pCommand->GetCommandName();	// コマンド名を取得.
+		tstring tstrRelativePath = pCommand->m_vectstrCommandToken[1];	// tstrRelativePathに相対パスの可能性のあるパスをセット.
+		tstring tstrFullPath = ((CConsoleCore *)m_pScalableEdit)->GetFullPath(tstrRelativePath);	// フルパスに変換.
+		if (tstrFullPath == _T("")){	// tstrFullPathが""の時.(パスが存在しない時.)
+			SendMessage(hSrc, UM_RESPONSEMESSAGE, (WPARAM)_T("Error: Path not exist!\r\n"), 0);	// UM_RESPONSEMESSAGEで"Error: Path not exist!"を送る.
+			SendMessage(hSrc, UM_FINISHRESPONSE, 0, 0);	// UM_FINISHRESPONSEを送る.
+			return;	// ここで終了.
+		}
+		pCommand->Clear();	// コマンドをいったんクリア.
+		tstring tstrNewCommand = tstrCommandName;	// tstrNewCommandにtstrCommandNameをセット.
+		tstrNewCommand = tstrNewCommand + _T(" ");	// スペースを連結.
+		tstrNewCommand = tstrNewCommand + tstrFullPath;	// フルパスを連結.
+		pCommand->Set(tstrNewCommand);	// コマンドにセット.
+	}
+
+	// ストリームコンソールに処理を投げる.
+	SendMessage(m_hProcWnd, UM_STREAMCOMMAND, (WPARAM)pCommand, (LPARAM)m_hWnd);	// UM_STREAMCOMMANDでストリームコンソールにさらに投げる.
 
 }
 
