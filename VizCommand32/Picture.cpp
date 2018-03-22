@@ -196,15 +196,16 @@ void CPicture::SetImage(){
 // ウィンドウのサイズが変更された時.
 void CPicture::OnSize(UINT nType, int cx, int cy){
 
-	// メンバにセット.
-	m_iClientAreaWidth = cx;	// m_iWidthにcxをセット.
-	m_iClientAreaHeight = cy;	// m_iHeightにcyをセット.
+	// 親のOnSizeを呼ぶ.
+	CCustomControl::OnSize(nType, cx, cy);	// CCustomControl::OnSizeを呼ぶ.
 
-	// 自分のサイズを計測.
-	RECT rc = {0};
-	GetWindowRect(m_hWnd, &rc);
-	m_iWidth = rc.right - rc.left;
-	m_iHeight = rc.bottom - rc.top;
+	// UM_SIZECHILDで子ウィンドウのサイズに合わせる.
+	WPARAM wParam;	// WPARAM型wParam.
+	wParam = MAKEWPARAM(m_iWidth, m_iHeight);	// MAKEWPARAMでwParamをセット.
+	SendMessage(GetParent(m_hWnd), UM_SIZECHILD, wParam, (LPARAM)m_hWnd);	// SendMessageでUM_SIZECHILDを送信.
+
+	// 更新.
+	InvalidateRect(m_hWnd, NULL, TRUE);	// InvalidateRectで更新.
 
 }
 

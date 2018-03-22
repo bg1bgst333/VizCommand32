@@ -89,6 +89,10 @@ void CStreamConsole::OnSize(UINT nType, int cx, int cy){
 					CWindow *pWindow = pItem->m_mapChildMap[_T("FileListControlPanel")];	// pItem->m_mapChildMap[_T("ListControlPanel")]で取り出す.(このとき, CWindowポインタでいい.)
 					MoveWindow(pWindow->m_hWnd, pWindow->m_x, pWindow->m_y, cx, pWindow->m_iHeight, TRUE);	// MoveWindowで横幅をcxとする.
 				}
+				if (pItem->m_mapChildMap.find(_T("PicturePanel")) != pItem->m_mapChildMap.end()){	// "PicturePanel"が見つかったら.
+					CWindow *pWindow = pItem->m_mapChildMap[_T("PicturePanel")];	// pItem->m_mapChildMap[_T("PicturePanel")]で取り出す.このとき, CWindowポインタでいい.)
+					MoveWindow(pWindow->m_hWnd, pWindow->m_x, pWindow->m_y, cx, pWindow->m_iHeight, TRUE);	// MoveWindowで横幅をcxとする.
+				}
 			}
 		}
 	}
@@ -378,7 +382,7 @@ void CStreamConsole::OnView(HWND hSrc, CCommand *pCommand){
 	// アイテムの挿入.
 	TCHAR tszNext[16] = {0};	// tszNextを{0}で初期化.
 	_stprintf(tszNext, _T("%d"), m_iNext);	// m_iNextをtszNextに変換. 
-	Insert(m_iNext, tszNext, 240, hInstance);	// Insertでm_iNext番目のアイテムを挿入.
+	Insert(m_iNext, tszNext, 320, hInstance);	// Insertでm_iNext番目のアイテムを挿入.
 	CWindowListItem *pItem = Get(m_iNext);	// Getでm_iNext番目を取得し, pItemに格納.
 
 	// ピクチャーパネルの追加.

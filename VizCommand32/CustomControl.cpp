@@ -142,7 +142,7 @@ LRESULT CCustomControl::DynamicWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, L
 
 			// 既定の処理へ向かう.
 			break;	// breakで抜けて, 既定の処理へ向かう.
-
+		
 		// ウィンドウのサイズが変更された時.
 		case WM_SIZE:
 
@@ -161,6 +161,20 @@ LRESULT CCustomControl::DynamicWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, L
 
 			// 既定の処理へ向かう.
 			break;	// breakで抜けて, 既定の処理へ向かう.
+
+		// 画面の描画を要求された時.
+		case WM_PAINT:
+
+			// WM_PAINTブロック
+			{
+
+				// OnPaintに任せる.
+				OnPaint();	// OnPaintを呼ぶ.
+
+			}
+
+			// 既定の処理へ向かう.
+			break;	// breakで抜けて, 既定の処理(DefWindowProc)へ向かう.
 
 		// これらのメッセージはDefWindowProcに投げないと, 正しく動作しない.
 		case WM_NCHITTEST:
@@ -201,6 +215,55 @@ LRESULT CCustomControl::DynamicWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, L
 					return 0;	// 0をここで返すと入力キャンセルとなる.
 
 				}
+
+			}
+
+			// 既定の処理へ向かう.
+			break;	// breakで抜けて, 既定の処理へ向かう.
+
+		// 水平方向スクロールバーイベント時.
+		case WM_HSCROLL:
+
+			// WM_HSCROLLブロック
+			{
+				
+				// OnHScrollに任せる.
+				OnHScroll(LOWORD(wParam), HIWORD(wParam));	// OnHScrollに任せる.
+
+			}
+
+			// 既定の処理へ向かう.
+			break;	// breakで抜けて, 既定の処理(DefWindowProc)へ向かう.
+
+		// 垂直方向スクロールバーイベント時.
+		case WM_VSCROLL:
+
+			// WM_VSCROLLブロック
+			{
+
+				// OnVScrollに任せる.
+				OnVScroll(LOWORD(wParam), HIWORD(wParam));	// OnVScrollに任せる.
+
+			}
+
+			// 既定の処理へ向かう.
+			break;	// breakで抜けて, 既定の処理(DefWindowProc)へ向かう.
+
+		// マウスの移動時.
+		case WM_MOUSEMOVE:
+
+			// WM_MOUSEMOVEブロック
+			{
+
+				// 変数の宣言
+				POINT pt;	// POINT構造体変数pt.
+
+				// 座標の取り出し.
+				pt.x = LOWORD(lParam);	// lParamの下位ワードが座標x.
+				pt.y = HIWORD(lParam);	// lParamの上位ワードが座標y.
+
+				// OnMouseMoveに任せる.
+				OnMouseMove(wParam, pt);	// OnMouseMoveにwParamとptを渡す.
 
 			}
 
@@ -333,6 +396,11 @@ void CCustomControl::OnSize(UINT nType, int cx, int cy){
 
 }
 
+// ウィンドウの描画を要求された時のハンドラOnPaint.
+void CCustomControl::OnPaint(){
+
+}
+
 // キーが押された時.
 int CCustomControl::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags){
 
@@ -346,6 +414,21 @@ int CCustomControl::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags){
 
 	// 成功なら0を返す.
 	return 0;	// returnで0を返す.
+
+}
+
+// 水平方向スクロールバーイベント時.
+void CCustomControl::OnHScroll(UINT nSBCode, UINT nPos){
+
+}
+
+// 垂直方向スクロールバーイベント時.
+void CCustomControl::OnVScroll(UINT nSBCode, UINT nPos){
+
+}
+
+// マウスが移動している時.
+void CCustomControl::OnMouseMove(UINT nFlags, POINT pt){
 
 }
 

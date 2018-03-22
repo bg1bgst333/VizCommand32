@@ -28,8 +28,12 @@ class CCustomControl : public CWindow{
 		virtual void OnDestroy();	// ウィンドウが破棄された時.
 		virtual void OnMove(int x, int y);	// ウィンドウが移動した時.
 		virtual void OnSize(UINT nType, int cx, int cy);	// ウィンドウのサイズが変更された時.
+		virtual void OnPaint();	// ウィンドウの描画を要求された時のハンドラOnPaint.
 		virtual int OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);	// キーが押された時.
 		virtual int OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);		// 文字キーが押された時.
+		virtual void OnHScroll(UINT nSBCode, UINT nPos);	// 水平方向スクロールバーイベント時.
+		virtual void OnVScroll(UINT nSBCode, UINT nPos);	// 垂直方向スクロールバーイベント時.
+		virtual void OnMouseMove(UINT nFlags, POINT pt);	// マウスが移動している時.
 		virtual int OnLButtonDown(UINT nFlags, POINT pt);	// マウス左ボタンが押された時.
 		virtual int OnLButtonUp(UINT nFlags, POINT pt);	// マウス左ボタンが離された時.
 		virtual void OnUserMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);	// ユーザ定義メッセージが発生した時.
