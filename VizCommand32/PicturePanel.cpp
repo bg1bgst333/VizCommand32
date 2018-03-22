@@ -90,6 +90,20 @@ void CPicturePanel::OnSize(UINT nType, int cx, int cy){
 	// 更新.
 	InvalidateRect(m_hWnd, NULL, TRUE);	// InvalidateRectで更新.
 
+	// 更新タイマーをセット.
+	SetTimer(m_hWnd, 3, 10, NULL);	// SetTimerで更新タイマーをセット.(10ミリ秒==0.01秒)
+
+}
+
+// タイマーイベントが発生した時.
+void CPicturePanel::OnTimer(UINT_PTR nIDEvent){
+
+	// タイマーを終了.
+	KillTimer(m_hWnd, 3);	// 初回更新タイマーを終了.
+
+	// 更新.
+	InvalidateRect(m_hWnd, NULL, TRUE);	// InvalidateRectで更新.
+
 }
 
 // 子から親へウィンドウサイズ変更の要求が発生した時.

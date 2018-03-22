@@ -29,7 +29,7 @@ CPicture::~CPicture(){
 BOOL CPicture::Create(LPCTSTR lpctszWindowName, DWORD dwStyle, int x, int y, int iWidth, int iHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance){
 
 	// CCustomControl::Createで生成.
-	return CCustomControl::Create(_T("Static"), lpctszWindowName, dwStyle | SS_BITMAP | SS_REALSIZECONTROL | WS_HSCROLL | WS_VSCROLL, x, y, iWidth, iHeight, hWndParent, hMenu, hInstance);	// CCustomControl::Createでウィンドウクラス"Static"で作成.
+	return CCustomControl::Create(_T("Static"), lpctszWindowName, dwStyle | SS_BITMAP | SS_REALSIZECONTROL/* | WS_HSCROLL | WS_VSCROLL*/, x, y, iWidth, iHeight, hWndParent, hMenu, hInstance);	// CCustomControl::Createでウィンドウクラス"Static"で作成.
 
 }
 
@@ -218,12 +218,25 @@ void CPicture::OnPaint(){
 	HBITMAP hOld = NULL;	// hOldをNULLで初期化.
 	int iDrawWidth;	// 実際の描画幅.
 	int iDrawHeight;	// 実際の描画高さ.
+	HPEN hPen = NULL;	// hPenをNULLで初期化.
+	HBRUSH hBrush = NULL;	// hBrushをNULLで初期化.
 
 	// 描画開始.
 	hDC = BeginPaint(m_hWnd, &ps);	// BeginPaintで描画開始.
 
+	// ペンとブラシの生成.
+	hPen = (HPEN)CreatePen(PS_SOLID, 1, RGB(0x0, 0x0, 0x0));	// CreatePenで黒のペンを作成.
+	hBrush = (HBRUSH)CreateSolidBrush(RGB(0x0, 0x0, 0x0));		// CreateSolidBrushで黒のブラシを作成.
+
+	// ペンとブラシの選択.
+	HPEN hOldPen = (HPEN)SelectObject(hDC, hPen);		// 紫のペンを選択.
+	HBRUSH hOldBrush = (HBRUSH)SelectObject(hDC, hBrush);	// 紫のブラシを選択.
+
 	// ビットマップの選択.
 	hOld = (HBITMAP)SelectObject(m_hMemDC, m_hBitmap);	// SelectObjectでm_hMemDCにm_hBitmapを選択.
+	
+	// 矩形描画.
+	Rectangle(hDC, 0, 0, m_iClientAreaWidth, m_iClientAreaHeight);	// Rectangleで矩形を描画.
 	
 	// ビット転送.
 	iDrawWidth = m_iClientAreaWidth;	// 描画幅 = ピクチャーコントロール幅 - スクロールバー幅.
@@ -232,6 +245,14 @@ void CPicture::OnPaint(){
 
 	// 古いビットマップを再選択して戻す.
 	SelectObject(m_hMemDC, hOld);	// SelectObjectでhOldを選択.
+
+	// ペンとブラシの復元
+	SelectObject(hDC, hOldBrush);		// 古いブラシを選択.
+	SelectObject(hDC, hOldPen);		// 古いペンを選択.
+
+	// ペンとブラシの破棄.
+	DeleteObject(hBrush);	// ブラシの破棄.
+	DeleteObject(hPen);	// ペンの破棄.
 
 	// スクロールバー設定.
 	// 水平方向.

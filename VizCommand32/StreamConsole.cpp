@@ -391,6 +391,8 @@ void CStreamConsole::OnView(HWND hSrc, CCommand *pCommand){
 	if (pCommand->m_vectstrCommandToken.size() >= 2){	// トークンが2つ以上.
 		((CPicture *)pPicturePanel->m_pPicture)->LoadImage(hInstance, pCommand->m_vectstrCommandToken[1].c_str());	// ((CPicture *)pPicturePanel->m_pPicture)->LoadImageでパラメータに指定した画像をロード.
 		((CPicture *)pPicturePanel->m_pPicture)->SetImage();	// ((CPicture *)pPicturePanel->m_pPicture)->SetImageで画像を表示.
+		// 更新タイマーをセット.
+		SetTimer(pPicturePanel->m_hWnd, 3, 10, NULL);	// SetTimerで更新タイマーをセット.(10ミリ秒==0.01秒)
 	}
 	pItem->m_mapChildMap.insert(std::make_pair(_T("PicturePanel"), pPicturePanel));	// pItem->m_mapChildMap.insertで"PicturePanel"をキーとして, pPicturePanelを追加.
 
