@@ -14,6 +14,7 @@ CPicture::CPicture() : CCustomControl(){
 	m_iHScrollPos = 0;	// m_iHScrollPosを0で初期化.
 	m_iVScrollPos = 0;	// m_iVScrollPosを0で初期化.
 	ZeroMemory(&m_ScrollInfo, sizeof(SCROLLINFO));	// m_ScrollInfoをZeroMemoryでクリア.
+	m_bReadOnly = FALSE;	// m_bReadOnlyはFALSEにしておく.
 	
 }
 
@@ -50,6 +51,7 @@ void CPicture::Destroy(){
 	m_iHScrollPos = 0;	// m_iHScrollPosに0をセット.
 	m_iVScrollPos = 0;	// m_iVScrollPosに0をセット.
 	ZeroMemory(&m_ScrollInfo, sizeof(SCROLLINFO));	// m_ScrollInfoをZeroMemoryでクリア.
+	m_bReadOnly = FALSE;	// m_bReadOnlyはFALSEにしておく.
 
 	// 親クラスのDestroyを呼ぶ.
 	CCustomControl::Destroy();	// CCustomControl::Destroyを呼ぶ.
@@ -190,6 +192,14 @@ void CPicture::SetImage(){
 
 	// デバイスコンテキストの解放.
 	ReleaseDC(m_hWnd, hDC);	// ReleaseDCでhDCを解放.
+
+}
+
+// 読み込み専用にする関数SetReadOnly
+void CPicture::SetReadOnly(BOOL bReadOnly){
+
+	// メンバにセット.
+	m_bReadOnly = bReadOnly;	// m_bReadOnlyにbReadOnlyをセット.
 
 }
 
@@ -452,53 +462,64 @@ void CPicture::OnVScroll(UINT nSBCode, UINT nPos){
 // マウスが移動している時.
 void CPicture::OnMouseMove(UINT nFlags, POINT pt){
 
-	// マウスダウンフラグが立っている時.
-	if (nFlags == MK_LBUTTON){	// 左ボタンが押されている時.
+	// 読み込み専用でなければ描画.
+	if (!m_bReadOnly){	// m_bReadOnlyがFALSEなら.
 
-		// ビットマップの選択.
-		HBITMAP hOld = (HBITMAP)SelectObject(m_hMemDC, m_hBitmap);	// SelectObjectでm_hBitmapを選択.
+		// マウスダウンフラグが立っている時.
+		if (nFlags == MK_LBUTTON){	// 左ボタンが押されている時.
 
-		// 押された場所に黒い点をセット.
-		SetPixel(m_hMemDC, pt.x + m_iHScrollPos, pt.y + m_iVScrollPos, RGB(0x0, 0x0, 0x0));	// SetPixelで黒い点をセット.
+			// ビットマップの選択.
+			HBITMAP hOld = (HBITMAP)SelectObject(m_hMemDC, m_hBitmap);	// SelectObjectでm_hBitmapを選択.
 
-		// 前回の場所から押された場所までの直線を描く.
-		LineTo(m_hMemDC, pt.x + m_iHScrollPos, pt.y + m_iVScrollPos);	// LineToで押された場所までの直線を描く.
+			// 押された場所に黒い点をセット.
+			SetPixel(m_hMemDC, pt.x + m_iHScrollPos, pt.y + m_iVScrollPos, RGB(0x0, 0x0, 0x0));	// SetPixelで黒い点をセット.
 
-		// 押された場所に始点を移動.
-		MoveToEx(m_hMemDC, pt.x + m_iHScrollPos, pt.y + m_iVScrollPos, NULL);	// MoveToExで始点を移動.
+			// 前回の場所から押された場所までの直線を描く.
+			LineTo(m_hMemDC, pt.x + m_iHScrollPos, pt.y + m_iVScrollPos);	// LineToで押された場所までの直線を描く.
 
-		// 古いビットマップを再選択.
-		SelectObject(m_hMemDC, hOld);	// SelectObjectでhOldを選択.
+			// 押された場所に始点を移動.
+			MoveToEx(m_hMemDC, pt.x + m_iHScrollPos, pt.y + m_iVScrollPos, NULL);	// MoveToExで始点を移動.
 
-		// 画面更新.
-		InvalidateRect(m_hWnd, NULL, TRUE);	// InvalidateRectで画面更新.
+			// 古いビットマップを再選択.
+			SelectObject(m_hMemDC, hOld);	// SelectObjectでhOldを選択.
+
+			// 画面更新.
+			InvalidateRect(m_hWnd, NULL, TRUE);	// InvalidateRectで画面更新.
+
+		}
+		else{	// マウスダウンフラグが立っていない時.
+
+			// マウスの移動場所に始点を移動.
+			MoveToEx(m_hMemDC, pt.x + m_iHScrollPos, pt.y + m_iVScrollPos, NULL);	// MoveToExで始点を移動.
+
+		}
 
 	}
-	else{	// マウスダウンフラグが立っていない時.
 
-		// マウスの移動場所に始点を移動.
-		MoveToEx(m_hMemDC, pt.x + m_iHScrollPos, pt.y + m_iVScrollPos, NULL);	// MoveToExで始点を移動.
-
-	}
 }
 
 // マウスの左クリックが行われた時のハンドラOnLButtonDown.
 int CPicture::OnLButtonDown(UINT nFlags, POINT pt){
 
-	// マウスダウンフラグが立っている時.
-	if (nFlags == MK_LBUTTON){	// 左ボタンが押されている時.
+	// 読み込み専用でなければ描画.
+	if (!m_bReadOnly){	// m_bReadOnlyがFALSEなら.
 
-		// ビットマップの選択.
-		HBITMAP hOld = (HBITMAP)SelectObject(m_hMemDC, m_hBitmap);	// SelectObjectでm_hBitmapを選択.
+		// マウスダウンフラグが立っている時.
+		if (nFlags == MK_LBUTTON){	// 左ボタンが押されている時.
 
-		// 押された場所に黒い点をセット.
-		SetPixel(m_hMemDC, pt.x + m_iHScrollPos, pt.y + m_iVScrollPos, RGB(0x0, 0x0, 0x0));	// SetPixelで黒い点をセット.
+			// ビットマップの選択.
+			HBITMAP hOld = (HBITMAP)SelectObject(m_hMemDC, m_hBitmap);	// SelectObjectでm_hBitmapを選択.
 
-		// 古いビットマップを再選択.
-		SelectObject(m_hMemDC, hOld);	// SelectObjectでhOldを選択.
+			// 押された場所に黒い点をセット.
+			SetPixel(m_hMemDC, pt.x + m_iHScrollPos, pt.y + m_iVScrollPos, RGB(0x0, 0x0, 0x0));	// SetPixelで黒い点をセット.
 
-		// 画面更新.
-		InvalidateRect(m_hWnd, NULL, TRUE);	// InvalidateRectで画面更新.
+			// 古いビットマップを再選択.
+			SelectObject(m_hMemDC, hOld);	// SelectObjectでhOldを選択.
+
+			// 画面更新.
+			InvalidateRect(m_hWnd, NULL, TRUE);	// InvalidateRectで画面更新.
+
+		}
 
 	}
 
@@ -510,20 +531,25 @@ int CPicture::OnLButtonDown(UINT nFlags, POINT pt){
 // マウスの左ボタンが離された時.
 int CPicture::OnLButtonUp(UINT nFlags, POINT pt){
 
-	// マウスダウンフラグが立っている時.
-	if (nFlags == MK_LBUTTON){	// 左ボタンが押されている時.
+	// 読み込み専用でなければ描画.
+	if (!m_bReadOnly){	// m_bReadOnlyがFALSEなら.
 
-		// ビットマップの選択.
-		HBITMAP hOld = (HBITMAP)SelectObject(m_hMemDC, m_hBitmap);	// SelectObjectでm_hBitmapを選択.
+		// マウスダウンフラグが立っている時.
+		if (nFlags == MK_LBUTTON){	// 左ボタンが押されている時.
 
-		// 押された場所に黒い点をセット.
-		SetPixel(m_hMemDC, pt.x + m_iHScrollPos, pt.y + m_iVScrollPos, RGB(0x0, 0x0, 0x0));	// SetPixelで黒い点をセット.
+			// ビットマップの選択.
+			HBITMAP hOld = (HBITMAP)SelectObject(m_hMemDC, m_hBitmap);	// SelectObjectでm_hBitmapを選択.
 
-		// 古いビットマップを再選択.
-		SelectObject(m_hMemDC, hOld);	// SelectObjectでhOldを選択.
+			// 押された場所に黒い点をセット.
+			SetPixel(m_hMemDC, pt.x + m_iHScrollPos, pt.y + m_iVScrollPos, RGB(0x0, 0x0, 0x0));	// SetPixelで黒い点をセット.
 
-		// 画面更新.
-		InvalidateRect(m_hWnd, NULL, TRUE);	// InvalidateRectで画面更新.
+			// 古いビットマップを再選択.
+			SelectObject(m_hMemDC, hOld);	// SelectObjectでhOldを選択.
+
+			// 画面更新.
+			InvalidateRect(m_hWnd, NULL, TRUE);	// InvalidateRectで画面更新.
+
+		}
 
 	}
 

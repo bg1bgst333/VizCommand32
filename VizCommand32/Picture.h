@@ -20,6 +20,7 @@ class CPicture : public CCustomControl {
 		int m_iHScrollPos;	// スクロールバーの水平方向の位置m_iHScrollPos
 		int m_iVScrollPos;	// スクロールバーの垂直方向の位置m_iVScrollPos
 		SCROLLINFO m_ScrollInfo;	// スクロール情報m_ScrollInfo.
+		BOOL m_bReadOnly;	// 読み込み専用フラグm_bReadOnly.
 
 		// publicメンバ関数
 		// コンストラクタ・デストラクタ
@@ -31,6 +32,7 @@ class CPicture : public CCustomControl {
 		BOOL LoadImage(HINSTANCE hInstance, LPCTSTR lpctszImageName);	// 画像をロードする関数LoadImage
 		BOOL SaveImage(LPCTSTR lpctszImageName);	// 画像をセーブする関数SaveImage
 		void SetImage();	// 画像をセット(表示)する関数SetImage
+		void SetReadOnly(BOOL bReadOnly);	// 読み込み専用にする関数SetReadOnly
 		virtual void OnSize(UINT nType, int cx, int cy);	// ウィンドウのサイズが変更された時.
 		virtual void OnPaint();	// ウィンドウの描画を要求された時のハンドラOnPaint.
 		virtual void OnHScroll(UINT nSBCode, UINT nPos);	// 水平方向スクロールバーイベント時のハンドラOnHScroll.
