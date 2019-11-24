@@ -336,7 +336,9 @@ void CConsole::OnView(HWND hSrc, CCommand *pCommand){
 		pCommand->Clear();	// コマンドをいったんクリア.
 		tstring tstrNewCommand = tstrCommandName;	// tstrNewCommandにtstrCommandNameをセット.
 		tstrNewCommand = tstrNewCommand + _T(" ");	// スペースを連結.
+		tstrNewCommand = tstrNewCommand + _T("\"");	// ダブルクォート.
 		tstrNewCommand = tstrNewCommand + tstrFullPath;	// フルパスを連結.
+		tstrNewCommand = tstrNewCommand + _T("\"");	// ダブルクォート.
 		pCommand->Set(tstrNewCommand);	// コマンドにセット.
 	}
 

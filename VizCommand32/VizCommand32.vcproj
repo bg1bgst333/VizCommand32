@@ -197,6 +197,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\cpp_string_utility.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\CustomControl.cpp"
 				>
 			</File>
@@ -320,6 +324,10 @@
 			</File>
 			<File
 				RelativePath=".\ConsoleCore.h"
+				>
+			</File>
+			<File
+				RelativePath=".\cpp_string_utility.h"
 				>
 			</File>
 			<File
