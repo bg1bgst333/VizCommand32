@@ -146,7 +146,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Application.cpp" />
+    <ClCompile Include="MainApplication.cpp" />
+    <ClCompile Include="MainWindow.cpp" />
+    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Window.cpp" />
     <ClCompile Include="WinMain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Application.h" />
+    <ClInclude Include="HandlerConditions.h" />
+    <ClInclude Include="MainApplication.h" />
+    <ClInclude Include="MainWindow.h" />
+    <ClInclude Include="Menu.h" />
+    <ClInclude Include="Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
